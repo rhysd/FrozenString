@@ -12,6 +12,10 @@ This library is under construction.
 
 ### License
 
+Copyright (c) 2013 rhysd
+
+Distributed under [the Boost Software License, Version 1.0.](http://www.boost.org/LICENSE_1_0.txt)
+
     Boost Software License - Version 1.0 - August 17th, 2003
 
     Permission is hereby granted, free of charge, to any person or organization
