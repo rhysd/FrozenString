@@ -27,10 +27,21 @@ int main()
     STATIC_ASSERT((s1 + s2 != s2 + s1));
     STATIC_ASSERT((s1 + "payo" != s2 + s1));
 
-    constexpr auto s4 = make("test of output operator\n");
-    std::cout << s4;
+    std::cout << make("test of output operator\n");
 
-    std::cout << "OK\n";
+    STATIC_ASSERT_NOT((s1 < s1));
+    STATIC_ASSERT((make("aaab") < make("aab")));
+    STATIC_ASSERT((make("aab") < "aaba"));
+    STATIC_ASSERT(("aab" < make("aaba")));
+    STATIC_ASSERT_NOT((make("") < make("")));
+
+    STATIC_ASSERT_NOT((s1 > s1));
+    STATIC_ASSERT((make("aab") > make("aaab")));
+    STATIC_ASSERT((make("aaba") > "aab"));
+    STATIC_ASSERT(("aaba" > make("aab")));
+    STATIC_ASSERT_NOT((make("") > make("")));
+
+    std::cout << make("OK\n");
     return 0;
 }
 

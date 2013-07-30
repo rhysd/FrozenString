@@ -147,6 +147,54 @@ public:
         return ! operator==(rhs);
     }
 
+    template<size_t M>
+    constexpr bool operator<(basic_string<Char, M> const& rhs) const
+    {
+        return operator_less_impl<M>(rhs, 0);
+    }
+
+    template<size_t M>
+    constexpr bool operator<(Char const(&rhs)[M]) const
+    {
+        return operator_less_impl<M>(rhs, 0);
+    }
+
+    template<size_t M>
+    constexpr bool operator>=(basic_string<Char, M> const& rhs) const
+    {
+        return ! operator<(rhs);
+    }
+
+    template<size_t M>
+    constexpr bool operator>=(Char const(&rhs)[M]) const
+    {
+        return ! operator<(rhs);
+    }
+
+    template<size_t M>
+    constexpr bool operator>(basic_string<Char, M> const& rhs) const
+    {
+        return operator_greater_impl<M>(rhs, 0);
+    }
+
+    template<size_t M>
+    constexpr bool operator>(Char const(&rhs)[M]) const
+    {
+        return operator_greater_impl<M>(rhs, 0);
+    }
+
+    template<size_t M>
+    constexpr bool operator<=(basic_string<Char, M> const& rhs) const
+    {
+        return ! operator>(rhs);
+    }
+
+    template<size_t M>
+    constexpr bool operator<=(Char const(&rhs)[M]) const
+    {
+        return ! operator>(rhs);
+    }
+
     template<class C, size_t J>
     friend inline std::ostream &operator<<(std::ostream &os, basic_string<C, J> const& rhs);
 
@@ -157,7 +205,7 @@ private:
     {}
 
     template<class Array, size_t... IndicesL, size_t... IndicesR>
-    constexpr basic_string<Char, sizeof...(IndicesL)+sizeof...(IndicesR)+1> operator_plus_impl(Array const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>) const
+    constexpr basic_string<Char, (N-1)+sizeof...(IndicesR)+1> operator_plus_impl(Array const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>) const
     {
         return {{elems[IndicesL]..., rhs[IndicesR]..., '\0'}};
     }
@@ -172,6 +220,26 @@ private:
     constexpr bool operator_equal_impl(Array const& rhs, size_t idx) const
     {
         return idx == N ? true : elems[idx] == rhs[idx] && operator_equal_impl(rhs, idx+1);
+    }
+
+    template<size_t M, class Array>
+    constexpr bool operator_less_impl(Array const& rhs, size_t idx) const
+    {
+        return idx == M ? false :
+               idx == N ? true :
+               elems[idx] < rhs[idx] ? true :
+               elems[idx] > rhs[idx] ? false :
+               operator_less_impl<M>(rhs, idx+1);
+    }
+
+    template<size_t M, class Array>
+    constexpr bool operator_greater_impl(Array const& rhs, size_t idx) const
+    {
+        return idx == N ? false :
+               idx == M ? true :
+               elems[idx] < rhs[idx] ? false :
+               elems[idx] > rhs[idx] ? true :
+               operator_greater_impl<M>(rhs, idx+1);
     }
 
 private:
@@ -220,6 +288,30 @@ template<class Char, size_t N>
 inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
 {
     return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, N>());
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator<(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs > lhs;
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator>(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs < lhs;
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator<=(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs >= lhs;
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator>=(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs <= lhs;
 }
 
 template<class Char, size_t N>
