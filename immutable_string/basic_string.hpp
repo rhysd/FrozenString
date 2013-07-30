@@ -73,12 +73,12 @@ public:
         return elems.data + N;
     }
 
-    iterator begin() const
+    iterator begin()
     {
         return elems.data;
     }
 
-    iterator end() const
+    iterator end()
     {
         return elems.data + N;
     }
