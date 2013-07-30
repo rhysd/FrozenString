@@ -27,7 +27,7 @@ public:
     typedef value_type const& const_reference;
     typedef size_t size_type;
     typedef std::ptrdiff_t difference_type;
-    typedef detail::make_indices<0, N> indices_type_;
+    typedef detail::make_indices<0, N> indices_type;
 
     // ctor definitions
     basic_string() = delete;
@@ -117,6 +117,11 @@ public:
         return operator_plus_impl(rhs, detail::make_indices<0, N-1>(), detail::make_indices<0, M-1>());
     }
 
+    constexpr basic_string<Char, N+1> operator+(Char rhs) const
+    {
+        return operator_plus_impl(rhs, detail::make_indices<0, N-1>());
+    }
+
     template<size_t M>
     constexpr bool operator==(basic_string<Char, M> const& rhs) const
     {
@@ -150,6 +155,9 @@ public:
     template<class C, size_t J, size_t K>
     friend constexpr basic_string<C, J+K-1> operator+(C const (&lhs)[J], basic_string<C, K> const& rhs);
 
+    template<class C, size_t K>
+    friend constexpr basic_string<C, K+1> operator+(C lhs, basic_string<C, K> const& rhs);
+
 private:
     template<size_t... Indices>
     constexpr basic_string(Char const (&str)[N], detail::indices<Indices...>)
@@ -160,6 +168,12 @@ private:
     constexpr basic_string<Char, sizeof...(IndicesL)+sizeof...(IndicesR)+1> operator_plus_impl(Array const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>) const
     {
         return {{elems[IndicesL]..., rhs[IndicesR]..., '\0'}};
+    }
+
+    template<size_t... IndicesL>
+    constexpr basic_string<Char, N+1> operator_plus_impl(Char rhs, detail::indices<IndicesL...>) const
+    {
+        return {{elems[IndicesL]..., rhs, '\0'}};
     }
 
     template<class Array>
@@ -199,6 +213,23 @@ inline constexpr basic_string<Char, M+N-1> operator+(Char const (&lhs)[M], basic
 {
     return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, M-1>(), detail::make_indices<0, N-1>());
 }
+
+namespace detail {
+
+    template<class Char, size_t N, size_t... IndicesR>
+    inline constexpr basic_string<Char, N+1> operator_plus_impl(Char lhs, basic_string<Char, N> const& rhs, detail::indices<IndicesR...>)
+    {
+        return {{lhs, rhs[IndicesR]...}};
+    }
+
+} // namespace detail
+
+template<class Char, size_t N>
+inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
+{
+    return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, N>());
+}
+
 
 } // namespace istring
 
