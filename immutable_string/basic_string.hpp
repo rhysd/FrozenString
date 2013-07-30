@@ -42,6 +42,10 @@ public:
         : elems(aw)
     {}
 
+    explicit constexpr basic_string(Char c)
+        : basic_string(c, detail::make_indices<0, N-1>())
+    {}
+
     // access
     constexpr value_type front() const
     {
@@ -202,6 +206,11 @@ private:
     template<size_t... Indices>
     constexpr basic_string(Char const (&str)[N], detail::indices<Indices...>)
         : elems({str[Indices]...})
+    {}
+
+    template<size_t... Indices>
+    explicit constexpr basic_string(Char c, detail::indices<Indices...>)
+        : elems({(static_cast<void>(Indices), c)..., '\0'})
     {}
 
     template<class Array, size_t... IndicesL, size_t... IndicesR>

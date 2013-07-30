@@ -41,6 +41,12 @@ int main()
     STATIC_ASSERT(("aaba" > make("aab")));
     STATIC_ASSERT_NOT((make("") > make("")));
 
+    constexpr auto s4 = s3;
+    STATIC_ASSERT((s4 == s3));
+
+    constexpr string<10> s5('a');
+    STATIC_ASSERT((s5 == "aaaaaaaaa"));
+
     std::cout << make("OK\n");
     return 0;
 }
