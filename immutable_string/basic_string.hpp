@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <stdexcept>
+#include <ostream>
 
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
@@ -146,17 +147,8 @@ public:
         return ! operator==(rhs);
     }
 
-    template<class C, size_t J, size_t K>
-    friend constexpr bool operator==(C const (&lhs)[J], basic_string<C, K> const& rhs);
-
-    template<class C, size_t J, size_t K>
-    friend constexpr bool operator!=(C const (&lhs)[J], basic_string<C, K> const& rhs);
-
-    template<class C, size_t J, size_t K>
-    friend constexpr basic_string<C, J+K-1> operator+(C const (&lhs)[J], basic_string<C, K> const& rhs);
-
-    template<class C, size_t K>
-    friend constexpr basic_string<C, K+1> operator+(C lhs, basic_string<C, K> const& rhs);
+    template<class C, size_t J>
+    friend inline std::ostream &operator<<(std::ostream &os, basic_string<C, J> const& rhs);
 
 private:
     template<size_t... Indices>
@@ -230,6 +222,12 @@ inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, 
     return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, N>());
 }
 
+template<class Char, size_t N>
+inline std::ostream &operator<<(std::ostream &os, basic_string<Char, N> const& rhs)
+{
+    os << rhs.elems.data;
+    return os;
+}
 
 } // namespace istring
 

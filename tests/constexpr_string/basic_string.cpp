@@ -27,6 +27,9 @@ int main()
     STATIC_ASSERT((s1 + s2 != s2 + s1));
     STATIC_ASSERT((s1 + "payo" != s2 + s1));
 
+    constexpr auto s4 = make("test of output operator\n");
+    std::cout << s4;
+
     std::cout << "OK\n";
     return 0;
 }
