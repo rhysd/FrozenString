@@ -12,7 +12,7 @@ template<class T, size_t N>
 class basic_string;
 
 template<class T, size_t N>
-constexpr basic_string<T, N> make(T const (&str)[N])
+inline constexpr basic_string<T, N> make(T const (&str)[N])
 {
     return {str};
 }
