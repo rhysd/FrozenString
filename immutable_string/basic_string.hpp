@@ -73,12 +73,12 @@ public:
         return elems.data + N;
     }
 
-    iterator begin()
+    iterator begin() const
     {
         return elems.data;
     }
 
-    iterator end()
+    iterator end() const
     {
         return elems.data + N;
     }
@@ -129,7 +129,7 @@ public:
     }
 
     template<size_t M>
-    constexpr bool operator==(Char const (&rhs)[M])
+    constexpr bool operator==(Char const (&rhs)[M]) const
     {
         return N!=M ? false : operator_equal_impl(rhs, 0);
     }
@@ -141,7 +141,7 @@ public:
     }
 
     template<size_t M>
-    constexpr bool operator!=(Char const (&rhs)[M])
+    constexpr bool operator!=(Char const (&rhs)[M]) const
     {
         return ! operator==(rhs);
     }
