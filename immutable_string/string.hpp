@@ -15,6 +15,12 @@ using string = basic_string<char, N>;
 template<size_t N>
 using wstring = basic_string<wchar_t, N>;
 
+template<size_t N>
+using w16string = basic_string<char16_t, N>;
+
+template<size_t N>
+using w32string = basic_string<char32_t, N>;
+
 } // namespace istring
 
 
