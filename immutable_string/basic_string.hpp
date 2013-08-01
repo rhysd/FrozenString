@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <ostream>
 
+#include "./detail/util.hpp"
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
 #include "./make.hpp"
@@ -14,12 +15,12 @@ namespace istring {
 
 using std::size_t;
 
-template<class Char, size_t N>
+template< class Char, size_t N >
 class basic_string{
 public:
 
     // type definitions
-    typedef Char value_type;
+    typedef typename detail::is_char<Char>::type value_type;
     typedef value_type* pointer;
     typedef value_type const* const_pointer;
     typedef value_type* iterator;
