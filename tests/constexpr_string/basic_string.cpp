@@ -28,6 +28,7 @@ int main()
     STATIC_ASSERT((s1 + s2 == "aiueopoyo"));
     STATIC_ASSERT((s2 + '\n' == "poyo\n"));
     STATIC_ASSERT(('_' + s2 == "_poyo"));
+    STATIC_ASSERT((make("poyo\0\0\0") + '_' == "poyo_"));
     STATIC_ASSERT(("aiueopoyo" == s1 + s2));
     STATIC_ASSERT((s2 + "payo" == "poyopayo"));
     STATIC_ASSERT(("payo" + s2 == "payopoyo"));

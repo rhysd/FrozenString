@@ -224,7 +224,7 @@ public:
 
     constexpr basic_string<Char, N+1> operator+(Char rhs) const
     {
-        return operator_plus_char_impl(rhs, detail::make_indices<0, N-1>());
+        return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, N>());
     }
 
     template<size_t M>
@@ -316,9 +316,12 @@ private:
     {}
 
     template<size_t... IndicesL>
-    constexpr basic_string<Char, N+1> operator_plus_char_impl(Char rhs, detail::indices<IndicesL...>) const
+    constexpr basic_string<Char, N+1> operator_plus_char_impl(Char rhs, size_t len_lhs, detail::indices<IndicesL...>) const
     {
-        return {{elems[IndicesL]..., rhs, '\0'}};
+        return {{
+                    ( IndicesL < len_lhs ? elems[IndicesL] :
+                      IndicesL == len_lhs ? rhs : '\0' )...
+               }};
     }
 
     template<class Array>
