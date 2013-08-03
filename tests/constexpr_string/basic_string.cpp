@@ -44,12 +44,22 @@ int main()
     STATIC_ASSERT((make("aab") < "aaba"));
     STATIC_ASSERT(("aab" < make("aaba")));
     STATIC_ASSERT_NOT((make("") < make("")));
+    STATIC_ASSERT((make("aaab\0\0") < make("aab")));
+    STATIC_ASSERT((make("aab") < "aaba\0"));
+    STATIC_ASSERT(("aab\0\0" < make("aaba")));
+    STATIC_ASSERT_NOT((make("\0") < make("")));
 
     STATIC_ASSERT_NOT((s1 > s1));
     STATIC_ASSERT((make("aab") > make("aaab")));
     STATIC_ASSERT((make("aaba") > "aab"));
     STATIC_ASSERT(("aaba" > make("aab")));
     STATIC_ASSERT_NOT((make("") > make("")));
+    STATIC_ASSERT((make("aab\0\0") > make("aaab")));
+    STATIC_ASSERT((make("aaba") > "aab\0"));
+    STATIC_ASSERT((make("aaba\0\0") > "aab\0"));
+    STATIC_ASSERT(("aaba\0" > make("aab")));
+    STATIC_ASSERT(("aaba" > make("aab\0\0")));
+    STATIC_ASSERT_NOT((make("\0") > make("")));
 
     constexpr auto s4 = s3;
     STATIC_ASSERT((s4 == s3));

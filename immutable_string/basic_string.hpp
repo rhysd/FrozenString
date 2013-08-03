@@ -256,13 +256,13 @@ public:
     template<size_t M>
     constexpr bool operator<(basic_string<Char, M> const& rhs) const
     {
-        return operator_less_impl<M>(rhs, 0);
+        return operator_less_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
     }
 
     template<size_t M>
     constexpr bool operator<(Char const(&rhs)[M]) const
     {
-        return operator_less_impl<M>(rhs, 0);
+        return operator_less_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
     }
 
     template<size_t M>
@@ -280,13 +280,13 @@ public:
     template<size_t M>
     constexpr bool operator>(basic_string<Char, M> const& rhs) const
     {
-        return operator_greater_impl<M>(rhs, 0);
+        return operator_greater_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
     }
 
     template<size_t M>
     constexpr bool operator>(Char const(&rhs)[M]) const
     {
-        return operator_greater_impl<M>(rhs, 0);
+        return operator_greater_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
     }
 
     template<size_t M>
@@ -330,25 +330,43 @@ private:
         return idx == max_size ? true : elems[idx] == rhs[idx] && operator_equal_impl(rhs, idx+1, max_size);
     }
 
-    template<size_t M, class Array>
-    constexpr bool operator_less_impl(Array const& rhs, size_t idx) const
-    {
-        return idx == M ? false :
-               idx == N ? true :
-               elems[idx] < rhs[idx] ? true :
-               elems[idx] > rhs[idx] ? false :
-               operator_less_impl<M>(rhs, idx+1);
-    }
+    class operator_less_impl{
+        size_t const size_lhs;
+        size_t const size_rhs;
 
-    template<size_t M, class Array>
-    constexpr bool operator_greater_impl(Array const& rhs, size_t idx) const
-    {
-        return idx == N ? false :
-               idx == M ? true :
-               elems[idx] < rhs[idx] ? false :
-               elems[idx] > rhs[idx] ? true :
-               operator_greater_impl<M>(rhs, idx+1);
-    }
+    public:
+        constexpr operator_less_impl(size_t sl, size_t sr)
+            : size_lhs(sl), size_rhs(sr) {}
+
+        template<class ArrayL, class ArrayR>
+        constexpr bool operator()(ArrayL const& lhs, ArrayR const& rhs, size_t idx) const
+        {
+            return idx == size_rhs ? false :
+                   idx == size_lhs ? true :
+                   lhs[idx] < rhs[idx] ? true :
+                   lhs[idx] > rhs[idx] ? false :
+                                         operator()(lhs, rhs, idx+1);
+        }
+    };
+
+    class operator_greater_impl{
+        size_t const size_lhs;
+        size_t const size_rhs;
+
+    public:
+        constexpr operator_greater_impl(size_t sl, size_t sr)
+            : size_lhs(sl), size_rhs(sr) {}
+
+        template<class ArrayL, class ArrayR>
+        constexpr bool operator()(ArrayL const& lhs, ArrayR const& rhs, size_t idx) const
+        {
+            return idx == size_lhs ? false :
+                   idx == size_rhs ? true :
+                   lhs[idx] < rhs[idx] ? false :
+                   lhs[idx] > rhs[idx] ? true :
+                                         operator()(lhs, rhs, idx+1);
+        }
+    };
 
     constexpr size_type size_impl(size_type idx) const
     {
