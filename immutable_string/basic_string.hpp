@@ -8,12 +8,14 @@
 #include "./detail/util.hpp"
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
-#include "./make.hpp"
-
 
 namespace istring {
 
 using std::size_t;
+
+// forward declaration
+template<class Char, size_t N>
+class basic_string;
 
 template<class Char, size_t M, size_t N>
 inline constexpr bool operator==(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
@@ -343,6 +345,5 @@ private:
 
 } // namespace istring
 
-#include "./to_string.hpp"
 
 #endif    // ISTRING_BASIC_STRING_HPP_INCLUDED
