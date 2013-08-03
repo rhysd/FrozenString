@@ -19,6 +19,11 @@ int main()
     constexpr auto s3 = make(L"ほげ");
     STATIC_ASSERT((s3 == L"ほげ"));
 
+    STATIC_ASSERT((make("hoge") == make("hoge\0\0\0")));
+    STATIC_ASSERT((make("hoge") == "hoge\0\0\0"));
+    STATIC_ASSERT(("hoge" == make("hoge\0\0\0")));
+    STATIC_ASSERT((make("hoge") == make("hoge\0huga")));
+
     STATIC_ASSERT((s1 + s2 == s1 + s2));
     STATIC_ASSERT((s1 + s2 == "aiueopoyo"));
     STATIC_ASSERT((s2 + '\n' == "poyo\n"));
@@ -51,9 +56,10 @@ int main()
     constexpr string<10> s5('a');
     STATIC_ASSERT((s5 == "aaaaaaaaa"));
 
-    STATIC_ASSERT((make("aaaaaa").strlen() == 6));
-    STATIC_ASSERT((make("").strlen() == 0));
-    STATIC_ASSERT((string<5>{{'p', 'o', 'y', 'o'}}.strlen() == 4));
+    STATIC_ASSERT((make("aaaaaa").size() == 6));
+    STATIC_ASSERT((make("aaaa\0\0\0").size() == 4));
+    STATIC_ASSERT((make("").size() == 0));
+    STATIC_ASSERT((string<5>{{'p', 'o', 'y', 'o'}}.size() == 4));
 
 
     // STATIC_ASSERT((123.45e10_istr == "123.45e10"));

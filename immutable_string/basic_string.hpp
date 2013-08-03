@@ -8,6 +8,7 @@
 #include "./detail/util.hpp"
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
+#include "./detail/strlen.hpp"
 
 namespace istring {
 
@@ -31,26 +32,45 @@ inline constexpr bool operator!=(Char const (&lhs)[M], basic_string<Char, N> con
 
 namespace detail {
 
-    template<class Char, size_t M, size_t N, class ArrayL, class ArrayR, size_t... IndicesL, size_t... IndicesR>
-    inline constexpr basic_string<Char, M+N-1> operator_plus_impl(ArrayL const& lhs, ArrayR const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>)
-    {
-        return {{lhs[IndicesL]..., rhs[IndicesR]..., '\0'}};
-    }
+    // rhs を null-terminated-string として文字数を数え，size に格納
+    // return {{(IndicesL < size-1 ? elems[IndicesL] : rhs[IndicesL - (size-1)])..., 右辺の分も処理し，余計な末尾部分は \0 で埋める}}
+    template<class Char, size_t M, size_t N>
+    class operator_plus_impl{
+        size_t const size_lhs;
+        size_t const size_rhs;
+
+    public:
+        constexpr operator_plus_impl(size_t sl, size_t sr)
+            : size_lhs(sl), size_rhs(sr) {}
+
+        template<class ArrayL, class ArrayR, size_t... IndicesL, size_t... IndicesR>
+        constexpr basic_string<Char, M+N> operator()(ArrayL const& lhs, ArrayR const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>)
+        {
+            return {{
+                        ( IndicesL < size_lhs ?
+                            lhs[IndicesL] :
+                            rhs[IndicesL - size_lhs]
+                        )...,
+                        ( IndicesR + (M - size_lhs ) < size_rhs ?
+                            rhs[IndicesR + (M - size_lhs)] :
+                            '\0'
+                        )...
+                    }};
+        }
+    };
 
 } // namespace detail
 
 template<class Char, size_t M, size_t N>
-inline constexpr basic_string<Char, M+N-1> operator+(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
+inline constexpr basic_string<Char, M+N> operator+(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
 {
-    return detail::operator_plus_impl<Char, M, N>(lhs, rhs, detail::make_indices<0, M-1>(), detail::make_indices<0, N-1>());
+    return detail::operator_plus_impl<Char, M, N>(detail::strlen(lhs), detail::strlen(rhs))(lhs, rhs, detail::make_indices<0, M>(), detail::make_indices<0, N>());
 }
 
 namespace detail {
 
-    // rhs を null-terminated-string として文字数を数え，size に格納
-    // return {{(IndicesL < size-1 ? elems[IndicesL] : rhs[IndicesL - (size-1)])..., 右辺の分も処理し，余計な末尾部分は \0 で埋める}}
     template<class Char, size_t N, size_t... IndicesR>
-    inline constexpr basic_string<Char, N+1> operator_plus_impl(Char lhs, basic_string<Char, N> const& rhs, detail::indices<IndicesR...>)
+    inline constexpr basic_string<Char, N+1> operator_plus_char_impl(Char lhs, basic_string<Char, N> const& rhs, detail::indices<IndicesR...>)
     {
         return {{lhs, rhs[IndicesR]...}};
     }
@@ -60,7 +80,7 @@ namespace detail {
 template<class Char, size_t N>
 inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
 {
-    return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, N>());
+    return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, N>());
 }
 
 template<class Char, size_t N, size_t M>
@@ -169,12 +189,6 @@ public:
         return elems.data + N;
     }
 
-    // capacity
-    constexpr size_type size() const
-    {
-        return N;
-    }
-
     constexpr size_type max_size() const
     {
         return N;
@@ -185,10 +199,9 @@ public:
         return N==0;
     }
 
-    // utilities
-    constexpr size_type strlen() const
+    constexpr size_type size() const
     {
-        return strlen_impl(0);
+        return size_impl(0);
     }
 
     // operators
@@ -198,32 +211,34 @@ public:
     }
 
     template<size_t M>
-    constexpr basic_string<Char, N+M-1> operator+(basic_string<Char, M> const& rhs) const
+    constexpr basic_string<Char, N+M> operator+(basic_string<Char, M> const& rhs) const
     {
-        return detail::operator_plus_impl<Char, N, M>(elems, rhs, detail::make_indices<0, N-1>(), detail::make_indices<0, M-1>());
+        return detail::operator_plus_impl<Char, M, N>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, M>(), detail::make_indices<0, N>());
     }
 
     template<size_t M>
-    constexpr basic_string<Char, N+M-1> operator+(Char const (&rhs)[M]) const
+    constexpr basic_string<Char, N+M> operator+(Char const (&rhs)[M]) const
     {
-        return detail::operator_plus_impl<Char, N, M>(elems, rhs, detail::make_indices<0, N-1>(), detail::make_indices<0, M-1>());
+        return detail::operator_plus_impl<Char, M, N>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, M>(), detail::make_indices<0, N>());
     }
 
     constexpr basic_string<Char, N+1> operator+(Char rhs) const
     {
-        return operator_plus_impl(rhs, detail::make_indices<0, N-1>());
+        return operator_plus_char_impl(rhs, detail::make_indices<0, N-1>());
     }
 
     template<size_t M>
     constexpr bool operator==(basic_string<Char, M> const& rhs) const
     {
-        return N!=M ? false : operator_equal_impl(rhs.elems, 0);
+        return detail::strlen(elems, N)!=detail::strlen(rhs, M) ?
+            false : operator_equal_impl(rhs, 0, detail::strlen(elems, N<M ? N : M));
     }
 
     template<size_t M>
     constexpr bool operator==(Char const (&rhs)[M]) const
     {
-        return N!=M ? false : operator_equal_impl(rhs, 0);
+        return detail::strlen(elems, N)!=detail::strlen(rhs, M) ?
+            false : operator_equal_impl(rhs, 0, detail::strlen(elems, N<M ? N : M));
     }
 
     template<size_t M>
@@ -301,15 +316,15 @@ private:
     {}
 
     template<size_t... IndicesL>
-    constexpr basic_string<Char, N+1> operator_plus_impl(Char rhs, detail::indices<IndicesL...>) const
+    constexpr basic_string<Char, N+1> operator_plus_char_impl(Char rhs, detail::indices<IndicesL...>) const
     {
         return {{elems[IndicesL]..., rhs, '\0'}};
     }
 
     template<class Array>
-    constexpr bool operator_equal_impl(Array const& rhs, size_t idx) const
+    constexpr bool operator_equal_impl(Array const& rhs, size_t idx, size_t max_size) const
     {
-        return idx == N ? true : elems[idx] == rhs[idx] && operator_equal_impl(rhs, idx+1);
+        return idx == max_size ? true : elems[idx] == rhs[idx] && operator_equal_impl(rhs, idx+1, max_size);
     }
 
     template<size_t M, class Array>
@@ -332,10 +347,10 @@ private:
                operator_greater_impl<M>(rhs, idx+1);
     }
 
-    constexpr size_type strlen_impl(size_type idx) const
+    constexpr size_type size_impl(size_type idx) const
     {
         return elems[idx] == '\0' || !(idx < N) ?
-            0 : 1 + strlen_impl(idx+1);
+            0 : 1 + size_impl(idx+1);
     }
 
 private:
