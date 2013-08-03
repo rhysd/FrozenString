@@ -14,6 +14,84 @@ namespace istring {
 
 using std::size_t;
 
+template<class Char, size_t M, size_t N>
+inline constexpr bool operator==(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
+{
+    return rhs == lhs;
+}
+
+template<class Char, size_t M, size_t N>
+inline constexpr bool operator!=(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
+{
+    return rhs != lhs;
+}
+
+namespace detail {
+
+    template<class Char, size_t M, size_t N, class ArrayL, class ArrayR, size_t... IndicesL, size_t... IndicesR>
+    inline constexpr basic_string<Char, M+N-1> operator_plus_impl(ArrayL const& lhs, ArrayR const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>)
+    {
+        return {{lhs[IndicesL]..., rhs[IndicesR]..., '\0'}};
+    }
+
+} // namespace detail
+
+template<class Char, size_t M, size_t N>
+inline constexpr basic_string<Char, M+N-1> operator+(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
+{
+    return detail::operator_plus_impl<Char, M, N>(lhs, rhs, detail::make_indices<0, M-1>(), detail::make_indices<0, N-1>());
+}
+
+namespace detail {
+
+    // rhs を null-terminated-string として文字数を数え，size に格納
+    // return {{(IndicesL < size-1 ? elems[IndicesL] : rhs[IndicesL - (size-1)])..., 右辺の分も処理し，余計な末尾部分は \0 で埋める}}
+    template<class Char, size_t N, size_t... IndicesR>
+    inline constexpr basic_string<Char, N+1> operator_plus_impl(Char lhs, basic_string<Char, N> const& rhs, detail::indices<IndicesR...>)
+    {
+        return {{lhs, rhs[IndicesR]...}};
+    }
+
+} // namespace detail
+
+template<class Char, size_t N>
+inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
+{
+    return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, N>());
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator<(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs > lhs;
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator>(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs < lhs;
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator<=(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs >= lhs;
+}
+
+template<class Char, size_t N, size_t M>
+inline constexpr bool operator>=(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
+{
+    return rhs <= lhs;
+}
+
+template<class Char, size_t N>
+inline std::ostream &operator<<(std::ostream &os, basic_string<Char, N> const& rhs)
+{
+    os << rhs.elems.data;
+    return os;
+}
+
+
 template<class Char, size_t N>
 class basic_string{
 public:
@@ -104,6 +182,12 @@ public:
         return N==0;
     }
 
+    // utilities
+    constexpr size_type strlen() const
+    {
+        return strlen_impl(0);
+    }
+
     // operators
     constexpr value_type operator[](size_type idx) const
     {
@@ -113,13 +197,13 @@ public:
     template<size_t M>
     constexpr basic_string<Char, N+M-1> operator+(basic_string<Char, M> const& rhs) const
     {
-        return operator_plus_impl(rhs, detail::make_indices<0, N-1>(), detail::make_indices<0, M-1>());
+        return detail::operator_plus_impl<Char, N, M>(elems, rhs, detail::make_indices<0, N-1>(), detail::make_indices<0, M-1>());
     }
 
     template<size_t M>
     constexpr basic_string<Char, N+M-1> operator+(Char const (&rhs)[M]) const
     {
-        return operator_plus_impl(rhs, detail::make_indices<0, N-1>(), detail::make_indices<0, M-1>());
+        return detail::operator_plus_impl<Char, N, M>(elems, rhs, detail::make_indices<0, N-1>(), detail::make_indices<0, M-1>());
     }
 
     constexpr basic_string<Char, N+1> operator+(Char rhs) const
@@ -213,12 +297,6 @@ private:
         : elems({(static_cast<void>(Indices), c)..., '\0'})
     {}
 
-    template<class Array, size_t... IndicesL, size_t... IndicesR>
-    constexpr basic_string<Char, (N-1)+sizeof...(IndicesR)+1> operator_plus_impl(Array const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>) const
-    {
-        return {{elems[IndicesL]..., rhs[IndicesR]..., '\0'}};
-    }
-
     template<size_t... IndicesL>
     constexpr basic_string<Char, N+1> operator_plus_impl(Char rhs, detail::indices<IndicesL...>) const
     {
@@ -251,86 +329,19 @@ private:
                operator_greater_impl<M>(rhs, idx+1);
     }
 
+    constexpr size_type strlen_impl(size_type idx) const
+    {
+        return elems[idx] == '\0' || !(idx < N) ?
+            0 : 1 + strlen_impl(idx+1);
+    }
+
 private:
     detail::array_wrapper<Char, N> const elems;
-};
 
-template<class Char, size_t M, size_t N>
-inline constexpr bool operator==(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
-{
-    return rhs == lhs;
-}
-
-template<class Char, size_t M, size_t N>
-inline constexpr bool operator!=(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
-{
-    return rhs != lhs;
-}
-
-namespace detail {
-
-    template<class Char, size_t M, size_t N, size_t... IndicesL, size_t... IndicesR>
-    inline constexpr basic_string<Char, M+N-1> operator_plus_impl(Char const (&lhs)[M], basic_string<Char, N> const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>)
-    {
-        return {{lhs[IndicesL]..., rhs[IndicesR]..., '\0'}};
-    }
-
-} // namespace detail
-
-template<class Char, size_t M, size_t N>
-inline constexpr basic_string<Char, M+N-1> operator+(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
-{
-    return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, M-1>(), detail::make_indices<0, N-1>());
-}
-
-namespace detail {
-
-    template<class Char, size_t N, size_t... IndicesR>
-    inline constexpr basic_string<Char, N+1> operator_plus_impl(Char lhs, basic_string<Char, N> const& rhs, detail::indices<IndicesR...>)
-    {
-        return {{lhs, rhs[IndicesR]...}};
-    }
-
-} // namespace detail
-
-template<class Char, size_t N>
-inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
-{
-    return detail::operator_plus_impl(lhs, rhs, detail::make_indices<0, N>());
-}
-
-template<class Char, size_t N, size_t M>
-inline constexpr bool operator<(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
-{
-    return rhs > lhs;
-}
-
-template<class Char, size_t N, size_t M>
-inline constexpr bool operator>(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
-{
-    return rhs < lhs;
-}
-
-template<class Char, size_t N, size_t M>
-inline constexpr bool operator<=(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
-{
-    return rhs >= lhs;
-}
-
-template<class Char, size_t N, size_t M>
-inline constexpr bool operator>=(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
-{
-    return rhs <= lhs;
-}
-
-template<class Char, size_t N>
-inline std::ostream &operator<<(std::ostream &os, basic_string<Char, N> const& rhs)
-{
-    os << rhs.elems.data;
-    return os;
-}
+}; // class basic_string
 
 } // namespace istring
 
-#endif    // ISTRING_BASIC_STRING_HPP_INCLUDED
+#include "./to_string.hpp"
 
+#endif    // ISTRING_BASIC_STRING_HPP_INCLUDED

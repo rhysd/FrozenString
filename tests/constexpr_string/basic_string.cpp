@@ -1,5 +1,7 @@
 #include <iostream>
+#include <sstream>
 #include <algorithm>
+#include <cassert>
 
 #include "../util.hpp"
 
@@ -9,11 +11,11 @@ using namespace istring;
 
 int main()
 {
-    ::setlocale(LC_ALL, "");
     constexpr string<6> s1 = "aiueo";
     constexpr string<5> s2({'p', 'o', 'y', 'o', '\0'});
     STATIC_ASSERT((s1.size() == s2.size()+1));
 
+    ::setlocale(LC_ALL, "");
     constexpr auto s3 = make(L"ほげ");
     STATIC_ASSERT((s3 == L"ほげ"));
 
@@ -27,7 +29,9 @@ int main()
     STATIC_ASSERT((s1 + s2 != s2 + s1));
     STATIC_ASSERT((s1 + "payo" != s2 + s1));
 
-    std::cout << make("test of output operator\n");
+    std::stringstream ss;
+    ss << make("test for output operator");
+    assert(ss.str() == "test for output operator");
 
     STATIC_ASSERT_NOT((s1 < s1));
     STATIC_ASSERT((make("aaab") < make("aab")));
@@ -46,6 +50,13 @@ int main()
 
     constexpr string<10> s5('a');
     STATIC_ASSERT((s5 == "aaaaaaaaa"));
+
+    STATIC_ASSERT((make("aaaaaa").strlen() == 6));
+    STATIC_ASSERT((make("").strlen() == 0));
+    STATIC_ASSERT((string<5>{{'p', 'o', 'y', 'o'}}.strlen() == 4));
+
+
+    // STATIC_ASSERT((123.45e10_istr == "123.45e10"));
 
     std::cout << make("OK\n");
     return 0;
