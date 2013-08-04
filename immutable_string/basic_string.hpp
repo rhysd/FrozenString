@@ -32,8 +32,6 @@ inline constexpr bool operator!=(Char const (&lhs)[M], basic_string<Char, N> con
 
 namespace detail {
 
-    // rhs を null-terminated-string として文字数を数え，size に格納
-    // return {{(IndicesL < size-1 ? elems[IndicesL] : rhs[IndicesL - (size-1)])..., 右辺の分も処理し，余計な末尾部分は \0 で埋める}}
     template<class Char, size_t M, size_t N>
     class operator_plus_impl{
         size_t const size_lhs;
