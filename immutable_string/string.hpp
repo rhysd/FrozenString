@@ -5,6 +5,7 @@
 
 #include "./basic_string.hpp"
 #include "./make.hpp"
+#include "./to_string.hpp"
 
 namespace istring {
 
