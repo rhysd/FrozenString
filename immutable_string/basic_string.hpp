@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <stdexcept>
 #include <ostream>
+#include <type_traits>
 
 #include "./detail/util.hpp"
 #include "./detail/indices.hpp"
@@ -75,7 +76,7 @@ namespace detail {
 
 } // namespace detail
 
-template<class Char, size_t N>
+template<class Char, size_t N, class = typename std::enable_if<detail::is_char<Char>::value>::type>
 inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
 {
     return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, N>());
@@ -220,7 +221,8 @@ public:
         return detail::operator_plus_impl<Char, M, N>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, M>(), detail::make_indices<0, N>());
     }
 
-    constexpr basic_string<Char, N+1> operator+(Char rhs) const
+    template<class C, class = typename std::enable_if<detail::is_char<C>::value>::type>
+    constexpr basic_string<Char, N+1> operator+(C rhs) const
     {
         return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, N>());
     }
