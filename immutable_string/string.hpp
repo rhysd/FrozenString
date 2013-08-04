@@ -4,7 +4,6 @@
 #include <cstddef>
 
 #include "./basic_string.hpp"
-#include "./to_string.hpp"
 #include "./make.hpp"
 
 namespace istring {
