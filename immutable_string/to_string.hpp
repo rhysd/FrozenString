@@ -9,6 +9,7 @@
 #include "./detail/indices.hpp"
 #include "./detail/digits.hpp"
 #include "./detail/forward.hpp"
+#include "./detail/util.hpp"
 
 #include "./basic_string.hpp"
 
@@ -24,8 +25,14 @@ basic_string<Char, detail::int_digits10<Int>()>
 to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
 {
     return {{
-                ( static_cast<Char>( Indices <= digits  ? 
-                        i / static_cast<int>(std::pow(10, digits - Indices)) % 10 + '0' : '\0')
+                ( i < 0 ? 
+                      static_cast<Char>(
+                          Indices == 0 ? '-' :
+                          Indices-1 < digits  ?
+                            -i / static_cast<int>(detail::pow(10, digits - (Indices-1) - 1)) % 10 + '0' : '\0'
+                      ) :
+                      static_cast<Char>( Indices < digits  ?
+                            i / static_cast<int>(detail::pow(10, digits - Indices - 1)) % 10 + '0' : '\0')
                 )...
            }};
 }
@@ -38,7 +45,7 @@ basic_string<Char, detail::int_digits10<T>()> to_basic_string(T t)
 {
     return detail::to_basic_string_integral<Char>(
                 t,
-                static_cast<size_t>(std::log10(t)),
+                detail::digits10_of(t),
                 detail::make_indices<0, detail::int_digits10<T>()>()
             );
 }

@@ -23,6 +23,17 @@ namespace detail {
         return std::numeric_limits<Int>::digits10 + 1;
     }
 
+    template< class Int,
+              class = typename std::enable_if<
+                            std::is_integral<Int>::value
+                      >::type
+            >
+    inline constexpr
+    size_t digits10_of(Int i)
+    {
+        return std::log10(std::abs(i))+1;
+    }
+
     static constexpr size_t size_t_max_digits10
         = std::numeric_limits<size_t>::digits10 + 1;
 

@@ -72,6 +72,7 @@ int main()
     STATIC_ASSERT((make("").size() == 0));
     STATIC_ASSERT((string<5>{{'p', 'o', 'y', 'o'}}.size() == 4));
     STATIC_ASSERT((to_basic_string<char>(42) == make("42")));
+    STATIC_ASSERT((to_basic_string<char>(-423) == make("-423")));
 
 
     // STATIC_ASSERT((123.45e10_istr == "123.45e10"));

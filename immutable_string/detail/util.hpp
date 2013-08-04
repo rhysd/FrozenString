@@ -8,6 +8,7 @@ namespace detail {
 
 extern void *enabler;
 
+
 template<class T, class U, class... Args>
 struct is_one_of : is_one_of<T, Args...>
 {};
@@ -28,35 +29,13 @@ struct is_char{
   static bool const value = true;
 };
 
-// template<class CharT>
-// struct is_char{
-//   static const bool value = false;
-// };
-//
-// template<>
-// struct is_char<char>{
-//   static const bool value = true;
-//   typedef char type;
-// };
-//
-// template<>
-// struct is_char<wchar_t>{
-//   static const bool value = true;
-//   typedef wchar_t type;
-// };
-//
-// template<>
-// struct is_char<char16_t>{
-//   static const bool value = true;
-//   typedef char16_t type;
-// };
-//
-// template<>
-// struct is_char<char32_t>{
-//   static const bool value = true;
-//   typedef char32_t type;
-// };
 
+template<class T, class U>
+inline constexpr
+T pow(T base, U exp)
+{
+    return exp == 0 ? 1 : base * pow(base, exp-1);
+}
 } // namespace istring
 } // namespace detail
 
