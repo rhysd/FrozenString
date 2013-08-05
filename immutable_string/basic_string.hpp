@@ -220,13 +220,13 @@ public:
     template<size_t M>
     constexpr basic_string<Char, N+M> operator+(basic_string<Char, M> const& rhs) const
     {
-        return detail::operator_plus_impl<Char, M, N>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, M>(), detail::make_indices<0, N>());
+        return detail::operator_plus_impl<Char, N, M>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, N>(), detail::make_indices<0, M>());
     }
 
     template<size_t M>
     constexpr basic_string<Char, N+M> operator+(Char const (&rhs)[M]) const
     {
-        return detail::operator_plus_impl<Char, M, N>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, M>(), detail::make_indices<0, N>());
+        return detail::operator_plus_impl<Char, N, M>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, N>(), detail::make_indices<0, M>());
     }
 
     template<class C, class = typename std::enable_if<detail::is_char<C>::value>::type>
