@@ -6,6 +6,8 @@
 #include <limits>
 #include <type_traits>
 
+#include "./util.hpp"
+
 namespace istring {
 
 using std::size_t;
@@ -32,6 +34,28 @@ namespace detail {
     size_t digits10_of(Int i)
     {
         return std::log10(std::abs(i))+1;
+    }
+
+    template< class Int,
+              class = typename std::enable_if<
+                            std::is_integral<Int>::value
+                      >::type
+            >
+    inline constexpr
+    size_t digits10_at(Int i, size_t idx)
+    {
+        return i / static_cast<int>(detail::pow(10, idx)) % 10;
+    }
+
+    template< class Float,
+              class = typename std::enable_if<
+                            std::is_floating_point<Float>::value
+                      >::type
+            >
+    inline constexpr
+    size_t float_digits10()
+    {
+        return std::numeric_limits<Float>::max_digits10 + 8;
     }
 
     static constexpr size_t size_t_max_digits10

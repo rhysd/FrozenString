@@ -25,16 +25,25 @@ basic_string<Char, detail::int_digits10<Int>()>
 to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
 {
     return {{
-                ( i < 0 ? 
+                ( i < 0 ?
                       static_cast<Char>(
                           Indices == 0 ? '-' :
-                          Indices-1 < digits  ?
-                            -i / static_cast<int>(detail::pow(10, digits - (Indices-1) - 1)) % 10 + '0' : '\0'
+                          Indices-1 < digits ? detail::digits10_at(-i, digits-(Indices-1)-1) + '0' : '\0'
                       ) :
-                      static_cast<Char>( Indices < digits  ?
-                            i / static_cast<int>(detail::pow(10, digits - Indices - 1)) % 10 + '0' : '\0')
+                      static_cast<Char>(
+                          Indices < digits ? detail::digits10_at(i, digits-Indices-1) + '0' : '\0'
+                      )
                 )...
            }};
+}
+
+template<class Char, class Float, size_t... Indices>
+inline constexpr
+basic_string<Char, detail::float_digits10<Float>()>
+to_basic_string_float(Float, indices<Indices...>)
+{
+    // FIXME temporary
+    return {{1, 2, 3}};
 }
 
 } // namespace detail
@@ -47,6 +56,17 @@ basic_string<Char, detail::int_digits10<T>()> to_basic_string(T t)
                 t,
                 detail::digits10_of(t),
                 detail::make_indices<0, detail::int_digits10<T>()>()
+            );
+}
+
+
+template<class Char, class T, class = typename std::enable_if<std::is_floating_point<T>::value>::type>
+inline constexpr
+basic_string<Char, detail::float_digits10<T>()> to_basic_string(T t)
+{
+    return detail::to_basic_string_float<Char>(
+                t,
+                detail::make_indices<0, detail::float_digits10<T>()>()
             );
 }
 
