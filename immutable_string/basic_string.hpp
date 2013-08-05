@@ -6,6 +6,7 @@
 #include <ostream>
 #include <type_traits>
 
+#include "./detail/digits.hpp"
 #include "./detail/util.hpp"
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
@@ -18,6 +19,12 @@ using std::size_t;
 // forward declaration
 template<class Char, size_t N>
 class basic_string;
+
+// forward declaration
+template<class Char, class T, class = typename std::enable_if<std::is_integral<T>::value>::type>
+inline constexpr
+basic_string<Char, detail::int_digits10<T>()> to_basic_string(T t);
+
 
 template<class Char, size_t M, size_t N>
 inline constexpr bool operator==(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
@@ -129,6 +136,7 @@ public:
     typedef size_t size_type;
     typedef std::ptrdiff_t difference_type;
     typedef detail::make_indices<0, N> indices_type;
+    typedef basic_string<Char, N> self_type;
 
     // ctor definitions
     basic_string() = delete;
@@ -225,6 +233,12 @@ public:
     constexpr basic_string<Char, N+1> operator+(C rhs) const
     {
         return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, N>());
+    }
+
+    template<class Int, class = typename std::enable_if<!detail::is_char<Int>::value && std::is_integral<Int>::value>::type>
+    constexpr auto operator+(Int i) -> decltype(std::declval<self_type>() + to_basic_string<Char>(std::declval<Int>())) const
+    {
+        return operator+(to_basic_string<Char>(i));
     }
 
     template<size_t M>
