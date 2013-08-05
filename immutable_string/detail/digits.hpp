@@ -25,6 +25,9 @@ namespace detail {
         return std::numeric_limits<Int>::digits10 + 1;
     }
 
+    // FIXME
+    // constexpr std::log10() is a libstdc++ feature.
+    // std::log10() in libc++ doesn't work in a constant expression.
     template< class Int,
               class = typename std::enable_if<
                             std::is_integral<Int>::value
