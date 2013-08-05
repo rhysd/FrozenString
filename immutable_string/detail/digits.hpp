@@ -36,7 +36,7 @@ namespace detail {
     inline constexpr
     size_t digits10_of(Int i)
     {
-        return std::log10(std::abs(i))+1;
+        return i==0 ? 1 : std::log10(std::abs(i))+1;
     }
 
     template< class Int,

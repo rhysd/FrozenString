@@ -79,10 +79,12 @@ int main()
     STATIC_ASSERT((to_basic_string<char>(42) == make("42")));
     STATIC_ASSERT((to_basic_string<char>(-423) == make("-423")));
 
+    STATIC_ASSERT((make("Today is ") + 8 + '/' + 5 == "Today is 8/5"));
+    STATIC_ASSERT((make("My progress is ") + 0 == "My progress is 0"));
+    // STATIC_ASSERT((10000 + make(" errors occur") == "10000 errors occur"));
+
     // should be equal finally
     STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));
-
-    // STATIC_ASSERT((123.45e10_istr == "123.45e10"));
 
     std::cout << make("OK\n");
     return 0;
