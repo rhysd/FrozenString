@@ -89,6 +89,14 @@ inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, 
     return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, N>());
 }
 
+template<class Char, size_t N, class Int,
+         class = typename std::enable_if<!detail::is_char<Int>::value && std::is_integral<Int>::value>::type>
+inline constexpr auto operator+(Int lhs, basic_string<Char, N> const& rhs)
+    -> basic_string<Char, N + detail::int_digits10<Int>()>
+{
+    return to_basic_string<Char>(lhs) + rhs;
+}
+
 template<class Char, size_t N, size_t M>
 inline constexpr bool operator<(Char const (&lhs)[N], basic_string<Char, M> const& rhs)
 {

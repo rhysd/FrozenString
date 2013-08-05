@@ -81,7 +81,9 @@ int main()
 
     STATIC_ASSERT((make("Today is ") + 8 + '/' + 5 == "Today is 8/5"));
     STATIC_ASSERT((make("My progress is ") + 0 == "My progress is 0"));
-    // STATIC_ASSERT((10000 + make(" errors occur") == "10000 errors occur"));
+
+    STATIC_ASSERT((10000 + make(" errors occur") == "10000 errors occur"));
+    STATIC_ASSERT((0 + make("") == "0"));
 
     // should be equal finally
     STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));
