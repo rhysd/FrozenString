@@ -46,9 +46,9 @@ namespace detail {
         constexpr basic_string<Char, M+N> operator()(ArrayL const& lhs, ArrayR const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>)
         {
             return {{
-                        ( IndicesL < size_lhs ?
-                            lhs[IndicesL] :
-                            rhs[IndicesL - size_lhs]
+                        ( IndicesL < size_lhs ? lhs[IndicesL] :
+                          IndicesL < size_lhs + size_rhs ? rhs[IndicesL - size_lhs] :
+                          '\0'
                         )...,
                         ( IndicesR + (M - size_lhs ) < size_rhs ?
                             rhs[IndicesR + (M - size_lhs)] :

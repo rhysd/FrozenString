@@ -71,6 +71,11 @@ int main()
     STATIC_ASSERT((make("aaaa\0\0\0").size() == 4));
     STATIC_ASSERT((make("").size() == 0));
     STATIC_ASSERT((string<5>{{'p', 'o', 'y', 'o'}}.size() == 4));
+
+    STATIC_ASSERT((make("aa\0\0\0\0\0\0") + "bb" == "aabb"));
+    STATIC_ASSERT(("aabb" == make("aa\0\0\0\0\0\0") + "bb"));
+    STATIC_ASSERT((make("aabb") == make("aa\0\0\0\0\0\0") + "bb"));
+
     STATIC_ASSERT((to_basic_string<char>(42) == make("42")));
     STATIC_ASSERT((to_basic_string<char>(-423) == make("-423")));
 
