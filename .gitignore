@@ -3,3 +3,4 @@ a.out
 tmp.*
 hoge.*
 .*.swp
+*.log
