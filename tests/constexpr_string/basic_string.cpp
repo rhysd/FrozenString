@@ -64,6 +64,9 @@ int main()
     constexpr auto s4 = s3;
     STATIC_ASSERT((s4 == s3));
 
+    STATIC_ASSERT((s1 + s2 + "hoge" == "aiueopoyohoge"));
+    STATIC_ASSERT((s1 + "kakikukeko" + s2 == "aiueokakikukekopoyo"));
+
     constexpr string<10> s5('a');
     STATIC_ASSERT((s5 == "aaaaaaaaa"));
 
@@ -84,6 +87,10 @@ int main()
 
     STATIC_ASSERT((10000 + make(" errors occur") == "10000 errors occur"));
     STATIC_ASSERT((0 + make("") == "0"));
+
+    STATIC_ASSERT((basic_string<char, 0>::len == 1));
+    STATIC_ASSERT((basic_string<char, 0>{""} == ""));
+
 
     // should be equal finally
     STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));
