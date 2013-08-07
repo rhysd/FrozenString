@@ -91,6 +91,19 @@ int main()
     STATIC_ASSERT((basic_string<char, 0>::len == 1));
     STATIC_ASSERT((basic_string<char, 0>{""} == ""));
 
+    // make json at compile-time from config
+    static size_t constexpr random_tree_depth = 4;
+    static size_t constexpr population_size = 100;
+    static size_t constexpr mutation_percent = 5;
+    static size_t constexpr crossover_percent = 50;
+    auto constexpr json = empty_str +
+                  '{' +
+                      "\"random_tree_depth\" : " + random_tree_depth + ',' +
+                      "\"population_size\" : " + population_size + ',' +
+                      "\"mutation_percent\" : " + mutation_percent + ',' +
+                      "\"crossover_percent\" : " + crossover_percent + ',' +
+                  '}';
+    STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_percent\" : 5,\"crossover_percent\" : 50,}"));
 
     // should be equal finally
     STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));

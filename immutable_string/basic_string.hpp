@@ -345,7 +345,7 @@ private:
     template<size_t... IndicesL>
     constexpr basic_string<Char, N+1> operator_plus_char_impl(Char rhs, size_t len_lhs, detail::indices<IndicesL...>) const
     {
-        return {{
+        return basic_string<Char, N+1>{{
                     ( IndicesL < len_lhs ? elems[IndicesL] :
                       IndicesL == len_lhs ? rhs : '\0' )...
                }};
