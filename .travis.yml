@@ -1,4 +1,6 @@
 language: cpp
+compiler:
+    - gcc-4.8
 script:
     - g++-4.8 -std=c++11 -Wall -Wextra tests/constexpr_string/basic_string.cpp && ./a.out
 install:
