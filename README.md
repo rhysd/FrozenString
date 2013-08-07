@@ -1,4 +1,4 @@
-## C++ Immutable String Library
+## C++ Immutable String Library [![Build Status](https://travis-ci.org/rhysd/immutable-string.png)](https://travis-ci.org/rhysd/immutable-string)
 
 You can construct string in both compile-time and runtime.
 `std::string` is modifiable and not immutable but `istring::string`
