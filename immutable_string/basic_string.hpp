@@ -342,10 +342,11 @@ private:
         : elems({(static_cast<void>(Indices), c)..., '\0'})
     {}
 
-    template<size_t... IndicesL>
-    constexpr basic_string<Char, N+1> operator_plus_char_impl(Char rhs, size_t len_lhs, detail::indices<IndicesL...>) const
+    template<class Result = basic_string<Char, N+1>, size_t... IndicesL>
+    constexpr Result operator_plus_char_impl(Char rhs, size_t len_lhs, detail::indices<IndicesL...>) const
     {
-        return basic_string<Char, N+1>{{
+        // use of explicit ctor for basic_string(Char)
+        return Result{{
                     ( IndicesL < len_lhs ? elems[IndicesL] :
                       IndicesL == len_lhs ? rhs : '\0' )...
                }};
