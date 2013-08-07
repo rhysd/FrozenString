@@ -1,0 +1,7 @@
+language: cpp
+script:
+    - g++-4.8 -std=c++11 -Wall -Wextra tests/constexpr_string/basic_string.cpp && ./a.out
+install:
+    - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
+    - sudo apt-get -qq update
+    - sudo apt-get -qq install g++-4.8
