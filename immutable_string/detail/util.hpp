@@ -9,16 +9,19 @@ namespace detail {
 extern void *enabler;
 
 template<class T, class U, class... Args>
-struct is_one_of : is_one_of<T, Args...>
-{};
-
-template<class T, class... Args>
-struct is_one_of<T, T, Args...> : std::true_type
+struct is_one_of
+    : std::conditional<
+          std::is_same<T, U>::value,
+          std::true_type,
+          is_one_of<T, Args...>
+      >::type
 {};
 
 template<class T, class U>
-struct is_one_of<T, U> : std::false_type
+struct is_one_of<T, U>
+    : std::is_same<T, U>::type
 {};
+
 
 template<class CharT, bool = is_one_of<CharT, char, wchar_t, char16_t, char32_t>::value>
 struct is_char {
