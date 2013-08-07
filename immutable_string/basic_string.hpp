@@ -66,11 +66,10 @@ namespace detail {
     };
 
 } // namespace detail
-
-template<class Char, size_t M, size_t N>
-inline constexpr basic_string<Char, M+N> operator+(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
+template<class Char, size_t M, size_t N, size_t rlen = basic_string<Char, N>::len>
+inline constexpr basic_string<Char, M+rlen> operator+(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
 {
-    return detail::operator_plus_impl<Char, M, N>(detail::strlen(lhs), detail::strlen(rhs))(lhs, rhs, detail::make_indices<0, M>(), detail::make_indices<0, N>());
+    return detail::operator_plus_impl<Char, M, rlen>(detail::strlen(lhs), detail::strlen(rhs))(lhs, rhs, detail::make_indices<0, M>(), detail::make_indices<0, rlen>());
 }
 
 namespace detail {
@@ -83,16 +82,19 @@ namespace detail {
 
 } // namespace detail
 
-template<class Char, size_t N, class = typename std::enable_if<detail::is_char<Char>::value>::type>
-inline constexpr basic_string<Char, N+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
+template<class Char, size_t N,
+         size_t rlen = basic_string<Char, N>::len,
+         class = typename std::enable_if<detail::is_char<Char>::value>::type>
+inline constexpr basic_string<Char, rlen+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
 {
-    return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, N>());
+    return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, rlen>());
 }
 
 template<class Char, size_t N, class Int,
+         size_t rlen = basic_string<Char, N>::len,
          class = typename std::enable_if<!detail::is_char<Int>::value && std::is_integral<Int>::value>::type>
 inline constexpr auto operator+(Int lhs, basic_string<Char, N> const& rhs)
-    -> basic_string<Char, N + detail::int_digits10<Int>()>
+    -> basic_string<Char, rlen + detail::int_digits10<Int>()>
 {
     return to_basic_string<Char>(lhs) + rhs;
 }
@@ -146,20 +148,23 @@ public:
     typedef detail::make_indices<0, N> indices_type;
     typedef basic_string<Char, N> self_type;
 
+    static constexpr size_type len = N ? N : 1;
+
     // ctor definitions
     basic_string() = delete;
 
-    constexpr basic_string(Char const (&str)[N])
+    template<size_t M>
+    constexpr basic_string(Char const (&str)[M])
         : basic_string(str, detail::make_indices<0, N>())
     {}
 
     // implicit conversion from <braced initializer list> to array_wrapper is expected
-    constexpr basic_string(detail::array_wrapper<Char, N> aw)
+    constexpr basic_string(detail::array_wrapper<Char, len> aw)
         : elems(aw)
     {}
 
     explicit constexpr basic_string(Char c)
-        : basic_string(c, detail::make_indices<0, N-1>())
+        : basic_string(c, detail::make_indices<0, len-1>())
     {}
 
     // access
@@ -170,7 +175,7 @@ public:
 
     constexpr value_type back() const
     {
-        return elems.data[N-1];
+        return elems.data[len-1];
     }
 
     constexpr const_pointer data() const
@@ -180,7 +185,7 @@ public:
 
     constexpr value_type at(size_type idx) const
     {
-        return idx < N ? elems.data[idx] : throw std::out_of_range("index out of range");
+        return idx < len ? elems.data[idx] : throw std::out_of_range("index out of range");
     }
 
     // iterator interfaces
@@ -191,7 +196,7 @@ public:
 
     constexpr const_iterator end() const
     {
-        return elems.data + N;
+        return elems.data + len;
     }
 
     iterator begin()
@@ -201,7 +206,7 @@ public:
 
     iterator end()
     {
-        return elems.data + N;
+        return elems.data + len;
     }
 
     constexpr size_type max_size() const
@@ -211,7 +216,7 @@ public:
 
     constexpr bool empty() const
     {
-        return N==0;
+        return front()=='\0';
     }
 
     constexpr size_type size() const
@@ -225,22 +230,22 @@ public:
         return this->at(idx);
     }
 
-    template<size_t M>
-    constexpr basic_string<Char, N+M> operator+(basic_string<Char, M> const& rhs) const
+    template<size_t M, size_t rlen = basic_string<Char, M>::len>
+    constexpr basic_string<Char, len+rlen> operator+(basic_string<Char, M> const& rhs) const
     {
-        return detail::operator_plus_impl<Char, N, M>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, N>(), detail::make_indices<0, M>());
+        return detail::operator_plus_impl<Char, len, rlen>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, len>(), detail::make_indices<0, rlen>());
     }
 
     template<size_t M>
-    constexpr basic_string<Char, N+M> operator+(Char const (&rhs)[M]) const
+    constexpr basic_string<Char, len+M> operator+(Char const (&rhs)[M]) const
     {
-        return detail::operator_plus_impl<Char, N, M>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, N>(), detail::make_indices<0, M>());
+        return detail::operator_plus_impl<Char, len, M>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, len>(), detail::make_indices<0, M>());
     }
 
     template<class C, class = typename std::enable_if<detail::is_char<C>::value>::type>
     constexpr basic_string<Char, N+1> operator+(C rhs) const
     {
-        return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, N>());
+        return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, len>());
     }
 
     template<class Int, class = typename std::enable_if<!detail::is_char<Int>::value && std::is_integral<Int>::value>::type>
@@ -249,18 +254,18 @@ public:
         return operator+(to_basic_string<Char>(i));
     }
 
-    template<size_t M>
+    template<size_t M, size_t rlen = basic_string<Char, M>::len>
     constexpr bool operator==(basic_string<Char, M> const& rhs) const
     {
-        return detail::strlen(elems, N)!=detail::strlen(rhs, M) ?
-            false : operator_equal_impl(rhs, 0, detail::strlen(elems, N<M ? N : M));
+        return detail::strlen(elems, len)!=detail::strlen(rhs, rlen) ?
+            false : operator_equal_impl(rhs, 0, detail::strlen(elems, len<rlen ? len : rlen));
     }
 
     template<size_t M>
     constexpr bool operator==(Char const (&rhs)[M]) const
     {
-        return detail::strlen(elems, N)!=detail::strlen(rhs, M) ?
-            false : operator_equal_impl(rhs, 0, detail::strlen(elems, N<M ? N : M));
+        return detail::strlen(elems, len)!=detail::strlen(rhs, M) ?
+            false : operator_equal_impl(rhs, 0, detail::strlen(elems, len<M ? len : M));
     }
 
     template<size_t M>
@@ -275,16 +280,16 @@ public:
         return ! operator==(rhs);
     }
 
-    template<size_t M>
+    template<size_t M, size_t rlen = basic_string<Char, M>::len>
     constexpr bool operator<(basic_string<Char, M> const& rhs) const
     {
-        return operator_less_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
+        return operator_less_impl(detail::strlen(elems, len), detail::strlen(rhs, rlen))(elems, rhs, 0);
     }
 
     template<size_t M>
     constexpr bool operator<(Char const(&rhs)[M]) const
     {
-        return operator_less_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
+        return operator_less_impl(detail::strlen(elems, len), detail::strlen(rhs, M))(elems, rhs, 0);
     }
 
     template<size_t M>
@@ -299,16 +304,16 @@ public:
         return ! operator<(rhs);
     }
 
-    template<size_t M>
+    template<size_t M, size_t rlen = basic_string<Char, M>::len>
     constexpr bool operator>(basic_string<Char, M> const& rhs) const
     {
-        return operator_greater_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
+        return operator_greater_impl(detail::strlen(elems, len), detail::strlen(rhs, rlen))(elems, rhs, 0);
     }
 
     template<size_t M>
     constexpr bool operator>(Char const(&rhs)[M]) const
     {
-        return operator_greater_impl(detail::strlen(elems, N), detail::strlen(rhs, M))(elems, rhs, 0);
+        return operator_greater_impl(detail::strlen(elems, len), detail::strlen(rhs, M))(elems, rhs, 0);
     }
 
     template<size_t M>
@@ -327,9 +332,9 @@ public:
     friend inline std::ostream &operator<<(std::ostream &os, basic_string<C, J> const& rhs);
 
 private:
-    template<size_t... Indices>
-    constexpr basic_string(Char const (&str)[N], detail::indices<Indices...>)
-        : elems({str[Indices]...})
+    template<size_t M, size_t... Indices>
+    constexpr basic_string(Char const (&str)[M], detail::indices<Indices...>)
+        : elems({{str[Indices]...}})
     {}
 
     template<size_t... Indices>
@@ -392,13 +397,12 @@ private:
 
     constexpr size_type size_impl(size_type idx) const
     {
-        return elems[idx] == '\0' || !(idx < N) ?
+        return elems[idx] == '\0' || !(idx < len) ?
             0 : 1 + size_impl(idx+1);
     }
 
 private:
-    detail::array_wrapper<Char, N> const elems;
-
+    detail::array_wrapper<Char, len> const elems;
 }; // class basic_string
 
 } // namespace istring
