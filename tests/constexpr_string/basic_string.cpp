@@ -107,6 +107,7 @@ int main()
                   '}';
     STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_percent\" : 5,\"crossover_percent\" : 50,}"));
 
+    STATIC_ASSERT((detail::digits10_of(100.123) == 11));
     // should be equal finally
     STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));
 
