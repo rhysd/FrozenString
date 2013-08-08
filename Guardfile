@@ -10,6 +10,11 @@ def compile f
   `g++-4.8 -std=c++11 -Wall -Wextra -pedantic #{f} && ./a.out && rm a.out`
 end
 
+def which cmd
+  dir = ENV['PATH'].split(':').find {|p| File.executable? File.join(p, cmd)}
+  File.join(dir, cmd) unless dir.nil?
+end
+
 guard :shell do
   watch %r{^.+\.(?:hpp|cpp)$} do
     puts separator
@@ -20,7 +25,7 @@ guard :shell do
       total += 1
       "test for #{f}\n#{result}#{$?.to_s}"
     end.join("\n") + (failed==0 ? "\nSuccess!" : "\n#{failed} failed (#{failed}/#{total})")
-    `say -v Kyoko テスト，#{failed}件も落ちてるんだけど…？` if failed > 0
+    `terminal-notifier -message "#{failed} test failed.\n#{Time.now.to_s}"` if failed > 0 && which('terminal-notifier')
     log
   end
 end
