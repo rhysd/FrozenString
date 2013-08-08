@@ -159,7 +159,7 @@ public:
     {}
 
     constexpr basic_string(Char const *str)
-        : basic_string(str, detail::strlen(str), detail::make_indices<0, len>())
+        : basic_string(str, detail::strlen(str, len), detail::make_indices<0, len>())
     {}
 
     // implicit conversion from <braced initializer list> to array_wrapper is expected
