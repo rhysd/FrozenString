@@ -11,7 +11,9 @@ using namespace istring;
 
 int main()
 {
-    constexpr string<6> s1 = "aiueo";
+    constexpr string<4> arr[] = {"a", "bb", "ccc"};
+    (void) arr;
+    constexpr string<7> s1 = "aiueo";
     constexpr string<5> s2({'p', 'o', 'y', 'o', '\0'});
     STATIC_ASSERT((s1.size() == s2.size()+1));
 

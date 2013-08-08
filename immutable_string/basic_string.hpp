@@ -153,9 +153,13 @@ public:
     // ctor definitions
     basic_string() = delete;
 
-    template<size_t M>
+    template<size_t M, class = typename std::enable_if<M <= len>::type>
     constexpr basic_string(Char const (&str)[M])
-        : basic_string(str, detail::make_indices<0, N>())
+        : basic_string(str, detail::make_indices<0, len>())
+    {}
+
+    constexpr basic_string(Char const *str)
+        : basic_string(str, detail::strlen(str), detail::make_indices<0, len>())
     {}
 
     // implicit conversion from <braced initializer list> to array_wrapper is expected
@@ -335,6 +339,11 @@ private:
     template<size_t M, size_t... Indices>
     constexpr basic_string(Char const (&str)[M], detail::indices<Indices...>)
         : elems({{str[Indices]...}})
+    {}
+
+    template<size_t... Indices>
+    constexpr basic_string(Char const *str, size_t len, detail::indices<Indices...>)
+        : elems({{(Indices < len ? str[Indices] : static_cast<Char>('\0'))...}})
     {}
 
     template<size_t... Indices>
