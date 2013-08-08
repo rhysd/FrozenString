@@ -40,7 +40,7 @@ namespace detail {
     inline constexpr
     size_t digits10_of(Int i)
     {
-        return i==0 ? 1 : std::log10(std::abs(i))+1;
+        return std::abs(i)<1 ? 1 : std::log10(std::abs(i))+1;
     }
 
     static constexpr size_t digits10_of_fractional_part = 6;
@@ -49,7 +49,7 @@ namespace detail {
     inline constexpr
     size_t digits10_of_integer_part(Float f)
     {
-        return f==0.0f ? 1 : std::log10(std::abs(f))+1;
+        return std::abs(f)<1.0f ? 1 : std::log10(std::abs(f))+1;
     }
 
     // FIXME
