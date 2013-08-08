@@ -84,7 +84,7 @@ namespace detail {
 
 template<class Char, size_t N,
          size_t rlen = basic_string<Char, N>::len,
-         class = typename std::enable_if<detail::is_char<Char>::value>::type>
+         class = typename std::enable_if<detail::check_char<Char>::value>::type>
 inline constexpr basic_string<Char, rlen+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
 {
     return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, rlen>());
@@ -92,7 +92,7 @@ inline constexpr basic_string<Char, rlen+1> operator+(Char lhs, basic_string<Cha
 
 template<class Char, size_t N, class Int,
          size_t rlen = basic_string<Char, N>::len,
-         class = typename std::enable_if<!detail::is_char<Int>::value && std::is_integral<Int>::value>::type>
+         class = typename std::enable_if<!detail::check_char<Int>::value && std::is_integral<Int>::value>::type>
 inline constexpr auto operator+(Int lhs, basic_string<Char, N> const& rhs)
     -> basic_string<Char, rlen + detail::int_digits10<Int>()>
 {
@@ -136,7 +136,7 @@ class basic_string{
 public:
 
     // type definitions
-    typedef typename detail::is_char<Char>::type value_type;
+    typedef typename detail::check_char<Char>::type value_type;
     typedef value_type* pointer;
     typedef value_type const* const_pointer;
     typedef value_type* iterator;
@@ -242,13 +242,13 @@ public:
         return detail::operator_plus_impl<Char, len, M>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, len>(), detail::make_indices<0, M>());
     }
 
-    template<class C, class = typename std::enable_if<detail::is_char<C>::value>::type>
+    template<class C, class = typename std::enable_if<detail::check_char<C>::value>::type>
     constexpr basic_string<Char, N+1> operator+(C rhs) const
     {
         return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, len>());
     }
 
-    template<class Int, class = typename std::enable_if<!detail::is_char<Int>::value && std::is_integral<Int>::value>::type>
+    template<class Int, class = typename std::enable_if<!detail::check_char<Int>::value && std::is_integral<Int>::value>::type>
     constexpr auto operator+(Int i) -> decltype(std::declval<self_type>() + to_basic_string<Char>(std::declval<Int>())) const
     {
         return operator+(to_basic_string<Char>(i));

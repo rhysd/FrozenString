@@ -24,12 +24,12 @@ struct is_one_of<T, U>
 
 
 template<class CharT, bool = is_one_of<CharT, char, wchar_t, char16_t, char32_t>::value>
-struct is_char {
+struct check_char {
     static bool const value = false;
 };
 
 template<class CharT>
-struct is_char<CharT, true>{
+struct check_char<CharT, true>{
   typedef CharT type;
   static bool const value = true;
 };
