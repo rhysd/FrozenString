@@ -128,6 +128,26 @@ int main()
     STATIC_ASSERT((to_basic_string<char>(1.2345678e10) == make("12345678000.000000")));
     STATIC_ASSERT((to_basic_string<char>(-1.2345678e10) == make("-12345678000.000000")));
     STATIC_ASSERT((to_basic_string<char>(0.0) == make("0.000000")));
+    STATIC_ASSERT((to_string(123.45) == make("123.450000")));
+    STATIC_ASSERT((to_string(-123.45) == make("-123.450000")));
+    STATIC_ASSERT((to_string(1.2345678e10) == make("12345678000.000000")));
+    STATIC_ASSERT((to_string(-1.2345678e10) == make("-12345678000.000000")));
+    STATIC_ASSERT((to_string(0.0) == make("0.000000")));
+    STATIC_ASSERT((to_wstring(123.45) == make(L"123.450000")));
+    STATIC_ASSERT((to_wstring(-123.45) == make(L"-123.450000")));
+    STATIC_ASSERT((to_wstring(1.2345678e10) == make(L"12345678000.000000")));
+    STATIC_ASSERT((to_wstring(-1.2345678e10) == make(L"-12345678000.000000")));
+    STATIC_ASSERT((to_wstring(0.0) == make(L"0.000000")));
+    STATIC_ASSERT((to_w16string(123.45) == make(u"123.450000")));
+    STATIC_ASSERT((to_w16string(-123.45) == make(u"-123.450000")));
+    STATIC_ASSERT((to_w16string(1.2345678e10) == make(u"12345678000.000000")));
+    STATIC_ASSERT((to_w16string(-1.2345678e10) == make(u"-12345678000.000000")));
+    STATIC_ASSERT((to_w16string(0.0) == make(u"0.000000")));
+    STATIC_ASSERT((to_w32string(123.45) == make(U"123.450000")));
+    STATIC_ASSERT((to_w32string(-123.45) == make(U"-123.450000")));
+    STATIC_ASSERT((to_w32string(1.2345678e10) == make(U"12345678000.000000")));
+    STATIC_ASSERT((to_w32string(-1.2345678e10) == make(U"-12345678000.000000")));
+    STATIC_ASSERT((to_w32string(0.0) == make(U"0.000000")));
 
     std::cout << make("OK\n");
     return 0;

@@ -95,6 +95,38 @@ basic_string<Char, detail::float_max_digits10<T>::value> to_basic_string(T t)
            );
 }
 
+template<class T>
+inline constexpr
+auto to_string(T t)
+    -> decltype( to_basic_string<char>(std::declval<T>()) )
+{
+    return to_basic_string<char>(t);
+}
+
+template<class T>
+inline constexpr
+auto to_wstring(T t)
+    -> decltype( to_basic_string<wchar_t>(std::declval<T>()) )
+{
+    return to_basic_string<wchar_t>(t);
+}
+
+template<class T>
+inline constexpr
+auto to_w16string(T t)
+    -> decltype( to_basic_string<char16_t>(std::declval<T>()) )
+{
+    return to_basic_string<char16_t>(t);
+}
+
+template<class T>
+inline constexpr
+auto to_w32string(T t)
+    -> decltype( to_basic_string<char32_t>(std::declval<T>()) )
+{
+    return to_basic_string<char32_t>(t);
+}
+
 } // namespace istring
 
 #endif    // ISTRING_TO_STRING_HPP_INCLUDED
