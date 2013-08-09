@@ -119,6 +119,13 @@ int main()
     STATIC_ASSERT((detail::float_integer_part_digits10_of(1e100, 9) == 0));
     STATIC_ASSERT((detail::float_integer_part_digits10_of(45674567.123, 4) == 7));
     STATIC_ASSERT((detail::float_integer_part_digits10_of(999999.0e100, 105) == 9));
+    STATIC_ASSERT((detail::float_fraction_part_digits10_of(456.123, 0) == 1));
+    STATIC_ASSERT((detail::float_fraction_part_digits10_of(456.123, 1) == 2));
+    STATIC_ASSERT((detail::float_fraction_part_digits10_of(456.123, 2) == 3));
+    STATIC_ASSERT((detail::float_fraction_part_digits10_of(-5.1234, 3) == 4));
+    // STATIC_ASSERT((detail::float_fraction_part_digits10_of(99.0e18, 2) == 0));
+
+
     // should be equal finally
     STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));
 

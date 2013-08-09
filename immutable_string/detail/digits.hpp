@@ -146,6 +146,19 @@ namespace detail {
     {
         return float_integer_part_digits10_of_impl(std::abs(f) / detail::pow(10.0, idx), idx);
     }
+
+    template< class Float,
+              typename std::enable_if<
+                  std::is_floating_point<
+                      typename std::decay<Float>::type
+                  >::value
+              >::type*& = detail::enabler
+            >
+    inline constexpr
+    size_t float_fraction_part_digits10_of(Float f, size_t digit)
+    {
+        return float_integer_part_digits10_of(f * detail::pow(10.0, digit+1), 0);
+    }
 }
 
 }
