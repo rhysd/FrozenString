@@ -25,6 +25,10 @@ template<class Char, class T, class = typename std::enable_if<std::is_integral<T
 inline constexpr
 basic_string<Char, detail::int_max_digits10<T>()> to_basic_string(T t);
 
+template<class Char, class T, class = typename std::enable_if<std::is_floating_point<T>::value>::type>
+inline constexpr
+basic_string<Char, detail::float_max_digits10<T>::value> to_basic_string(T t);
+
 
 template<class Char, size_t M, size_t N>
 inline constexpr bool operator==(Char const (&lhs)[M], basic_string<Char, N> const& rhs)
@@ -90,11 +94,15 @@ inline constexpr basic_string<Char, rlen+1> operator+(Char lhs, basic_string<Cha
     return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, rlen>());
 }
 
-template<class Char, size_t N, class Int,
-         size_t rlen = basic_string<Char, N>::len,
-         class = typename std::enable_if<!detail::check_char<Int>::value && std::is_integral<Int>::value>::type>
-inline constexpr auto operator+(Int lhs, basic_string<Char, N> const& rhs)
-    -> basic_string<Char, rlen + detail::int_max_digits10<Int>()>
+template<class Num, class Char, size_t N,
+         class Decayed = typename std::decay<Num>::type,
+         class = typename std::enable_if<
+                     !detail::check_char<Num>::value &&
+                     ( std::is_floating_point<Decayed>::value ||
+                       std::is_integral<Decayed>::value )
+                 >::type>
+inline constexpr auto operator+(Num lhs, basic_string<Char, N> const& rhs)
+    -> decltype(to_basic_string<Char>(std::declval<Num>()) + rhs)
 {
     return to_basic_string<Char>(lhs) + rhs;
 }
@@ -252,10 +260,17 @@ public:
         return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, len>());
     }
 
-    template<class Int, class = typename std::enable_if<!detail::check_char<Int>::value && std::is_integral<Int>::value>::type>
-    constexpr auto operator+(Int i) -> decltype(std::declval<self_type>() + to_basic_string<Char>(std::declval<Int>())) const
+    template<class Num,
+             class Decayed = typename std::decay<Num>::type,
+             class = typename std::enable_if<
+                         !detail::check_char<Decayed>::value &&
+                         ( std::is_integral<Decayed>::value ||
+                           std::is_floating_point<Decayed>::value )
+                         >::type>
+    constexpr auto operator+(Num n)
+        -> decltype(std::declval<self_type>() + to_basic_string<Char>(std::declval<Num>())) const
     {
-        return operator+(to_basic_string<Char>(i));
+        return operator+(to_basic_string<Char>(n));
     }
 
     template<size_t M, size_t rlen = basic_string<Char, M>::len>

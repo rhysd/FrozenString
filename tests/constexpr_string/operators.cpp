@@ -90,19 +90,24 @@ int main()
     STATIC_ASSERT((basic_string<char, 0>::len == 1));
     STATIC_ASSERT((basic_string<char, 0>{""} == ""));
 
+    STATIC_ASSERT((3.14159 + make(" is pi") == "3.141590 is pi"));
+    STATIC_ASSERT((-3.14159 + make("") == "-3.141590"));
+    STATIC_ASSERT((make("pi is ") + 3.14159 == "pi is 3.141590"));
+    STATIC_ASSERT((make("") + -3.14159 == "-3.141590"));
+
     // make json at compile-time from config
     static size_t constexpr random_tree_depth = 4;
     static size_t constexpr population_size = 100;
-    static size_t constexpr mutation_percent = 5;
-    static size_t constexpr crossover_percent = 50;
+    static double constexpr mutation_rate = 0.05;
+    static double constexpr crossover_rate = 0.5;
     auto constexpr json = empty_str +
                   '{' +
                       "\"random_tree_depth\" : " + random_tree_depth + ',' +
                       "\"population_size\" : " + population_size + ',' +
-                      "\"mutation_percent\" : " + mutation_percent + ',' +
-                      "\"crossover_percent\" : " + crossover_percent + ',' +
+                      "\"mutation_rate\" : " + mutation_rate + ',' +
+                      "\"crossover_rate\" : " + crossover_rate + ',' +
                   '}';
-    STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_percent\" : 5,\"crossover_percent\" : 50,}"));
+    STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_rate\" : 0.050000,\"crossover_rate\" : 0.500000,}"));
 
     std::cout << make("OK\n");
     return 0;
