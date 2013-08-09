@@ -15,6 +15,16 @@ def which cmd
   File.join(dir, cmd) unless dir.nil?
 end
 
+def notify failed
+  msg = "'#{failed} tests failed.\n#{Time.now.to_s}'"
+  case
+  when which('terminal-notifier')
+    `terminal-notifier -message #{msg}`
+  when which('notify-send')
+    `notify-send #{msg}`
+  end
+end
+
 guard :shell do
   watch %r{^.+\.(?:hpp|cpp)$} do
     puts separator
@@ -25,7 +35,7 @@ guard :shell do
       total += 1
       "test for #{f}\n#{result}#{$?.to_s}"
     end.join("\n") + (failed==0 ? "\nSuccess!" : "\n#{failed} failed (#{failed}/#{total})")
-    `terminal-notifier -message "#{failed} test failed.\n#{Time.now.to_s}"` if failed > 0 && which('terminal-notifier')
+    notify failed if failed > 0
     log
   end
 end
