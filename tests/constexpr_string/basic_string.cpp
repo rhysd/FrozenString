@@ -123,11 +123,11 @@ int main()
     STATIC_ASSERT((detail::float_fraction_part_digits10_of(456.123, 1) == 2));
     STATIC_ASSERT((detail::float_fraction_part_digits10_of(456.123, 2) == 3));
     STATIC_ASSERT((detail::float_fraction_part_digits10_of(-5.1234, 3) == 4));
-    // STATIC_ASSERT((detail::float_fraction_part_digits10_of(99.0e18, 2) == 0));
-
-
-    // should be equal finally
-    STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));
+    STATIC_ASSERT((to_basic_string<char>(123.45) == make("123.450000")));
+    STATIC_ASSERT((to_basic_string<char>(-123.45) == make("-123.450000")));
+    STATIC_ASSERT((to_basic_string<char>(1.2345678e10) == make("12345678000.000000")));
+    STATIC_ASSERT((to_basic_string<char>(-1.2345678e10) == make("-12345678000.000000")));
+    STATIC_ASSERT((to_basic_string<char>(0.0) == make("0.000000")));
 
     std::cout << make("OK\n");
     return 0;
