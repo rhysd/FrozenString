@@ -40,10 +40,10 @@ to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
 template<class Char, class Float, size_t... Indices>
 inline constexpr
 basic_string<Char, detail::float_max_digits10<Float>::value>
-to_basic_string_float(Float, indices<Indices...>)
+to_basic_string_float(Float, size_t, indices<Indices...>)
 {
     // FIXME temporary
-    return {{1, 2, 3}};
+    return {{ 1, 2, 3 }};
 }
 
 } // namespace detail
@@ -66,6 +66,7 @@ basic_string<Char, detail::float_max_digits10<T>::value> to_basic_string(T t)
 {
     return detail::to_basic_string_float<Char>(
                 t,
+                detail::digits10_of(t),
                 detail::make_indices<0, detail::float_max_digits10<T>::value>()
             );
 }

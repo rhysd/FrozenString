@@ -109,6 +109,16 @@ int main()
 
     STATIC_ASSERT((detail::digits10_of(100.123) == 11));
     STATIC_ASSERT((detail::digits10_of(0.123) == 9));
+
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(456.123, 0) == 6));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(456.123, 1) == 5));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(456.123, 2) == 4));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(0.123, 0) == 0));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(-5.123, 0) == 5));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(1e10, 9) == 0));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(1e100, 9) == 0));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(45674567.123, 4) == 7));
+    STATIC_ASSERT((detail::float_integer_part_digits10_of(999999.0e100, 105) == 9));
     // should be equal finally
     STATIC_ASSERT((to_basic_string<char>(123.45) != make("123.45")));
 
