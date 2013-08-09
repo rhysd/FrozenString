@@ -23,7 +23,7 @@ class basic_string;
 // forward declaration
 template<class Char, class T, class = typename std::enable_if<std::is_integral<T>::value>::type>
 inline constexpr
-basic_string<Char, detail::int_digits10<T>()> to_basic_string(T t);
+basic_string<Char, detail::int_max_digits10<T>()> to_basic_string(T t);
 
 
 template<class Char, size_t M, size_t N>
@@ -94,7 +94,7 @@ template<class Char, size_t N, class Int,
          size_t rlen = basic_string<Char, N>::len,
          class = typename std::enable_if<!detail::check_char<Int>::value && std::is_integral<Int>::value>::type>
 inline constexpr auto operator+(Int lhs, basic_string<Char, N> const& rhs)
-    -> basic_string<Char, rlen + detail::int_digits10<Int>()>
+    -> basic_string<Char, rlen + detail::int_max_digits10<Int>()>
 {
     return to_basic_string<Char>(lhs) + rhs;
 }

@@ -22,7 +22,7 @@ namespace detail {
                       >::type
             >
     inline constexpr
-    size_t int_digits10()
+    size_t int_max_digits10()
     {
         return std::numeric_limits<Int>::digits10 + 1;
     }
@@ -43,11 +43,11 @@ namespace detail {
         return std::abs(i)<1 ? 1 : std::log10(std::abs(i))+1;
     }
 
-    static constexpr size_t digits10_of_fractional_part = 6;
+    static constexpr size_t float_digits10_of_fractional_part = 6;
 
     template< class Float >
     inline constexpr
-    size_t digits10_of_integer_part(Float f)
+    size_t float_digits10_of_integer_part(Float f)
     {
         return std::abs(f)<1.0f ? 1 : std::log10(std::abs(f))+1;
     }
@@ -66,12 +66,14 @@ namespace detail {
     size_t digits10_of(Float f)
     {
         // 2 means a space for '-' and '.'
-        return digits10_of_integer_part(f) + digits10_of_fractional_part + 2;
+        return float_digits10_of_integer_part(f) + float_digits10_of_fractional_part + 2;
     }
 
     template< class Int,
               class = typename std::enable_if<
-                            std::is_integral<Int>::value
+                            std::is_integral<
+                                typename std::decay<Int>::type
+                            >::value
                       >::type
             >
     inline constexpr
@@ -81,26 +83,16 @@ namespace detail {
     }
 
     template< class Float,
-              class = typename std::enable_if<
-                            std::is_floating_point<Float>::value
-                      >::type
+              typename std::enable_if<
+                  std::is_floating_point<
+                      typename std::decay<Float>::type
+                  >::value
+              >::type*& = detail::enabler
             >
-    inline constexpr
-    size_t float_digits10()
-    {
-        return std::numeric_limits<Float>::max_digits10 + 8;
-    }
-
-    static constexpr size_t size_t_max_digits10
-        = std::numeric_limits<size_t>::digits10 + 1;
-
-    static constexpr size_t int_max_digits10
-        = std::numeric_limits<long long int>::digits10 + 1;
-
-    static constexpr size_t double_max_digits10
-        = std::numeric_limits<double>::max_digits10 + 8;
-
-    
+    struct float_max_digits10{
+        static const size_t value =
+            std::numeric_limits<Float>::max_exponent10 + float_digits10_of_fractional_part + 2;
+    };
 
 }
 

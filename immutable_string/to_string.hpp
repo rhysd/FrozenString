@@ -21,7 +21,7 @@ namespace detail {
 
 template<class Char, class Int, size_t... Indices>
 inline constexpr
-basic_string<Char, detail::int_digits10<Int>()>
+basic_string<Char, detail::int_max_digits10<Int>()>
 to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
 {
     return {{
@@ -39,7 +39,7 @@ to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
 
 template<class Char, class Float, size_t... Indices>
 inline constexpr
-basic_string<Char, detail::float_digits10<Float>()>
+basic_string<Char, detail::float_max_digits10<Float>::value>
 to_basic_string_float(Float, indices<Indices...>)
 {
     // FIXME temporary
@@ -50,23 +50,23 @@ to_basic_string_float(Float, indices<Indices...>)
 
 template<class Char, class T, class = typename std::enable_if<std::is_integral<T>::value>::type>
 inline constexpr
-basic_string<Char, detail::int_digits10<T>()> to_basic_string(T t)
+basic_string<Char, detail::int_max_digits10<T>()> to_basic_string(T t)
 {
     return detail::to_basic_string_integral<Char>(
                 t,
                 detail::digits10_of(t),
-                detail::make_indices<0, detail::int_digits10<T>()>()
+                detail::make_indices<0, detail::int_max_digits10<T>()>()
             );
 }
 
 
 template<class Char, class T, class = typename std::enable_if<std::is_floating_point<T>::value>::type>
 inline constexpr
-basic_string<Char, detail::float_digits10<T>()> to_basic_string(T t)
+basic_string<Char, detail::float_max_digits10<T>::value> to_basic_string(T t)
 {
     return detail::to_basic_string_float<Char>(
                 t,
-                detail::make_indices<0, detail::float_digits10<T>()>()
+                detail::make_indices<0, detail::float_max_digits10<T>::value>()
             );
 }
 
