@@ -1,3 +1,2 @@
 - compile-time json builder
 - member functions for algorithm
-- make macros.hpp and define macro constants such as MAX_STRING_LENGTH

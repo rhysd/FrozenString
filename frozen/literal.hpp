@@ -6,12 +6,10 @@
 #include "./detail/indices.hpp"
 #include "./detail/digits.hpp"
 #include "./detail/strlen.hpp"
+#include "./detail/macros.hpp"
 #include "./basic_string.hpp"
 
 
-#if !defined FROZEN_STRING_LITERALS_MAX_LENGTH
-#    define FROZEN_STRING_LITERALS_MAX_LENGTH 256
-#endif
 
 
 namespace frozen {
