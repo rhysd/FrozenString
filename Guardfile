@@ -28,6 +28,7 @@ end
 guard :shell do
   watch %r{^.+\.(?:hpp|cpp)$} do
     puts separator
+    puts Time.now.to_s
     failed, total = 0, 0
     log = Dir.glob("tests/**/*.cpp").map do |f|
       result = compile f
