@@ -44,16 +44,16 @@ int main()
     STATIC_ASSERT((to_wstring(1.2345678e10) == make_string(L"12345678000.000000")));
     STATIC_ASSERT((to_wstring(-1.2345678e10) == make_string(L"-12345678000.000000")));
     STATIC_ASSERT((to_wstring(0.0) == make_string(L"0.000000")));
-    STATIC_ASSERT((to_w16string(123.45) == make_string(u"123.450000")));
-    STATIC_ASSERT((to_w16string(-123.45) == make_string(u"-123.450000")));
-    STATIC_ASSERT((to_w16string(1.2345678e10) == make_string(u"12345678000.000000")));
-    STATIC_ASSERT((to_w16string(-1.2345678e10) == make_string(u"-12345678000.000000")));
-    STATIC_ASSERT((to_w16string(0.0) == make_string(u"0.000000")));
-    STATIC_ASSERT((to_w32string(123.45) == make_string(U"123.450000")));
-    STATIC_ASSERT((to_w32string(-123.45) == make_string(U"-123.450000")));
-    STATIC_ASSERT((to_w32string(1.2345678e10) == make_string(U"12345678000.000000")));
-    STATIC_ASSERT((to_w32string(-1.2345678e10) == make_string(U"-12345678000.000000")));
-    STATIC_ASSERT((to_w32string(0.0) == make_string(U"0.000000")));
+    STATIC_ASSERT((to_u16string(123.45) == make_string(u"123.450000")));
+    STATIC_ASSERT((to_u16string(-123.45) == make_string(u"-123.450000")));
+    STATIC_ASSERT((to_u16string(1.2345678e10) == make_string(u"12345678000.000000")));
+    STATIC_ASSERT((to_u16string(-1.2345678e10) == make_string(u"-12345678000.000000")));
+    STATIC_ASSERT((to_u16string(0.0) == make_string(u"0.000000")));
+    STATIC_ASSERT((to_u32string(123.45) == make_string(U"123.450000")));
+    STATIC_ASSERT((to_u32string(-123.45) == make_string(U"-123.450000")));
+    STATIC_ASSERT((to_u32string(1.2345678e10) == make_string(U"12345678000.000000")));
+    STATIC_ASSERT((to_u32string(-1.2345678e10) == make_string(U"-12345678000.000000")));
+    STATIC_ASSERT((to_u32string(0.0) == make_string(U"0.000000")));
 
     assert(make_string("aiueo kakiku").to_std_string() == std::string("aiueo kakiku"));
     assert(make_string(L"aiueo kakiku").to_std_string() == std::wstring(L"aiueo kakiku"));

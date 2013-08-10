@@ -113,7 +113,7 @@ auto to_wstring(T t)
 
 template<class T>
 inline constexpr
-auto to_w16string(T t)
+auto to_u16string(T t)
     -> decltype( to_basic_string<char16_t>(std::declval<T>()) )
 {
     return to_basic_string<char16_t>(t);
@@ -121,7 +121,7 @@ auto to_w16string(T t)
 
 template<class T>
 inline constexpr
-auto to_w32string(T t)
+auto to_u32string(T t)
     -> decltype( to_basic_string<char32_t>(std::declval<T>()) )
 {
     return to_basic_string<char32_t>(t);

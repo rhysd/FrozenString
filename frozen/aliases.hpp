@@ -16,10 +16,10 @@ template<size_t N>
 using wstring = basic_string<wchar_t, N>;
 
 template<size_t N>
-using w16string = basic_string<char16_t, N>;
+using u16string = basic_string<char16_t, N>;
 
 template<size_t N>
-using w32string = basic_string<char32_t, N>;
+using u32string = basic_string<char32_t, N>;
 
 } // namespace frozen
 
