@@ -2,9 +2,9 @@
 
 #include "../util.hpp"
 
-#include "../../immutable_string/string.hpp"
+#include "../../frozen/string.hpp"
 
-using namespace istring;
+using namespace frozen;
 
 int main()
 {

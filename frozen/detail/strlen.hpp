@@ -1,12 +1,12 @@
-#if !defined ISTRING_DETAIL_STRLEN_HPP_INCLUDED
-#define      ISTRING_DETAIL_STRLEN_HPP_INCLUDED
+#if !defined FROZEN_DETAIL_STRLEN_HPP_INCLUDED
+#define      FROZEN_DETAIL_STRLEN_HPP_INCLUDED
 
 #include <utility>
 #include <limits>
 #include <stdexcept>
 #include <cstddef>
 
-namespace istring {
+namespace frozen {
 namespace detail {
 
     using std::size_t;
@@ -31,6 +31,6 @@ namespace detail {
     }
 
 } // namespace detail
-} // namespace istring
+} // namespace frozen
 
-#endif    // ISTRING_DETAIL_STRLEN_HPP_INCLUDED
+#endif    // FROZEN_DETAIL_STRLEN_HPP_INCLUDED

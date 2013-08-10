@@ -1,9 +1,9 @@
-#if !defined ISTRING_MAKE_HPP_INCLUDED
-#define      ISTRING_MAKE_HPP_INCLUDED
+#if !defined FROZEN_MAKE_HPP_INCLUDED
+#define      FROZEN_MAKE_HPP_INCLUDED
 
 #include <cstddef>
 
-namespace istring {
+namespace frozen {
 
 using std::size_t;
 
@@ -17,6 +17,6 @@ inline constexpr basic_string<T, N> make(T const (&str)[N])
     return {str};
 }
 
-} // namespace sstring
+} // namespace frozen
 
-#endif    // ISTRING_MAKE_HPP_INCLUDED
+#endif    // FROZEN_MAKE_HPP_INCLUDED

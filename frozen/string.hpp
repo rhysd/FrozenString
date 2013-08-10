@@ -1,5 +1,5 @@
-#if !defined ISTRING_STRING_HPP_INCLUDED
-#define      ISTRING_STRING_HPP_INCLUDED
+#if !defined FROZEN_STRING_HPP_INCLUDED
+#define      FROZEN_STRING_HPP_INCLUDED
 
 #include <cstddef>
 
@@ -8,7 +8,7 @@
 #include "./to_string.hpp"
 #include "./empty.hpp"
 
-namespace istring {
+namespace frozen {
 
 using std::size_t;
 
@@ -24,7 +24,7 @@ using w16string = basic_string<char16_t, N>;
 template<size_t N>
 using w32string = basic_string<char32_t, N>;
 
-} // namespace istring
+} // namespace frozen
 
 
-#endif    // ISTRING_STRING_HPP_INCLUDED
+#endif    // FROZEN_STRING_HPP_INCLUDED

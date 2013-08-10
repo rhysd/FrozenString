@@ -1,5 +1,5 @@
-#if !defined ISTRING_BASIC_STRING_HPP_INCLUDED
-#define      ISTRING_BASIC_STRING_HPP_INCLUDED
+#if !defined FROZEN_BASIC_STRING_HPP_INCLUDED
+#define      FROZEN_BASIC_STRING_HPP_INCLUDED
 
 #include <cstddef>
 #include <stdexcept>
@@ -12,7 +12,7 @@
 #include "./detail/array_wrapper.hpp"
 #include "./detail/strlen.hpp"
 
-namespace istring {
+namespace frozen {
 
 using std::size_t;
 
@@ -430,7 +430,7 @@ private:
     detail::array_wrapper<Char, len> const elems;
 }; // class basic_string
 
-} // namespace istring
+} // namespace frozen
 
 
-#endif    // ISTRING_BASIC_STRING_HPP_INCLUDED
+#endif    // FROZEN_BASIC_STRING_HPP_INCLUDED

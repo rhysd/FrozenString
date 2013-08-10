@@ -1,5 +1,5 @@
-#if !defined ISTRING_DETAIL_DIGITS_HPP_INCLUDED
-#define      ISTRING_DETAIL_DIGITS_HPP_INCLUDED
+#if !defined FROZEN_DETAIL_DIGITS_HPP_INCLUDED
+#define      FROZEN_DETAIL_DIGITS_HPP_INCLUDED
 
 #include <cstddef>
 #include <cmath>
@@ -9,7 +9,7 @@
 
 #include "./util.hpp"
 
-namespace istring {
+namespace frozen {
 
 using std::size_t;
 
@@ -161,6 +161,6 @@ namespace detail {
     }
 }
 
-}
+} // namespace frozen
 
-#endif    // ISTRING_DETAIL_DIGITS_HPP_INCLUDED
+#endif    // FROZEN_DETAIL_DIGITS_HPP_INCLUDED

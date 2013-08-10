@@ -1,9 +1,9 @@
-#if !defined ISTRING_DETAIL_FORWARD_HPP_INCLUDED
-#define      ISTRING_DETAIL_FORWARD_HPP_INCLUDED
+#if !defined FROZEN_DETAIL_FORWARD_HPP_INCLUDED
+#define      FROZEN_DETAIL_FORWARD_HPP_INCLUDED
 
 #include <type_traits>
 
-namespace istring {
+namespace frozen {
 namespace detail {
 
     template <class T>
@@ -16,6 +16,6 @@ namespace detail {
     T &&forward( typename std::remove_reference<T>::type &&) = delete;
 
 } // namespace detail
-} // namespace istring
+} // namespace frozen
 
-#endif    // ISTRING_DETAIL_FORWARD_HPP_INCLUDED
+#endif    // FROZEN_DETAIL_FORWARD_HPP_INCLUDED

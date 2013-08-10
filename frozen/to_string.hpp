@@ -1,5 +1,5 @@
-#if !defined ISTRING_TO_STRING_HPP_INCLUDED
-#define      ISTRING_TO_STRING_HPP_INCLUDED
+#if !defined FROZEN_TO_STRING_HPP_INCLUDED
+#define      FROZEN_TO_STRING_HPP_INCLUDED
 
 #include <cstddef>
 #include <cmath>
@@ -13,7 +13,7 @@
 
 #include "./basic_string.hpp"
 
-namespace istring {
+namespace frozen {
 
 using std::size_t;
 
@@ -127,6 +127,6 @@ auto to_w32string(T t)
     return to_basic_string<char32_t>(t);
 }
 
-} // namespace istring
+} // namespace frozen
 
-#endif    // ISTRING_TO_STRING_HPP_INCLUDED
+#endif    // FROZEN_TO_STRING_HPP_INCLUDED

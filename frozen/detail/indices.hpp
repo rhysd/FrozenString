@@ -1,9 +1,9 @@
-#if !defined ISTRING_DETAIL_INDICES_HPP_INCLUDED
-#define      ISTRING_DETAIL_INDICES_HPP_INCLUDED
+#if !defined FROZEN_DETAIL_INDICES_HPP_INCLUDED
+#define      FROZEN_DETAIL_INDICES_HPP_INCLUDED
 
 #include <cstddef>
 
-namespace istring {
+namespace frozen {
 namespace detail {
 
     using std::size_t;
@@ -32,6 +32,6 @@ namespace detail {
     using make_indices = typename make_indices_< Start, Last, Step >::type;
 
 } // namespace detail
-} // namespace istring
+} // namespace frozen
 
-#endif    // ISTRING_DETAIL_INDICES_HPP_INCLUDED
+#endif    // FROZEN_DETAIL_INDICES_HPP_INCLUDED

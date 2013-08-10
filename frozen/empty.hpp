@@ -1,11 +1,11 @@
-#if !defined ISTRING_EMPTY_HPP_INCLUDED
-#define      ISTRING_EMPTY_HPP_INCLUDED
+#if !defined FROZEN_EMPTY_HPP_INCLUDED
+#define      FROZEN_EMPTY_HPP_INCLUDED
 
 #include <cstddef>
 
 #include "./basic_string.hpp"
 
-namespace istring {
+namespace frozen {
 
 using std::size_t;
 
@@ -26,6 +26,6 @@ static constexpr auto empty_w16str = detail::empty_basic_str<char16_t>(u"");
 static constexpr auto empty_w32str = detail::empty_basic_str<char32_t>(U"");
 
 
-} // namespace istring
+} // namespace frozen
 
-#endif    // ISTRING_EMPTY_HPP_INCLUDED
+#endif    // FROZEN_EMPTY_HPP_INCLUDED

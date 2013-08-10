@@ -1,9 +1,9 @@
-#if !defined ISTRING_DETAIL_UTIL_HPP_INCLUDED
-#define      ISTRING_DETAIL_UTIL_HPP_INCLUDED
+#if !defined FROZEN_DETAIL_UTIL_HPP_INCLUDED
+#define      FROZEN_DETAIL_UTIL_HPP_INCLUDED
 
 #include <type_traits>
 
-namespace istring {
+namespace frozen {
 namespace detail {
 
 extern void *enabler;
@@ -41,7 +41,7 @@ T pow(T base, U exp)
     return exp == 0 ? 1 : base * pow(base, exp-1);
 }
 
-} // namespace istring
+} // namespace frozen
 } // namespace detail
 
-#endif    // ISTRING_DETAIL_UTIL_HPP_INCLUDED
+#endif    // FROZEN_DETAIL_UTIL_HPP_INCLUDED

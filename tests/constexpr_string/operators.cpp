@@ -5,9 +5,9 @@
 
 #include "../util.hpp"
 
-#include "../../immutable_string/string.hpp"
+#include "../../frozen/string.hpp"
 
-using namespace istring;
+using namespace frozen;
 
 int main()
 {
@@ -98,16 +98,16 @@ int main()
     // make json at compile-time from config
     static size_t constexpr random_tree_depth = 4;
     static size_t constexpr population_size = 100;
-    static double constexpr mutation_rate = 0.05;
-    static double constexpr crossover_rate = 0.5;
+    static float constexpr mutation_percent = 5.0f;
+    static float constexpr crossover_percent = 50.0f;
     auto constexpr json = empty_str +
                   '{' +
                       "\"random_tree_depth\" : " + random_tree_depth + ',' +
                       "\"population_size\" : " + population_size + ',' +
-                      "\"mutation_rate\" : " + mutation_rate + ',' +
-                      "\"crossover_rate\" : " + crossover_rate + ',' +
+                      "\"mutation_percent\" : " + mutation_percent + ',' +
+                      "\"crossover_percent\" : " + crossover_percent + ',' +
                   '}';
-    STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_rate\" : 0.050000,\"crossover_rate\" : 0.500000,}"));
+    STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_percent\" : 5.000000,\"crossover_percent\" : 50.000000,}"));
 
     std::cout << make("OK\n");
     return 0;

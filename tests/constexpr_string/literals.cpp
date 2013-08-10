@@ -2,11 +2,11 @@
 
 #include "../util.hpp"
 
-#include "../../immutable_string/string.hpp"
-#include "../../immutable_string/literals.hpp"
+#include "../../frozen/string.hpp"
+#include "../../frozen/literals.hpp"
 
-using namespace istring;
-using istring::operator "" _istr;
+using namespace frozen;
+using frozen::operator "" _istr;
 
 int main()
 {

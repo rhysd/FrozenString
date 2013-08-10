@@ -1,5 +1,5 @@
-#if !defined ISTRING_LITERALS_HPP_INCLUDED
-#define      ISTRING_LITERALS_HPP_INCLUDED
+#if !defined FROZEN_LITERALS_HPP_INCLUDED
+#define      FROZEN_LITERALS_HPP_INCLUDED
 
 #include <cstddef>
 
@@ -9,7 +9,7 @@
 #include "./basic_string.hpp"
 
 
-namespace istring {
+namespace frozen {
 
 using std::size_t;
 
@@ -39,6 +39,6 @@ operator"" _istr(char const* cstr)
 }
 
 
-} // namespace istring
+} // namespace frozen
 
-#endif    // ISTRING_LITERALS_HPP_INCLUDED
+#endif    // FROZEN_LITERALS_HPP_INCLUDED
