@@ -71,6 +71,33 @@ operator"" _fstr(char32_t const* str, size_t const size)
     return detail::operator_literal_fstr_impl{size}(str, detail::make_indices<0, FROZEN_STRING_LITERALS_MAX_LENGTH>());
 }
 
+inline constexpr
+basic_string<char, 2>
+operator"" _fstr(char c)
+{
+    return {{c, '\0'}};
+}
+
+inline constexpr
+basic_string<wchar_t, 2>
+operator"" _fstr(wchar_t c)
+{
+    return {{c, L'\0'}};
+}
+
+inline constexpr
+basic_string<char16_t, 2>
+operator"" _fstr(char16_t c)
+{
+    return {{c, u'\0'}};
+}
+
+inline constexpr
+basic_string<char32_t, 2>
+operator"" _fstr(char32_t c)
+{
+    return {{c, U'\0'}};
+}
 
 } // namespace frozen
 
