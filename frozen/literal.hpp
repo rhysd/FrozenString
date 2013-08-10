@@ -9,23 +9,28 @@
 #include "./basic_string.hpp"
 
 
+#if !defined FROZEN_STRING_LITERALS_MAX_LENGTH
+#    define FROZEN_STRING_LITERALS_MAX_LENGTH 256
+#endif
+
+
 namespace frozen {
 
 using std::size_t;
 
 namespace detail {
 
-    struct operator_istr_impl{
+    struct operator_literal_fstr_impl{
         size_t const size;
 
-        constexpr operator_istr_impl(size_t s) : size(s) {}
+        constexpr operator_literal_fstr_impl(size_t s) : size(s) {}
 
-        template<size_t... Indices>
+        template<class Char, size_t... Indices>
         constexpr
-        basic_string<char, detail::float_max_digits10<double>::value>
-        operator()(char const* str, indices<Indices...>) const
+        basic_string<Char, sizeof...(Indices)>
+        operator()(Char const* str, indices<Indices...>) const
         {
-            return {{(Indices < size ? str[Indices] : '\0')...}};
+            return {{(Indices < size ? str[Indices] : static_cast<Char>('\0'))...}};
         }
     };
 
@@ -33,9 +38,37 @@ namespace detail {
 
 inline constexpr
 basic_string<char, detail::float_max_digits10<double>::value>
-operator"" _istr(char const* cstr)
+operator"" _fstr(char const* cstr)
 {
-    return detail::operator_istr_impl{detail::strlen(cstr, detail::float_max_digits10<double>::value)}(cstr, detail::make_indices<0, detail::float_max_digits10<double>::value>());
+    return detail::operator_literal_fstr_impl{detail::strlen(cstr, detail::float_max_digits10<double>::value)}(cstr, detail::make_indices<0, detail::float_max_digits10<double>::value>());
+}
+
+inline constexpr
+basic_string<char, FROZEN_STRING_LITERALS_MAX_LENGTH>
+operator"" _fstr(char const* str, size_t const size)
+{
+    return detail::operator_literal_fstr_impl{size}(str, detail::make_indices<0, FROZEN_STRING_LITERALS_MAX_LENGTH>());
+}
+
+inline constexpr
+basic_string<wchar_t, FROZEN_STRING_LITERALS_MAX_LENGTH>
+operator"" _fstr(wchar_t const* str, size_t const size)
+{
+    return detail::operator_literal_fstr_impl{size}(str, detail::make_indices<0, FROZEN_STRING_LITERALS_MAX_LENGTH>());
+}
+
+inline constexpr
+basic_string<char16_t, FROZEN_STRING_LITERALS_MAX_LENGTH>
+operator"" _fstr(char16_t const* str, size_t const size)
+{
+    return detail::operator_literal_fstr_impl{size}(str, detail::make_indices<0, FROZEN_STRING_LITERALS_MAX_LENGTH>());
+}
+
+inline constexpr
+basic_string<char32_t, FROZEN_STRING_LITERALS_MAX_LENGTH>
+operator"" _fstr(char32_t const* str, size_t const size)
+{
+    return detail::operator_literal_fstr_impl{size}(str, detail::make_indices<0, FROZEN_STRING_LITERALS_MAX_LENGTH>());
 }
 
 
