@@ -1,4 +1,4 @@
-## C++ Frozen String Library [![Build Status](https://travis-ci.org/rhysd/immutable-string.png)](https://travis-ci.org/rhysd/immutable-string)
+## C++ Frozen String Library [![Build Status](https://travis-ci.org/rhysd/FrozenString.png)](https://travis-ci.org/rhysd/FrozenString)
 
 This library provides string which is constructible in both compile-time and runtime.
 `std::string` is modifiable and not immutable but `frozen::string`
