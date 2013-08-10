@@ -7,9 +7,15 @@ namespace frozen {
 
 using std::size_t;
 
-// decleration
+// forward decleration
 template<class T, size_t N>
 class basic_string;
+
+template<class T, size_t N>
+inline constexpr basic_string<T, N> make_string(T const (&str)[N])
+{
+    return {str};
+}
 
 template<class T, size_t N>
 inline constexpr basic_string<T, N> make(T const (&str)[N])

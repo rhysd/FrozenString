@@ -18,19 +18,19 @@ int main()
     STATIC_ASSERT((s1.size() == s2.size()+1));
 
     ::setlocale(LC_ALL, "");
-    constexpr auto s3 = make(L"ほげ");
+    constexpr auto s3 = make_string(L"ほげ");
     STATIC_ASSERT((s3 == L"ほげ"));
 
-    STATIC_ASSERT((make("hoge") == make("hoge\0\0\0")));
-    STATIC_ASSERT((make("hoge") == "hoge\0\0\0"));
-    STATIC_ASSERT(("hoge" == make("hoge\0\0\0")));
-    STATIC_ASSERT((make("hoge") == make("hoge\0huga")));
+    STATIC_ASSERT((make_string("hoge") == make_string("hoge\0\0\0")));
+    STATIC_ASSERT((make_string("hoge") == "hoge\0\0\0"));
+    STATIC_ASSERT(("hoge" == make_string("hoge\0\0\0")));
+    STATIC_ASSERT((make_string("hoge") == make_string("hoge\0huga")));
 
     STATIC_ASSERT((s1 + s2 == s1 + s2));
     STATIC_ASSERT((s1 + s2 == "aiueopoyo"));
     STATIC_ASSERT((s2 + '\n' == "poyo\n"));
     STATIC_ASSERT(('_' + s2 == "_poyo"));
-    STATIC_ASSERT((make("poyo\0\0\0") + '_' == "poyo_"));
+    STATIC_ASSERT((make_string("poyo\0\0\0") + '_' == "poyo_"));
     STATIC_ASSERT(("aiueopoyo" == s1 + s2));
     STATIC_ASSERT((s2 + "payo" == "poyopayo"));
     STATIC_ASSERT(("payo" + s2 == "payopoyo"));
@@ -38,30 +38,30 @@ int main()
     STATIC_ASSERT((s1 + "payo" != s2 + s1));
 
     std::stringstream ss;
-    ss << make("test for output operator");
+    ss << make_string("test for output operator");
     assert(ss.str() == "test for output operator");
 
     STATIC_ASSERT_NOT((s1 < s1));
-    STATIC_ASSERT((make("aaab") < make("aab")));
-    STATIC_ASSERT((make("aab") < "aaba"));
-    STATIC_ASSERT(("aab" < make("aaba")));
-    STATIC_ASSERT_NOT((make("") < make("")));
-    STATIC_ASSERT((make("aaab\0\0") < make("aab")));
-    STATIC_ASSERT((make("aab") < "aaba\0"));
-    STATIC_ASSERT(("aab\0\0" < make("aaba")));
-    STATIC_ASSERT_NOT((make("\0") < make("")));
+    STATIC_ASSERT((make_string("aaab") < make_string("aab")));
+    STATIC_ASSERT((make_string("aab") < "aaba"));
+    STATIC_ASSERT(("aab" < make_string("aaba")));
+    STATIC_ASSERT_NOT((make_string("") < make_string("")));
+    STATIC_ASSERT((make_string("aaab\0\0") < make_string("aab")));
+    STATIC_ASSERT((make_string("aab") < "aaba\0"));
+    STATIC_ASSERT(("aab\0\0" < make_string("aaba")));
+    STATIC_ASSERT_NOT((make_string("\0") < make_string("")));
 
     STATIC_ASSERT_NOT((s1 > s1));
-    STATIC_ASSERT((make("aab") > make("aaab")));
-    STATIC_ASSERT((make("aaba") > "aab"));
-    STATIC_ASSERT(("aaba" > make("aab")));
-    STATIC_ASSERT_NOT((make("") > make("")));
-    STATIC_ASSERT((make("aab\0\0") > make("aaab")));
-    STATIC_ASSERT((make("aaba") > "aab\0"));
-    STATIC_ASSERT((make("aaba\0\0") > "aab\0"));
-    STATIC_ASSERT(("aaba\0" > make("aab")));
-    STATIC_ASSERT(("aaba" > make("aab\0\0")));
-    STATIC_ASSERT_NOT((make("\0") > make("")));
+    STATIC_ASSERT((make_string("aab") > make_string("aaab")));
+    STATIC_ASSERT((make_string("aaba") > "aab"));
+    STATIC_ASSERT(("aaba" > make_string("aab")));
+    STATIC_ASSERT_NOT((make_string("") > make_string("")));
+    STATIC_ASSERT((make_string("aab\0\0") > make_string("aaab")));
+    STATIC_ASSERT((make_string("aaba") > "aab\0"));
+    STATIC_ASSERT((make_string("aaba\0\0") > "aab\0"));
+    STATIC_ASSERT(("aaba\0" > make_string("aab")));
+    STATIC_ASSERT(("aaba" > make_string("aab\0\0")));
+    STATIC_ASSERT_NOT((make_string("\0") > make_string("")));
 
     constexpr auto s4 = s3;
     STATIC_ASSERT((s4 == s3));
@@ -72,30 +72,30 @@ int main()
     constexpr string<10> s5('a');
     STATIC_ASSERT((s5 == "aaaaaaaaa"));
 
-    STATIC_ASSERT((make("aaaaaa").size() == 6));
-    STATIC_ASSERT((make("aaaa\0\0\0").size() == 4));
-    STATIC_ASSERT((make("").size() == 0));
+    STATIC_ASSERT((make_string("aaaaaa").size() == 6));
+    STATIC_ASSERT((make_string("aaaa\0\0\0").size() == 4));
+    STATIC_ASSERT((make_string("").size() == 0));
     STATIC_ASSERT((string<5>{{'p', 'o', 'y', 'o'}}.size() == 4));
 
-    STATIC_ASSERT((make("aa\0\0\0\0\0\0") + "bb" == "aabb"));
-    STATIC_ASSERT(("aabb" == make("aa\0\0\0\0\0\0") + "bb"));
-    STATIC_ASSERT((make("aabb") == make("aa\0\0\0\0\0\0") + "bb"));
+    STATIC_ASSERT((make_string("aa\0\0\0\0\0\0") + "bb" == "aabb"));
+    STATIC_ASSERT(("aabb" == make_string("aa\0\0\0\0\0\0") + "bb"));
+    STATIC_ASSERT((make_string("aabb") == make_string("aa\0\0\0\0\0\0") + "bb"));
 
-    STATIC_ASSERT((make("Today is ") + 8 + '/' + 5 == "Today is 8/5"));
-    STATIC_ASSERT((make("My progress is ") + 0 == "My progress is 0"));
+    STATIC_ASSERT((make_string("Today is ") + 8 + '/' + 5 == "Today is 8/5"));
+    STATIC_ASSERT((make_string("My progress is ") + 0 == "My progress is 0"));
 
-    STATIC_ASSERT((10000 + make(" errors occur") == "10000 errors occur"));
-    STATIC_ASSERT((0 + make("") == "0"));
+    STATIC_ASSERT((10000 + make_string(" errors occur") == "10000 errors occur"));
+    STATIC_ASSERT((0 + make_string("") == "0"));
 
     STATIC_ASSERT((basic_string<char, 0>::len == 1));
     STATIC_ASSERT((basic_string<char, 0>{""} == ""));
 
-    STATIC_ASSERT((3.14159 + make(" is pi") == "3.141590 is pi"));
-    STATIC_ASSERT((-3.14159 + make("") == "-3.141590"));
-    STATIC_ASSERT((make("pi is ") + 3.14159 == "pi is 3.141590"));
-    STATIC_ASSERT((make("") + -3.14159 == "-3.141590"));
+    STATIC_ASSERT((3.14159 + make_string(" is pi") == "3.141590 is pi"));
+    STATIC_ASSERT((-3.14159 + make_string("") == "-3.141590"));
+    STATIC_ASSERT((make_string("pi is ") + 3.14159 == "pi is 3.141590"));
+    STATIC_ASSERT((make_string("") + -3.14159 == "-3.141590"));
 
-    // make json at compile-time from config
+    // make_string json at compile-time from config
     static size_t constexpr random_tree_depth = 4;
     static size_t constexpr population_size = 100;
     static float constexpr mutation_percent = 5.0f;
@@ -109,7 +109,7 @@ int main()
                   '}';
     STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_percent\" : 5.000000,\"crossover_percent\" : 50.000000,}"));
 
-    std::cout << make("OK\n");
+    std::cout << make_string("OK\n");
     return 0;
 }
 
