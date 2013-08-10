@@ -1,2 +1,4 @@
 - compile-time json builder
 - member functions for algorithm
+- add operator<< for std::wostream
+- make macros.hpp and define macro constants such as MAX_STRING_LENGTH
