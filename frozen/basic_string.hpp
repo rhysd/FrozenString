@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <ostream>
 #include <type_traits>
+#include <string>
 
 #include "./detail/digits.hpp"
 #include "./detail/util.hpp"
@@ -360,6 +361,12 @@ public:
 
     template<class C, size_t J>
     friend inline std::ostream &operator<<(std::ostream &os, basic_string<C, J> const& rhs);
+
+    // conversions
+    std::basic_string<Char> to_std_string() const
+    {
+        return {data()};
+    }
 
 private:
     template<size_t M, size_t... Indices>
