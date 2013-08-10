@@ -44,6 +44,10 @@ int main()
     ss << make_string("test for output operator");
     assert(ss.str() == "test for output operator");
 
+    std::wstringstream wss;
+    wss << make_string(L"test for wide output operator");
+    assert(wss.str() == L"test for wide output operator");
+
     STATIC_ASSERT_NOT((s1 < s1));
     STATIC_ASSERT((make_string("aaab") < make_string("aab")));
     STATIC_ASSERT((make_string("aab") < "aaba"));

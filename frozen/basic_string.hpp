@@ -131,10 +131,21 @@ inline constexpr bool operator>=(Char const (&lhs)[N], basic_string<Char, M> con
     return rhs <= lhs;
 }
 
-template<class Char, size_t N>
-inline std::ostream &operator<<(std::ostream &os, basic_string<Char, N> const& rhs)
+template<size_t N>
+inline std::ostream &operator<<(std::ostream &os, basic_string<char, N> const& rhs)
 {
-    os << rhs.elems.data;
+    os << rhs.data();
+    return os;
+}
+
+template<class C, size_t N,
+         class = typename std::enable_if<
+                     !std::is_same<C, char>::value
+                 >::type
+        >
+inline std::wostream &operator<<(std::wostream &os, basic_string<C, N> const& rhs)
+{
+    os << rhs.data();
     return os;
 }
 
