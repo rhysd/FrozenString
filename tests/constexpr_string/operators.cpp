@@ -25,6 +25,7 @@ int main()
     STATIC_ASSERT((make_string("hoge") == "hoge\0\0\0"));
     STATIC_ASSERT(("hoge" == make_string("hoge\0\0\0")));
     STATIC_ASSERT((make_string("hoge") == make_string("hoge\0huga")));
+    STATIC_ASSERT((make_string(L"a") == L"a"));
 
     STATIC_ASSERT((s1 + s2 == s1 + s2));
     STATIC_ASSERT((s1 + s2 == "aiueopoyo"));
@@ -36,6 +37,8 @@ int main()
     STATIC_ASSERT(("payo" + s2 == "payopoyo"));
     STATIC_ASSERT((s1 + s2 != s2 + s1));
     STATIC_ASSERT((s1 + "payo" != s2 + s1));
+    STATIC_ASSERT((L'_' + make_string(L"poyo") == L"_poyo"));
+    STATIC_ASSERT((make_string(L"poyo") + L'_' == L"poyo_"));
 
     std::stringstream ss;
     ss << make_string("test for output operator");
@@ -83,6 +86,7 @@ int main()
 
     STATIC_ASSERT((make_string("Today is ") + 8 + '/' + 5 == "Today is 8/5"));
     STATIC_ASSERT((make_string("My progress is ") + 0 == "My progress is 0"));
+    STATIC_ASSERT((make_string(L"Today is ") + 8 + '/' + 5 == L"Today is 8/5"));
 
     STATIC_ASSERT((10000 + make_string(" errors occur") == "10000 errors occur"));
     STATIC_ASSERT((0 + make_string("") == "0"));

@@ -17,7 +17,7 @@ int main()
     STATIC_ASSERT((U"＾ω＾"_fstr == make_string(U"＾ω＾")));
 
     STATIC_ASSERT(('_'_fstr == make_string("_")));
-    // STATIC_ASSERT((L'-'_fstr == make_string(L"_"))); // NG, why?
+    STATIC_ASSERT((L'-'_fstr == make_string(L"-")));
     STATIC_ASSERT((u'ω'_fstr == make_string(u"ω")));
     STATIC_ASSERT((U'ω'_fstr == make_string(U"ω")));
 
