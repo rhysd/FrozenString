@@ -1,3 +1,4 @@
 - compile-time json builder
 - member functions for algorithm
 - clang support
+- make the order of make_indices<> should be O(log n)
