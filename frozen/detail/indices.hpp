@@ -2,30 +2,107 @@
 #define      FROZEN_DETAIL_INDICES_HPP_INCLUDED
 
 #include <cstddef>
+#include <type_traits>
 
 namespace frozen {
 namespace detail {
 
     using std::size_t;
 
-    template< size_t... Indices >
+    template< size_t... >
     struct indices{};
 
-    template < size_t Start,
-               size_t Last,
-               size_t Step = 1,
-               class Acc = indices<>,
-               bool Finish = (Start>=Last) >
-    struct make_indices_{
-        typedef Acc type;
+    // template < size_t Start,
+    //            size_t Last,
+    //            size_t Step = 1,
+    //            class Acc = indices<>,
+    //            bool Finish = (Start>=Last) >
+    // struct make_indices_{
+    //     typedef Acc type;
+    // };
+    //
+    // template < size_t Start,
+    //            size_t Last,
+    //            size_t Step,
+    //            size_t... Indices >
+    // struct make_indices_< Start, Last, Step, indices<Indices...>, false >
+    //          : make_indices_<Start+Step, Last, Step, indices<Indices..., Start>>
+    // {};
+    //
+
+    template<typename IndexTuple, size_t Next>
+    struct make_indices_next;
+
+    template<size_t... Indices, size_t Next>
+    struct make_indices_next<indices<Indices...>, Next> {
+        typedef indices<Indices..., (Indices + Next)...> type;
     };
 
-    template < size_t Start,
-               size_t Last,
-               size_t Step,
-               size_t... Indices >
-    struct make_indices_< Start, Last, Step, indices<Indices...>, false >
-             : make_indices_<Start+Step, Last, Step, indices<Indices..., Start>>
+    template<typename IndexTuple, size_t Next, size_t Tail>
+    struct make_indices_next2;
+
+    template<size_t... Indices, size_t Next, size_t Tail>
+    struct make_indices_next2<indices<Indices...>, Next, Tail> {
+        typedef indices<Indices..., (Indices + Next)..., Tail> type;
+    };
+
+    template<size_t First, size_t Step, std::size_t N, typename Enable = void>
+    struct make_indices_impl;
+
+    template<size_t First, size_t Step, std::size_t N>
+    struct make_indices_impl<
+        First,
+        Step,
+        N,
+        typename std::enable_if<(N == 0)>::type
+    > {
+        typedef indices<> type;
+    };
+
+    template<size_t First, size_t Step, std::size_t N>
+    struct make_indices_impl<
+        First,
+        Step,
+        N,
+        typename std::enable_if<(N == 1)>::type
+    > {
+        typedef indices<First> type;
+    };
+
+    template<size_t First, size_t Step, std::size_t N>
+    struct make_indices_impl<
+        First,
+        Step,
+        N,
+        typename std::enable_if<(N > 1 && N % 2 == 0)>::type
+    >
+        : public detail::make_indices_next<
+            typename detail::make_indices_impl<First, Step, N / 2>::type,
+            First + N / 2 * Step
+        >
+    {};
+
+    template<size_t First, size_t Step, std::size_t N>
+    struct make_indices_impl<
+        First,
+        Step,
+        N,
+        typename std::enable_if<(N > 1 && N % 2 == 1)>::type
+    >
+        : public detail::make_indices_next2<
+            typename detail::make_indices_impl<First, Step, N / 2>::type,
+            First + N / 2 * Step,
+            First + (N - 1) * Step
+        >
+    {};
+
+    template<size_t First, size_t Last, size_t Step = 1>
+    struct make_indices_
+        : public detail::make_indices_impl<
+            First,
+            Step,
+            ((Last - First) + (Step - 1)) / Step
+        >
     {};
 
     template < size_t Start, size_t Last, size_t Step = 1 >
