@@ -12,25 +12,7 @@ namespace detail {
     template< size_t... >
     struct indices{};
 
-    // template < size_t Start,
-    //            size_t Last,
-    //            size_t Step = 1,
-    //            class Acc = indices<>,
-    //            bool Finish = (Start>=Last) >
-    // struct make_indices_{
-    //     typedef Acc type;
-    // };
-    //
-    // template < size_t Start,
-    //            size_t Last,
-    //            size_t Step,
-    //            size_t... Indices >
-    // struct make_indices_< Start, Last, Step, indices<Indices...>, false >
-    //          : make_indices_<Start+Step, Last, Step, indices<Indices..., Start>>
-    // {};
-    //
-
-    template<typename IndexTuple, size_t Next>
+    template<class IndicesType, size_t Next>
     struct make_indices_next;
 
     template<size_t... Indices, size_t Next>
@@ -38,7 +20,7 @@ namespace detail {
         typedef indices<Indices..., (Indices + Next)...> type;
     };
 
-    template<typename IndexTuple, size_t Next, size_t Tail>
+    template<class IndicesType, size_t Next, size_t Tail>
     struct make_indices_next2;
 
     template<size_t... Indices, size_t Next, size_t Tail>
@@ -46,7 +28,7 @@ namespace detail {
         typedef indices<Indices..., (Indices + Next)..., Tail> type;
     };
 
-    template<size_t First, size_t Step, std::size_t N, typename Enable = void>
+    template<size_t First, size_t Step, std::size_t N, class = void>
     struct make_indices_impl;
 
     template<size_t First, size_t Step, std::size_t N>
@@ -76,7 +58,7 @@ namespace detail {
         N,
         typename std::enable_if<(N > 1 && N % 2 == 0)>::type
     >
-        : public detail::make_indices_next<
+        : detail::make_indices_next<
             typename detail::make_indices_impl<First, Step, N / 2>::type,
             First + N / 2 * Step
         >
@@ -89,7 +71,7 @@ namespace detail {
         N,
         typename std::enable_if<(N > 1 && N % 2 == 1)>::type
     >
-        : public detail::make_indices_next2<
+        : detail::make_indices_next2<
             typename detail::make_indices_impl<First, Step, N / 2>::type,
             First + N / 2 * Step,
             First + (N - 1) * Step
@@ -98,7 +80,7 @@ namespace detail {
 
     template<size_t First, size_t Last, size_t Step = 1>
     struct make_indices_
-        : public detail::make_indices_impl<
+        : detail::make_indices_impl<
             First,
             Step,
             ((Last - First) + (Step - 1)) / Step
