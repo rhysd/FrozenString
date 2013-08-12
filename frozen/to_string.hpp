@@ -11,11 +11,13 @@
 #include "./detail/forward.hpp"
 #include "./detail/util.hpp"
 
-#include "./basic_string.hpp"
-
 namespace frozen {
 
 using std::size_t;
+
+// forward declaration
+template<class Char, size_t N>
+class basic_string;
 
 namespace detail {
 
@@ -42,7 +44,7 @@ namespace detail {
 template< class Char, class T,
           class = typename std::enable_if<
                       std::is_integral<
-                          T
+                          typename std::decay<T>::type
                       >::value
                   >::type >
 inline constexpr

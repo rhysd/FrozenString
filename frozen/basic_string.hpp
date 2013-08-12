@@ -12,6 +12,7 @@
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
 #include "./detail/strlen.hpp"
+#include "./to_string.hpp"
 
 namespace frozen {
 
@@ -20,15 +21,6 @@ using std::size_t;
 // forward declaration
 template<class Char, size_t N>
 class basic_string;
-
-// forward declaration
-template<class Char, class T, class = typename std::enable_if<std::is_integral<T>::value>::type>
-inline constexpr
-basic_string<Char, detail::int_max_digits10<T>()> to_basic_string(T t);
-
-template<class Char, class T, class = typename std::enable_if<std::is_floating_point<T>::value>::type>
-inline constexpr
-basic_string<Char, detail::float_max_digits10<T>::value> to_basic_string(T t);
 
 
 template<class Char, size_t M, size_t N>
@@ -55,7 +47,7 @@ namespace detail {
             : size_lhs(sl), size_rhs(sr) {}
 
         template<class ArrayL, class ArrayR, size_t... IndicesL, size_t... IndicesR>
-        constexpr basic_string<Char, M+N> operator()(ArrayL const& lhs, ArrayR const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>)
+        constexpr basic_string<Char, M+N> operator()(ArrayL const& lhs, ArrayR const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>) const
         {
             return {{
                         ( IndicesL < size_lhs ? lhs[IndicesL] :
@@ -279,7 +271,7 @@ public:
                          ( std::is_integral<Decayed>::value ||
                            std::is_floating_point<Decayed>::value )
                          >::type>
-    constexpr auto operator+(Num n)
+    constexpr auto operator+(Num n) const
         -> decltype(std::declval<self_type>() + to_basic_string<Char>(std::declval<Num>())) const
     {
         return operator+(to_basic_string<Char>(n));

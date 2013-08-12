@@ -28,7 +28,7 @@ namespace detail {
         basic_string<Char, sizeof...(Indices)>
         operator()(Char const* str, indices<Indices...>) const
         {
-            return {{(Indices < size ? str[Indices] : static_cast<Char>('\0'))...}};
+            return {{ Indices < size ? str[Indices] : static_cast<Char>('\0')... }};
         }
     };
 

@@ -41,7 +41,7 @@ namespace detail {
     inline constexpr
     size_t digits10_of(Int i)
     {
-        return std::abs(i)<1 ? 1 : detail::log10(std::abs(i))+1;
+        return detail::abs(i)<1 ? 1 : detail::log10(detail::abs(i))+1;
     }
 
     static constexpr size_t float_digits10_of_fractional_part = 6;
@@ -50,7 +50,7 @@ namespace detail {
     inline constexpr
     size_t float_digits10_of_integer_part(Float f)
     {
-        return std::abs(f)<1.0f ? 1 : detail::log10(std::abs(f))+1;
+        return detail::abs(f)<1.0f ? 1 : detail::log10(detail::abs(f))+1;
     }
 
     // FIXME
@@ -80,7 +80,7 @@ namespace detail {
     inline constexpr
     size_t digits10_at(Int i, size_t idx)
     {
-        return static_cast<Int>(std::abs(i)) / static_cast<size_t>(detail::pow(10, idx)) % 10;
+        return static_cast<Int>(detail::abs(i)) / static_cast<size_t>(detail::pow(10, idx)) % 10;
     }
 
     template< class Float,
@@ -131,7 +131,7 @@ namespace detail {
     {
         return f < std::numeric_limits<unsigned long long int>::max() ?
                        static_cast<unsigned long long int>(f) % 10 :
-                       detail::fmod10(std::abs(f) / detail::pow(10.0, idx));
+                       detail::fmod10(detail::abs(f) / detail::pow(10.0, idx));
     }
 
     template< class Float,
@@ -144,7 +144,7 @@ namespace detail {
     inline constexpr
     size_t float_integer_part_digits10_of(Float f, size_t idx)
     {
-        return float_integer_part_digits10_of_impl(std::abs(f) / detail::pow(10.0, idx), idx);
+        return float_integer_part_digits10_of_impl(detail::abs(f) / detail::pow(10.0, idx), idx);
     }
 
     template< class Float,

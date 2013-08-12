@@ -41,6 +41,13 @@ T pow(T base, U exp)
     return exp == 0 ? 1 : base * pow(base, exp-1);
 }
 
+template<class T>
+inline constexpr
+T abs(T t)
+{
+    return t > 0 ? t : -t;
+}
+
 } // namespace frozen
 } // namespace detail
 

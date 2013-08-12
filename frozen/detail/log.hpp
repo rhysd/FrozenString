@@ -69,7 +69,7 @@ namespace detail {
         return std::log(n);
 #else
         return n <= 0.0 ?         std::numeric_limits<Ret>::quiet_NaN() :
-               0.0 < n && n<1.0 ? log_0_1_impl(n, 1) :
+               0.0 < n && n<1.0 ? log_0_1_impl(static_cast<Ret>(n), 1) :
                                   log_1(static_cast<Ret>(n), constants::e);
 #endif
     }
@@ -90,7 +90,7 @@ namespace detail {
         return std::log10(n);
 #else
         return n <= 0.0 ?           std::numeric_limits<Ret>::quiet_NaN() :
-               0.0 < n && n < 1.0 ? log_0_1_impl(n, 1) / log(10.0) :
+               0.0 < n && n < 1.0 ? log_0_1_impl(static_cast<Ret>(n), 1) / log(10.0) :
                                     log_1(static_cast<Ret>(n), 10.0);
 #endif
     }
