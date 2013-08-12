@@ -9,8 +9,10 @@ namespace detail {
 
     using std::size_t;
 
-    template< size_t... >
-    struct indices{};
+    template< size_t... Indices >
+    struct indices{
+        static constexpr size_t value[sizeof...(Indices)] = {Indices...};
+    };
 
     template<class IndicesType, size_t Next>
     struct make_indices_next;
