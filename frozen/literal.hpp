@@ -28,7 +28,7 @@ namespace detail {
         basic_string<Char, sizeof...(Indices)>
         operator()(Char const* str, indices<Indices...>) const
         {
-            return {{ Indices < size ? str[Indices] : static_cast<Char>('\0')... }};
+            return {{{ Indices < size ? str[Indices] : static_cast<Char>('\0')... }}};
         }
     };
 
@@ -73,28 +73,28 @@ inline constexpr
 basic_string<char, 2>
 operator"" _fstr(char c)
 {
-    return {{c, '\0'}};
+    return {{{c, '\0'}}};
 }
 
 inline constexpr
 basic_string<wchar_t, 2>
 operator"" _fstr(wchar_t c)
 {
-    return {{c, L'\0'}};
+    return {{{c, L'\0'}}};
 }
 
 inline constexpr
 basic_string<char16_t, 2>
 operator"" _fstr(char16_t c)
 {
-    return {{c, u'\0'}};
+    return {{{c, u'\0'}}};
 }
 
 inline constexpr
 basic_string<char32_t, 2>
 operator"" _fstr(char32_t c)
 {
-    return {{c, U'\0'}};
+    return {{{c, U'\0'}}};
 }
 
 } // namespace frozen

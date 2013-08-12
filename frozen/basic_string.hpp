@@ -49,7 +49,7 @@ namespace detail {
         template<class ArrayL, class ArrayR, size_t... IndicesL, size_t... IndicesR>
         constexpr basic_string<Char, M+N> operator()(ArrayL const& lhs, ArrayR const& rhs, detail::indices<IndicesL...>, detail::indices<IndicesR...>) const
         {
-            return {{
+            return {{{
                         ( IndicesL < size_lhs ? lhs[IndicesL] :
                           IndicesL < size_lhs + size_rhs ? rhs[IndicesL - size_lhs] :
                           '\0'
@@ -58,7 +58,7 @@ namespace detail {
                             rhs[IndicesR + (M - size_lhs)] :
                             '\0'
                         )...
-                    }};
+                   }}};
         }
     };
 
@@ -74,7 +74,7 @@ namespace detail {
     template<class Char, size_t N, size_t... IndicesR>
     inline constexpr basic_string<Char, N+1> operator_plus_char_impl(Char lhs, basic_string<Char, N> const& rhs, detail::indices<IndicesR...>)
     {
-        return {{lhs, rhs[IndicesR]...}};
+        return {{{lhs, rhs[IndicesR]...}}};
     }
 
 } // namespace detail
@@ -373,17 +373,17 @@ private:
 
     template<size_t... Indices>
     explicit constexpr basic_string(Char c, detail::indices<Indices...>)
-        : elems({(static_cast<void>(Indices), c)..., '\0'})
+        : elems({{(static_cast<void>(Indices), c)..., '\0'}})
     {}
 
     template<class Result = basic_string<Char, N+1>, size_t... IndicesL>
     constexpr Result operator_plus_char_impl(Char rhs, size_t len_lhs, detail::indices<IndicesL...>) const
     {
         // use of explicit ctor for basic_string(Char)
-        return Result{{
-                    ( IndicesL < len_lhs ? elems[IndicesL] :
+        return Result{{{
+                      ( IndicesL < len_lhs ? elems[IndicesL] :
                       IndicesL == len_lhs ? rhs : '\0' )...
-               }};
+               }}};
     }
 
     template<class Array>

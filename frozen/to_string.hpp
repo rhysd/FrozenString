@@ -26,7 +26,7 @@ namespace detail {
     basic_string<Char, detail::int_max_digits10<Int>()>
     to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
     {
-        return {{
+        return {{{
                     static_cast<Char>( i < 0 ?
                         (
                             Indices == 0 ? '-' :
@@ -36,7 +36,7 @@ namespace detail {
                             Indices < digits ? detail::digits10_at(i, digits-Indices-1) + '0' : '\0'
                         )
                     )...
-            }};
+            }}};
     }
 
 } // namespace detail
@@ -65,7 +65,7 @@ namespace detail {
     basic_string<Char, detail::float_max_digits10<Float>::value>
     to_basic_string_float(Float f, size_t digit_int, size_t digit, indices<Indices...>)
     {
-        return {{ static_cast<Char>( f < 0 ?
+        return {{{ static_cast<Char>( f < 0 ?
                     ( Indices == 0 ? '-' :
                         Indices - 1 < digit_int ? '0' + detail::float_integer_part_digits10_of(f, digit_int-1 - (Indices-1)) :
                         Indices - 1 == digit_int ? '.' :
@@ -75,7 +75,7 @@ namespace detail {
                         Indices == digit_int ? '.' :
                         Indices+1 < digit ? '0' + detail::float_fraction_part_digits10_of(f, (Indices-1) - digit_int) : '\0'
                     )
-                )... }};
+                )... }}};
     }
 
 } // namespace detail

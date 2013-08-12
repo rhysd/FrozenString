@@ -14,7 +14,7 @@ int main()
     constexpr string<4> arr[] = {"a", "bb", "ccc"};
     (void) arr;
     constexpr string<7> s1 = "aiueo";
-    constexpr string<5> s2({'p', 'o', 'y', 'o', '\0'});
+    constexpr string<5> s2{{{'p', 'o', 'y', 'o', '\0'}}};
     STATIC_ASSERT((s1.size() == s2.size()+1));
 
     ::setlocale(LC_ALL, "");
@@ -82,7 +82,7 @@ int main()
     STATIC_ASSERT((make_string("aaaaaa").size() == 6));
     STATIC_ASSERT((make_string("aaaa\0\0\0").size() == 4));
     STATIC_ASSERT((make_string("").size() == 0));
-    STATIC_ASSERT((string<5>{{'p', 'o', 'y', 'o'}}.size() == 4));
+    STATIC_ASSERT((string<5>{{{'p', 'o', 'y', 'o'}}}.size() == 4));
 
     STATIC_ASSERT((make_string("aa\0\0\0\0\0\0") + "bb" == "aabb"));
     STATIC_ASSERT(("aabb" == make_string("aa\0\0\0\0\0\0") + "bb"));
