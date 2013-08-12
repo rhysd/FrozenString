@@ -19,7 +19,13 @@ namespace detail {
         static constexpr double e = 2.718281828459045;
     } // namespace constants
 
-    template<class Num>
+    template<class Num,
+             class = typename std::enable_if<
+                         std::is_floating_point<
+                             typename std::decay<Num>::type
+                         >::value
+                     >::type
+            >
     inline constexpr
     Num log_0_1_impl(Num n, size_t depth)
     {
@@ -27,7 +33,13 @@ namespace detail {
                   (depth>=256 ? 0 : log_0_1_impl(n, depth+1));
     }
 
-    template<class Num>
+    template<class Num,
+             class = typename std::enable_if<
+                         std::is_floating_point<
+                             typename std::decay<Num>::type
+                         >::value
+                     >::type
+            >
     inline constexpr
     Num log_1_impl(Num n, double base)
     {
@@ -40,7 +52,6 @@ namespace detail {
     {
         return log_1_impl(n/base, base);
     }
-
 
     template<class Num,
              class Ret = typename std::conditional<
