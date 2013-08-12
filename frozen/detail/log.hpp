@@ -5,6 +5,8 @@
 #include <cstddef>
 #ifdef __GLIBCXX__
 #   include <cmath>
+#else
+#   include <stdexcept>
 #endif
 
 #include "./util.hpp"
@@ -77,7 +79,9 @@ namespace detail {
 #ifdef __GLIBCXX__
         return std::log10(n);
 #else
-        return n < 1.0 ? throw 1 : log_1(static_cast<Ret>(n), 10.0);
+        return n < 1.0 ?
+            log_0_1_impl(n, 1) / log(10.0) :
+            log_1(static_cast<Ret>(n), 10.0);
 #endif
     }
 
