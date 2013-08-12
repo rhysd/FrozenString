@@ -2,12 +2,12 @@
 #define      FROZEN_DETAIL_DIGITS_HPP_INCLUDED
 
 #include <cstddef>
-#include <cmath>
 #include <limits>
 #include <type_traits>
 #include <stdexcept>
 
 #include "./util.hpp"
+#include "./log.hpp"
 
 namespace frozen {
 
@@ -41,7 +41,7 @@ namespace detail {
     inline constexpr
     size_t digits10_of(Int i)
     {
-        return std::abs(i)<1 ? 1 : std::log10(std::abs(i))+1;
+        return std::abs(i)<1 ? 1 : detail::log10(std::abs(i))+1;
     }
 
     static constexpr size_t float_digits10_of_fractional_part = 6;
@@ -50,7 +50,7 @@ namespace detail {
     inline constexpr
     size_t float_digits10_of_integer_part(Float f)
     {
-        return std::abs(f)<1.0f ? 1 : std::log10(std::abs(f))+1;
+        return std::abs(f)<1.0f ? 1 : detail::log10(std::abs(f))+1;
     }
 
     // FIXME
