@@ -5,8 +5,6 @@
 #include <cstddef>
 #ifdef __GLIBCXX__
 #   include <cmath>
-#else
-#   include <stdexcept>
 #endif
 
 #include "./util.hpp"
