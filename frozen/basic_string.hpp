@@ -179,10 +179,6 @@ public:
         : elems(aw)
     {}
 
-    explicit constexpr basic_string(Char c)
-        : basic_string(c, detail::make_indices<0, len-1>())
-    {}
-
     // access
     constexpr value_type front() const
     {
@@ -371,18 +367,13 @@ private:
         : elems({{(Indices < len ? str[Indices] : static_cast<Char>('\0'))...}})
     {}
 
-    template<size_t... Indices>
-    explicit constexpr basic_string(Char c, detail::indices<Indices...>)
-        : elems({{(static_cast<void>(Indices), c)..., '\0'}})
-    {}
-
-    template<class Result = basic_string<Char, N+1>, size_t... IndicesL>
-    constexpr Result operator_plus_char_impl(Char rhs, size_t len_lhs, detail::indices<IndicesL...>) const
+    template<size_t... IndicesL>
+    constexpr basic_string<Char, N+1> operator_plus_char_impl(Char rhs, size_t len_lhs, detail::indices<IndicesL...>) const
     {
         // use of explicit ctor for basic_string(Char)
-        return Result{{{
+        return {{{
                       ( IndicesL < len_lhs ? elems[IndicesL] :
-                      IndicesL == len_lhs ? rhs : '\0' )...
+                        IndicesL == len_lhs ? rhs : static_cast<Char>('\0') )...
                }}};
     }
 

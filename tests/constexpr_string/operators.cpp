@@ -76,9 +76,6 @@ int main()
     STATIC_ASSERT((s1 + s2 + "hoge" == "aiueopoyohoge"));
     STATIC_ASSERT((s1 + "kakikukeko" + s2 == "aiueokakikukekopoyo"));
 
-    constexpr string<10> s5('a');
-    STATIC_ASSERT((s5 == "aaaaaaaaa"));
-
     STATIC_ASSERT((make_string("aaaaaa").size() == 6));
     STATIC_ASSERT((make_string("aaaa\0\0\0").size() == 4));
     STATIC_ASSERT((make_string("").size() == 0));
