@@ -23,7 +23,29 @@ namespace detail {
 
     template<class Char, class Int, size_t... Indices>
     inline constexpr
-    basic_string<Char, detail::int_max_digits10<Int>()>
+    typename std::enable_if<
+        ! std::is_signed<
+            typename std::decay<Int>::type
+        >::value,
+        basic_string<Char, detail::int_max_digits10<Int>()>
+    >::type
+    to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
+    {
+        return {{{
+                    static_cast<Char>(
+                            Indices < digits ? detail::digits10_at(i, digits-Indices-1) + '0' : '\0'
+                    )...
+               }}};
+    }
+
+    template<class Char, class Int, size_t... Indices>
+    inline constexpr
+    typename std::enable_if<
+        std::is_signed<
+            typename std::decay<Int>::type
+        >::value,
+        basic_string<Char, detail::int_max_digits10<Int>()>
+    >::type
     to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
     {
         return {{{
