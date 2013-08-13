@@ -5,4 +5,8 @@
 #    define FROZEN_STRING_LITERALS_MAX_LENGTH 256
 #endif
 
+#if (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 6))
+#    define FROZEN_CONSTEXPR_MATH_FUNCTIONS_ARE_AVAILABLE
+#endif
+
 #endif    // FROZEN_MACROS_HPP_INCLUDED

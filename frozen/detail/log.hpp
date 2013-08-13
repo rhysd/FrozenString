@@ -4,7 +4,8 @@
 #include <type_traits>
 #include <cstddef>
 #include <limits>
-#ifdef __GLIBCXX__
+#include "./macros.hpp"
+#ifdef FROZEN_CONSTEXPR_MATH_FUNCTIONS_ARE_AVAILABLE
 #   include <cmath>
 #endif
 
@@ -65,7 +66,7 @@ namespace detail {
     inline constexpr
     Ret log(Num n)
     {
-#ifdef __GLIBCXX__
+#ifdef FROZEN_CONSTEXPR_MATH_FUNCTIONS_ARE_AVAILABLE
         return std::log(n);
 #else
         return n <= 0.0 ?         std::numeric_limits<Ret>::quiet_NaN() :
@@ -86,7 +87,7 @@ namespace detail {
     inline constexpr
     Ret log10(Num n)
     {
-#ifdef __GLIBCXX__
+#ifdef FROZEN_CONSTEXPR_MATH_FUNCTIONS_ARE_AVAILABLE
         return std::log10(n);
 #else
         return n <= 0.0 ?           std::numeric_limits<Ret>::quiet_NaN() :
