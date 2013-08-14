@@ -1,5 +1,6 @@
 *.gch
 a.out
+a.out.*
 tmp.*
 hoge.*
 .*.swp
