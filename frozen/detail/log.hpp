@@ -1,9 +1,9 @@
 #if !defined FROZEN_DETAIL_LOG_HPP_INCLUDED
 #define      FROZEN_DETAIL_LOG_HPP_INCLUDED
 
-#include <type_traits>
 #include <cstddef>
 #include <limits>
+#include "../type_traits_aliases.hpp"
 #include "./macros.hpp"
 #ifdef FROZEN_CONSTEXPR_MATH_FUNCTIONS_ARE_AVAILABLE
 #   include <cmath>
@@ -21,11 +21,11 @@ namespace detail {
     } // namespace constants
 
     template<class Num,
-             class = typename std::enable_if<
+             class = alias::enable_if<
                          std::is_floating_point<
-                             typename std::decay<Num>::type
+                             alias::decay<Num>
                          >::value
-                     >::type
+                     >
             >
     inline constexpr
     Num log_0_1_impl(Num n, size_t depth)
@@ -35,11 +35,11 @@ namespace detail {
     }
 
     template<class Num,
-             class = typename std::enable_if<
+             class = alias::enable_if<
                          std::is_floating_point<
-                             typename std::decay<Num>::type
+                             alias::decay<Num>
                          >::value
-                     >::type
+                     >
             >
     inline constexpr
     Num log_1_impl(Num n, double base)
@@ -55,13 +55,13 @@ namespace detail {
     }
 
     template<class Num,
-             class Ret = typename std::conditional<
+             class Ret = alias::conditional<
                              std::is_integral<
-                                 typename std::decay<Num>::type
+                                 alias::decay<Num>
                              >::value,
                              double,
                              Num
-                         >::type
+                         >
             >
     inline constexpr
     Ret log(Num n)
@@ -76,13 +76,13 @@ namespace detail {
     }
 
     template<class Num,
-             class Ret = typename std::conditional<
+             class Ret = alias::conditional<
                              std::is_integral<
-                                 typename std::decay<Num>::type
+                                 alias::decay<Num>
                              >::value,
                              double,
                              Num
-                         >::type
+                         >
             >
     inline constexpr
     Ret log10(Num n)

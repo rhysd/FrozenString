@@ -2,7 +2,7 @@
 #define      FROZEN_DETAIL_INDICES_HPP_INCLUDED
 
 #include <cstddef>
-#include <type_traits>
+#include "../type_traits_aliases.hpp"
 
 namespace frozen {
 namespace detail {
@@ -30,35 +30,35 @@ namespace detail {
         typedef indices<Indices..., (Indices + Next)..., Tail> type;
     };
 
-    template<size_t First, size_t Step, std::size_t N, class = void>
+    template<size_t First, size_t Step, size_t N, class = void>
     struct make_indices_impl;
 
-    template<size_t First, size_t Step, std::size_t N>
+    template<size_t First, size_t Step, size_t N>
     struct make_indices_impl<
         First,
         Step,
         N,
-        typename std::enable_if<(N == 0)>::type
+        alias::enable_if<(N == 0)>
     > {
         typedef indices<> type;
     };
 
-    template<size_t First, size_t Step, std::size_t N>
+    template<size_t First, size_t Step, size_t N>
     struct make_indices_impl<
         First,
         Step,
         N,
-        typename std::enable_if<(N == 1)>::type
+        alias::enable_if<(N == 1)>
     > {
         typedef indices<First> type;
     };
 
-    template<size_t First, size_t Step, std::size_t N>
+    template<size_t First, size_t Step, size_t N>
     struct make_indices_impl<
         First,
         Step,
         N,
-        typename std::enable_if<(N > 1 && N % 2 == 0)>::type
+        alias::enable_if<(N > 1 && N % 2 == 0)>
     >
         : detail::make_indices_next<
             typename detail::make_indices_impl<First, Step, N / 2>::type,
@@ -66,12 +66,12 @@ namespace detail {
         >
     {};
 
-    template<size_t First, size_t Step, std::size_t N>
+    template<size_t First, size_t Step, size_t N>
     struct make_indices_impl<
         First,
         Step,
         N,
-        typename std::enable_if<(N > 1 && N % 2 == 1)>::type
+        alias::enable_if<(N > 1 && N % 2 == 1)>
     >
         : detail::make_indices_next2<
             typename detail::make_indices_impl<First, Step, N / 2>::type,

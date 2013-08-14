@@ -79,6 +79,11 @@ namespace alias {
     template <class F, class... Args >
     using result_of = typename std::result_of<F(Args...)>::type;
 
+    template<class T, class U>
+    using is_same = typename std::is_same<T, U>::type;
+
+    
+
 } // namespace alias
 } // namespace frozen
 

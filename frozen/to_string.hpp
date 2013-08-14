@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <cmath>
 #include <utility>
-#include <type_traits>
 
 #include "./detail/indices.hpp"
 #include "./detail/digits.hpp"
@@ -23,12 +22,10 @@ namespace detail {
 
     template<class Char, class Int, size_t... Indices>
     inline constexpr
-    typename std::enable_if<
-        ! std::is_signed<
-            typename std::decay<Int>::type
-        >::value,
+    alias::enable_if<
+        ! std::is_signed< alias::decay<Int> >::value,
         basic_string<Char, detail::int_max_digits10<Int>()>
-    >::type
+    >
     to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
     {
         return {{{
@@ -40,12 +37,10 @@ namespace detail {
 
     template<class Char, class Int, size_t... Indices>
     inline constexpr
-    typename std::enable_if<
-        std::is_signed<
-            typename std::decay<Int>::type
-        >::value,
+    alias::enable_if<
+        std::is_signed< alias::decay<Int> >::value,
         basic_string<Char, detail::int_max_digits10<Int>()>
-    >::type
+    >
     to_basic_string_integral(Int i, size_t digits, indices<Indices...>)
     {
         return {{{
@@ -64,11 +59,10 @@ namespace detail {
 } // namespace detail
 
 template< class Char, class T,
-          class = typename std::enable_if<
-                      std::is_integral<
-                          typename std::decay<T>::type
-                      >::value
-                  >::type >
+          class = alias::enable_if<
+                      std::is_integral< alias::decay<T> >::value
+                  >
+        >
 inline constexpr
 basic_string<Char, detail::int_max_digits10<T>()> to_basic_string(T t)
 {
@@ -103,11 +97,10 @@ namespace detail {
 } // namespace detail
 
 template<class Char, class T,
-         class = typename std::enable_if<
-                     std::is_floating_point<
-                         typename std::decay<T>::type
-                     >::value
-                 >::type>
+         class = alias::enable_if<
+                     std::is_floating_point< alias::decay<T> >::value
+                 >
+        >
 inline constexpr
 basic_string<Char, detail::float_max_digits10<T>::value> to_basic_string(T t)
 {

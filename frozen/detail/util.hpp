@@ -1,7 +1,7 @@
 #if !defined FROZEN_DETAIL_UTIL_HPP_INCLUDED
 #define      FROZEN_DETAIL_UTIL_HPP_INCLUDED
 
-#include <type_traits>
+#include "../type_traits_aliases.hpp"
 
 namespace frozen {
 namespace detail {
@@ -10,16 +10,16 @@ extern void *enabler;
 
 template<class T, class U, class... Args>
 struct is_one_of
-    : std::conditional<
+    : alias::conditional<
           std::is_same<T, U>::value,
           std::true_type,
           is_one_of<T, Args...>
-      >::type
+      >
 {};
 
 template<class T, class U>
 struct is_one_of<T, U>
-    : std::is_same<T, U>::type
+    : alias::is_same<T, U>
 {};
 
 

@@ -3,9 +3,9 @@
 
 #include <cstddef>
 #include <limits>
-#include <type_traits>
 #include <stdexcept>
 
+#include "../type_traits_aliases.hpp"
 #include "./util.hpp"
 #include "./log.hpp"
 
@@ -16,11 +16,11 @@ using std::size_t;
 namespace detail {
 
     template< class Int,
-              class = typename std::enable_if<
+              class = alias::enable_if<
                             std::is_integral<
-                                typename std::decay<Int>::type
+                                alias::decay<Int>
                             >::value
-                      >::type
+                      >
             >
     inline constexpr
     size_t int_max_digits10()
@@ -32,11 +32,11 @@ namespace detail {
     // constexpr std::log10() is a libstdc++ feature.
     // std::log10() in libc++ doesn't work in a constant expression.
     template< class Int,
-              typename std::enable_if<
+              alias::enable_if<
                   std::is_integral<
-                      typename std::decay<Int>::type
+                      alias::decay<Int>
                   >::value
-              >::type*& = enabler
+              >*& = enabler
             >
     inline constexpr
     size_t digits10_of(Int i)
@@ -57,11 +57,11 @@ namespace detail {
     // constexpr std::log10() is a libstdc++ feature.
     // std::log10() in libc++ doesn't work in a constant expression.
     template< class Float,
-              typename std::enable_if<
+              alias::enable_if<
                   std::is_floating_point<
-                      typename std::decay<Float>::type
+                      alias::decay<Float>
                   >::value
-              >::type*& = detail::enabler
+              >*& = detail::enabler
             >
     inline constexpr
     size_t digits10_of(Float f)
@@ -71,11 +71,11 @@ namespace detail {
     }
 
     template< class Int,
-              class = typename std::enable_if<
+              class = alias::enable_if<
                             std::is_integral<
-                                typename std::decay<Int>::type
+                                alias::decay<Int>
                             >::value
-                      >::type
+                      >
             >
     inline constexpr
     size_t digits10_at(Int i, size_t idx)
@@ -84,11 +84,11 @@ namespace detail {
     }
 
     template< class Float,
-              typename std::enable_if<
+              alias::enable_if<
                   std::is_floating_point<
-                      typename std::decay<Float>::type
+                      alias::decay<Float>
                   >::value
-              >::type*& = detail::enabler
+              >*& = detail::enabler
             >
     struct float_max_digits10{
         static const size_t value =
@@ -120,11 +120,11 @@ namespace detail {
     }
 
     template< class Float,
-              typename std::enable_if<
+              alias::enable_if<
                   std::is_floating_point<
-                      typename std::decay<Float>::type
+                      alias::decay<Float>
                   >::value
-              >::type*& = detail::enabler
+              >*& = detail::enabler
             >
     inline constexpr
     size_t float_integer_part_digits10_of_impl(Float f, size_t idx)
@@ -135,11 +135,11 @@ namespace detail {
     }
 
     template< class Float,
-              typename std::enable_if<
+              alias::enable_if<
                   std::is_floating_point<
-                      typename std::decay<Float>::type
+                      alias::decay<Float>
                   >::value
-              >::type*& = detail::enabler
+              >*& = detail::enabler
             >
     inline constexpr
     size_t float_integer_part_digits10_of(Float f, size_t idx)
@@ -148,11 +148,11 @@ namespace detail {
     }
 
     template< class Float,
-              typename std::enable_if<
+              alias::enable_if<
                   std::is_floating_point<
-                      typename std::decay<Float>::type
+                      alias::decay<Float>
                   >::value
-              >::type*& = detail::enabler
+              >*& = detail::enabler
             >
     inline constexpr
     size_t float_fraction_part_digits10_of(Float f, size_t digit)

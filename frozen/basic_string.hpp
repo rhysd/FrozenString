@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <stdexcept>
 #include <ostream>
-#include <type_traits>
 #include <string>
 
 #include "./detail/digits.hpp"
@@ -12,6 +11,7 @@
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
 #include "./detail/strlen.hpp"
+#include "./type_traits_aliases.hpp"
 #include "./to_string.hpp"
 
 namespace frozen {
@@ -81,19 +81,18 @@ namespace detail {
 
 template<class Char, size_t N,
          size_t rlen = basic_string<Char, N>::len,
-         class = typename std::enable_if<detail::check_char<Char>::value>::type>
+         class = alias::enable_if<detail::check_char<Char>::value>>
 inline constexpr basic_string<Char, rlen+1> operator+(Char lhs, basic_string<Char, N> const& rhs)
 {
     return detail::operator_plus_char_impl(lhs, rhs, detail::make_indices<0, rlen>());
 }
 
 template<class Num, class Char, size_t N,
-         class Decayed = typename std::decay<Num>::type,
-         class = typename std::enable_if<
+         class = alias::enable_if<
                      !detail::check_char<Num>::value &&
-                     ( std::is_floating_point<Decayed>::value ||
-                       std::is_integral<Decayed>::value )
-                 >::type>
+                     ( std::is_floating_point<alias::decay<Num>>::value ||
+                       std::is_integral<alias::decay<Num>>::value )
+                 >>
 inline constexpr auto operator+(Num lhs, basic_string<Char, N> const& rhs)
     -> decltype(to_basic_string<Char>(std::declval<Num>()) + rhs)
 {
@@ -132,9 +131,7 @@ inline std::ostream &operator<<(std::ostream &os, basic_string<char, N> const& r
 }
 
 template<class C, size_t N,
-         class = typename std::enable_if<
-                     !std::is_same<C, char>::value
-                 >::type
+         class = alias::enable_if< !std::is_same<C, char>::value >
         >
 inline std::wostream &operator<<(std::wostream &os, basic_string<C, N> const& rhs)
 {
@@ -165,7 +162,7 @@ public:
     // ctor definitions
     basic_string() = delete;
 
-    template<size_t M, class = typename std::enable_if<M <= len>::type>
+    template<size_t M, class = alias::enable_if<M <= len>>
     constexpr basic_string(Char const (&str)[M])
         : basic_string(str, detail::make_indices<0, len>())
     {}
@@ -254,19 +251,19 @@ public:
         return detail::operator_plus_impl<Char, len, M>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, len>(), detail::make_indices<0, M>());
     }
 
-    template<class C, class = typename std::enable_if<detail::check_char<C>::value>::type>
+    template<class C, class = alias::enable_if<detail::check_char<C>::value>>
     constexpr basic_string<Char, N+1> operator+(C rhs) const
     {
         return operator_plus_char_impl(rhs, detail::strlen(elems), detail::make_indices<0, len>());
     }
 
     template<class Num,
-             class Decayed = typename std::decay<Num>::type,
-             class = typename std::enable_if<
-                         !detail::check_char<Decayed>::value &&
-                         ( std::is_integral<Decayed>::value ||
-                           std::is_floating_point<Decayed>::value )
-                         >::type>
+             class = alias::enable_if<
+                         !detail::check_char<alias::decay<Num>>::value &&
+                         ( std::is_integral<alias::decay<Num>>::value ||
+                           std::is_floating_point<alias::decay<Num>>::value )
+                         >
+            >
     constexpr auto operator+(Num n) const
         -> decltype(std::declval<self_type>() + to_basic_string<Char>(std::declval<Num>())) const
     {
