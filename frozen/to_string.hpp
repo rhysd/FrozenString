@@ -94,6 +94,20 @@ namespace detail {
                 )... }}};
     }
 
+    template<class Char, size_t N>
+    inline constexpr
+    bool is_should_be_removed_impl(basic_string<Char, N> const& s, size_t last_idx, size_t idx, size_t current_idx)
+    {
+        return s[current_idx] == '0' && (current_idx==idx ? true : is_should_be_removed_impl(s, last_idx, idx, current_idx-1));
+    }
+
+    template<class Char, size_t N>
+    inline constexpr
+    bool is_should_be_removed(basic_string<Char, N> const& s, size_t last_idx, size_t idx)
+    {
+        return is_should_be_removed_impl(s, last_idx, idx, last_idx);
+    }
+
 } // namespace detail
 
 template<class Char, class T,

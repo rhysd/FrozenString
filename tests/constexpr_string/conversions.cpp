@@ -60,6 +60,11 @@ int main()
     assert(make_string(u"aiueo kakiku").to_std_string() == std::u16string(u"aiueo kakiku"));
     assert(make_string(U"aiueo kakiku").to_std_string() == std::u32string(U"aiueo kakiku"));
 
+    STATIC_ASSERT((detail::is_should_be_removed(make_string("123.45000"), 8, 6)));
+    STATIC_ASSERT((detail::is_should_be_removed(make_string("123.45000"), 8, 8)));
+    STATIC_ASSERT_NOT((detail::is_should_be_removed(make_string("123.45000"), 8, 4)));
+    STATIC_ASSERT_NOT((detail::is_should_be_removed(make_string("123.45000"), 8, 0)));
+
     std::cout << make_string("OK\n");
     return 0;
 }
