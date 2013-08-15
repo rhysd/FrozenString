@@ -1,4 +1,5 @@
 require 'terminfo'
+require 'parallel'
 
 notification :terminal_notifier
 
@@ -6,24 +7,24 @@ def separator
   "\e[1;33m" + '~' * (TermInfo.screen_size[1]-1) + "\e[0m"
 end
 
-def gcc f
-  system "g++-4.8 -std=c++11 -Wall -Wextra -pedantic #{f} && ./a.out && rm a.out"
-  $?.success?
-end
-
-def clang f
-  system "clang++ -std=c++11 -stdlib=libc++ -Wall -Wextra #{f} && ./a.out && rm a.out"
-  $?.success?
-end
-
 def compile file
-  print "    using g++-4.8..."
-  a = gcc file
-
-  print "    using clang++..."
-  b = clang file
-
-  a && b
+  Parallel.map(
+    [
+      [
+        "g++-4.8",
+        "-std=c++11 -Wall -Wextra -pedantic #{file} && ./a.out && rm a.out",
+      ],
+      [
+        "clang++",
+        "-std=c++11 -stdlib=libc++ -Wall -Wextra #{file} && ./a.out && rm a.out"
+      ]
+    ],
+    in_threads: 2
+  ) do |compiler, options|
+    result = `#{compiler} #{options}`
+    puts "using #{compiler}...#{result}"
+    $?.success?
+  end.inject{|a,i| a && i}
 end
 
 def which cmd
