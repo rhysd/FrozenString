@@ -22,7 +22,7 @@ def compile file
     in_threads: 2
   ) do |compiler, options|
     result = `#{compiler} #{options}`
-    puts "using #{compiler}...#{result}"
+    puts "compiling #{File.basename file} with #{compiler}...#{result}"
     $?.success?
   end.inject{|a,i| a && i}
 end
@@ -33,7 +33,7 @@ def which cmd
 end
 
 def notify failed
-  msg = "'#{failed} tests failed.\n#{Time.now.to_s}'"
+  msg = "'#{failed} test#{failed>1 ? "s" : ""} failed.\n#{Time.now.to_s}'"
   case
   when which('terminal-notifier')
     `terminal-notifier -message #{msg}`
@@ -48,10 +48,9 @@ guard :shell do
     puts Time.now.to_s
 
     failed, total = 0, 0
-    Dir.glob("tests/**/*.cpp").map do |f|
-      puts "test for #{f}"
-      result = compile f
-      failed += 1 unless result
+    Parallel.map(Dir.glob("tests/**/*.cpp"), in_threads: 8) do |f|
+      success = compile f
+      failed += 1 unless success
       total += 1
     end
 
