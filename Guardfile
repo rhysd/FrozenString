@@ -14,16 +14,18 @@ def compile file
     [
       [
         "g++-4.8",
-        "-std=c++11 -Wall -Wextra -pedantic #{file} -o #{out} && ./#{out} && rm #{out}",
+        "-std=c++11 -Wall -Wextra -pedantic #{file} -o #{out}",
+        "./#{out}; if [ -f '#{out}' ]; then rm #{out}; fi",
       ],
       [
         "clang++",
-        "-std=c++11 -stdlib=libc++ -Wall -Wextra #{file} -o #{out} && ./#{out} && rm #{out}"
+        "-std=c++11 -stdlib=libc++ -Wall -Wextra #{file} -o #{out}",
+        "./#{out}; if [ -f '#{out}' ]; then rm #{out}; fi",
       ]
     ],
     in_threads: 2
-  ) do |compiler, options|
-    result = `#{compiler} #{options}`
+  ) do |compiler, options, exe|
+    result = `#{compiler} #{options} && #{exe}`
     puts "compiling #{File.basename file} with #{compiler}...#{result}"
     $?.success?
   end.inject{|a,i| a && i}
