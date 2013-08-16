@@ -18,7 +18,7 @@ namespace detail {
             return data[idx];
         }
 
-        constexpr size_t size() const
+        constexpr size_t size() const noexcept
         {
             return N;
         }

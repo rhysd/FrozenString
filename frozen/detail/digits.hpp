@@ -23,7 +23,7 @@ namespace detail {
                       >
             >
     inline constexpr
-    size_t int_max_digits10()
+    size_t int_max_digits10() noexcept
     {
         return std::numeric_limits<Int>::digits10 + 1;
     }
@@ -78,7 +78,7 @@ namespace detail {
                       >
             >
     inline constexpr
-    size_t digits10_at(Int i, size_t idx)
+    size_t digits10_at(Int i, size_t idx) noexcept
     {
         return static_cast<Int>(detail::abs(i)) / static_cast<size_t>(detail::pow(10, idx)) % 10;
     }

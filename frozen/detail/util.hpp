@@ -36,14 +36,14 @@ struct check_char<CharT, true>{
 
 template<class T, class U>
 inline constexpr
-T pow(T base, U exp)
+T pow(T base, U exp) noexcept
 {
     return exp == 0 ? 1 : base * pow(base, exp-1);
 }
 
 template<class T>
 inline constexpr
-T abs(T t)
+T abs(T t) noexcept
 {
     return t > 0 ? t : -t;
 }

@@ -177,17 +177,17 @@ public:
     {}
 
     // access
-    constexpr value_type front() const
+    constexpr value_type front() const noexcept
     {
         return elems.data[0];
     }
 
-    constexpr value_type back() const
+    constexpr value_type back() const noexcept
     {
         return elems.data[len-1];
     }
 
-    constexpr const_pointer data() const
+    constexpr const_pointer data() const noexcept
     {
         return elems.data;
     }
@@ -198,37 +198,37 @@ public:
     }
 
     // iterator interfaces
-    constexpr const_iterator begin() const
+    constexpr const_iterator begin() const noexcept
     {
         return elems.data;
     }
 
-    constexpr const_iterator end() const
+    constexpr const_iterator end() const noexcept
     {
         return elems.data + len;
     }
 
-    iterator begin()
+    iterator begin() noexcept
     {
         return elems.data;
     }
 
-    iterator end()
+    iterator end() noexcept
     {
         return elems.data + len;
     }
 
-    constexpr size_type max_size() const
+    constexpr size_type max_size() const noexcept
     {
         return N;
     }
 
-    constexpr bool empty() const
+    constexpr bool empty() const noexcept
     {
         return front()=='\0';
     }
 
-    constexpr size_type size() const
+    constexpr size_type size() const noexcept
     {
         return size_impl(0);
     }

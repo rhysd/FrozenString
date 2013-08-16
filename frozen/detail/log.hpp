@@ -12,7 +12,7 @@
 #include "./util.hpp"
 
 namespace frozen {
-namespace detail { 
+namespace detail {
 
     using std::size_t;
 
@@ -28,7 +28,7 @@ namespace detail {
                      >
             >
     inline constexpr
-    Num log_0_1_impl(Num n, size_t depth)
+    Num log_0_1_impl(Num n, size_t depth) noexcept
     {
         return (depth%2==0 ? -1 : 1) * detail::pow(n-1, depth) / depth +
                   (depth>=256 ? 0 : log_0_1_impl(n, depth+1));
@@ -42,14 +42,14 @@ namespace detail {
                      >
             >
     inline constexpr
-    Num log_1_impl(Num n, double base)
+    Num log_1_impl(Num n, double base) noexcept
     {
         return n < 1 ? n : 1 + log_1_impl(n/base, base);
     }
 
     template<class Num>
     inline constexpr
-    Num log_1(Num n, double base)
+    Num log_1(Num n, double base) noexcept
     {
         return log_1_impl(n/base, base);
     }
