@@ -236,7 +236,7 @@ public:
     // operators
     constexpr value_type operator[](size_type idx) const
     {
-        return elems.data[idx];
+        return this->at(idx);
     }
 
     template<size_t M, size_t rlen = basic_string<Char, M>::len>
