@@ -16,9 +16,7 @@ namespace detail {
         inline constexpr
         size_t strlen_impl(String const& s, size_t idx_max, size_t idx)
         {
-            return idx >= idx_max ? throw std::length_error("strlen out of length limit") :
-                   s[idx] == '\0' ? 0 :
-                                    1 + strlen_impl(s, idx_max, idx+1);
+            return s[idx] == '\0' || idx >= idx_max ? 0 : 1 + strlen_impl(s, idx_max, idx+1);
         }
     } // namespace impl
 
