@@ -9,8 +9,7 @@ def separator
 end
 
 def compile file
-  out = "#{File.basename file, ".*"}#{SecureRandom.uuid}.out"
-  Parallel.map(
+  toolset =
     [
       [
         "g++-4.8",
@@ -22,8 +21,10 @@ def compile file
         "-std=c++11 -stdlib=libc++ -Wall -Wextra",
         "#{File.basename file, ".*"}#{SecureRandom.uuid}.out",
       ]
-    ],
-    in_threads: 2
+    ]
+  Parallel.map(
+    toolset,
+    in_threads: toolset.size
   ) do |compiler, options, out|
     result = `#{compiler} #{options} #{file} -o #{out} && ./#{out}; if [ -f '#{out}' ]; then rm #{out}; fi`
     puts "compiling #{File.basename file} with #{compiler}...#{result}"
