@@ -98,7 +98,7 @@ namespace detail {
     inline constexpr
     bool is_should_be_removed_impl(basic_string<Char, N> const& s, size_t last_idx, size_t idx, size_t current_idx)
     {
-        return s[current_idx] == '0' && (current_idx==idx ? true : is_should_be_removed_impl(s, last_idx, idx, current_idx-1));
+        return s[current_idx] == '0' && (current_idx<=idx ? true : is_should_be_removed_impl(s, last_idx, idx, current_idx-1));
     }
 
     template<class Char, size_t N>
@@ -106,6 +106,33 @@ namespace detail {
     bool is_should_be_removed(basic_string<Char, N> const& s, size_t last_idx, size_t idx)
     {
         return is_should_be_removed_impl(s, last_idx, idx, last_idx);
+    }
+
+    template<class Char, size_t N, size_t... Indices>
+    inline constexpr
+    basic_string<Char, N> remove_useless_dot(basic_string<Char, N> const& s, detail::indices<Indices...>)
+    {
+        return {{{
+                   (s[Indices] == '.' && s[Indices+1] == '\0' ? static_cast<Char>('\0') : s[Indices])...
+               }}};
+    }
+
+    template<class Char, size_t N, size_t... Indices>
+    inline constexpr
+    basic_string<Char, N> remove_tail_zeros_impl(basic_string<Char, N> const& s, size_t last_idx, detail::indices<Indices...>)
+    {
+        return {{{
+                   (is_should_be_removed(s, last_idx, Indices) ? static_cast<Char>('\0') : s[Indices])...
+               }}};
+    }
+
+    template<class Char, size_t N, size_t... Indices>
+    inline constexpr
+    basic_string<Char, N> remove_tail_zeros(basic_string<Char, N> const& s)
+    {
+        return remove_useless_dot(
+                remove_tail_zeros_impl(s, detail::strlen(s)-1, detail::make_indices<0, N>())
+              , detail::make_indices<0, basic_string<Char, N>::len-1>() );
     }
 
 } // namespace detail
@@ -118,11 +145,13 @@ template<class Char, class T,
 inline constexpr
 basic_string<Char, detail::float_max_digits10<T>::value> to_basic_string(T t)
 {
-    return detail::to_basic_string_float<Char>(
-                t,
-                detail::float_digits10_of_integer_part(t),
-                detail::digits10_of(t),
-                detail::make_indices<0, detail::float_max_digits10<T>::value>()
+    return detail::remove_tail_zeros(
+                detail::to_basic_string_float<Char>(
+                     t,
+                     detail::float_digits10_of_integer_part(t),
+                     detail::digits10_of(t),
+                     detail::make_indices<0, detail::float_max_digits10<T>::value>()
+                )
            );
 }
 

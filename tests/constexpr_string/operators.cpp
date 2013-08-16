@@ -95,10 +95,10 @@ int main()
     STATIC_ASSERT((basic_string<char, 0>::len == 1));
     STATIC_ASSERT((basic_string<char, 0>{""} == ""));
 
-    STATIC_ASSERT((3.14159 + make_string(" is pi") == "3.141590 is pi"));
-    STATIC_ASSERT((-3.14159 + make_string("") == "-3.141590"));
-    STATIC_ASSERT((make_string("pi is ") + 3.14159 == "pi is 3.141590"));
-    STATIC_ASSERT((make_string("") + -3.14159 == "-3.141590"));
+    STATIC_ASSERT((3.14159 + make_string(" is pi") == "3.14159 is pi"));
+    STATIC_ASSERT((-3.14159 + make_string("") == "-3.14159"));
+    STATIC_ASSERT((make_string("pi is ") + 3.14159 == "pi is 3.14159"));
+    STATIC_ASSERT((make_string("") + -3.14159 == "-3.14159"));
 
     // make_string json at compile-time from config
     static size_t constexpr random_tree_depth = 4;
@@ -112,7 +112,7 @@ int main()
                       "\"mutation_percent\" : " + mutation_percent + ',' +
                       "\"crossover_percent\" : " + crossover_percent + ',' +
                   '}';
-    STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_percent\" : 5.000000,\"crossover_percent\" : 50.000000,}"));
+    STATIC_ASSERT((json == "{\"random_tree_depth\" : 4,\"population_size\" : 100,\"mutation_percent\" : 5,\"crossover_percent\" : 50,}"));
 
     std::cout << make_string("OK\n");
     return 0;
