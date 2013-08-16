@@ -1,3 +1,4 @@
 - compile-time json builder
 - member functions for algorithm
 - remove tail zeros when convert from floating point value to string
+- noexcept
