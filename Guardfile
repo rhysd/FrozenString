@@ -1,5 +1,6 @@
 require 'terminfo'
 require 'parallel'
+require 'securerandom'
 
 notification :terminal_notifier
 
@@ -8,15 +9,16 @@ def separator
 end
 
 def compile file
+  out = "#{File.basename file, ".*"}#{SecureRandom.uuid}.out"
   Parallel.map(
     [
       [
         "g++-4.8",
-        "-std=c++11 -Wall -Wextra -pedantic #{file} && ./a.out && rm a.out",
+        "-std=c++11 -Wall -Wextra -pedantic #{file} -o #{out} && ./#{out} && rm #{out}",
       ],
       [
         "clang++",
-        "-std=c++11 -stdlib=libc++ -Wall -Wextra #{file} && ./a.out && rm a.out"
+        "-std=c++11 -stdlib=libc++ -Wall -Wextra #{file} -o #{out} && ./#{out} && rm #{out}"
       ]
     ],
     in_threads: 2
