@@ -55,6 +55,6 @@ guard :shell do
     end
 
     notify failed if failed > 0
-    (failed==0 ? "\nSuccess!" : "\n#{failed} failed (#{failed}/#{total})")
+    (failed==0 ? "Success!" : "#{failed} failed (#{failed}/#{total})")
   end
 end
