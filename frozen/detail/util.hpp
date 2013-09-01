@@ -34,6 +34,14 @@ struct check_char<CharT, true>{
   static bool const value = true;
 };
 
+template<class CharT, bool = is_one_of<CharT, wchar_t, char16_t, char32_t>::value>
+struct is_wide_char : std::integral_constant<bool, false>
+{};
+
+template<class CharT>
+struct is_wide_char<CharT, true> : std::integral_constant<bool, true>
+{};
+
 template<class T, class U>
 inline constexpr
 T pow(T base, U exp) noexcept
