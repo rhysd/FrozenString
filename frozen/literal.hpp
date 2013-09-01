@@ -34,11 +34,12 @@ namespace detail {
 
 } // namespace detail
 
+template<char... Chars>
 inline constexpr
-basic_string<char, detail::float_max_digits10<double>::value>
-operator"" _fstr(char const* cstr)
+basic_string<char, sizeof...(Chars)+1>
+operator "" _fstr()
 {
-    return detail::operator_literal_fstr_impl{detail::strlen(cstr, detail::float_max_digits10<double>::value)}(cstr, detail::make_indices<0, detail::float_max_digits10<double>::value>());
+    return {{{Chars..., '\0'}}};
 }
 
 inline constexpr
