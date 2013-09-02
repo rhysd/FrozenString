@@ -12,6 +12,7 @@ constexpr T is_constexpr_impl(T x) throw(int)
 }
 }
 
-#define IS_CONSTEXPR(EXPR) noexcept(test_frozen::is_constexpr_impl(EXPR))
+#define IS_CONSTEXPR_IMPL(EXPR) noexcept(test_frozen::is_constexpr_impl(EXPR))
+#define IS_CONSTEXPR(...) IS_CONSTEXPR_IMPL((__VA_ARGS__))
 
 #endif    // ISTRING_TEST_UTIL_HPP_INCLUDED
