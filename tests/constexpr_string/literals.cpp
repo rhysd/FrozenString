@@ -9,6 +9,7 @@ using namespace frozen;
 int main()
 {
     STATIC_ASSERT((123.45_fstr == "123.45"));
+    STATIC_ASSERT((123.45e10_fstr == "123.45e10"));
     STATIC_ASSERT((123_fstr == "123"));
 
     STATIC_ASSERT(("aiueo"_fstr == make_string("aiueo")));
