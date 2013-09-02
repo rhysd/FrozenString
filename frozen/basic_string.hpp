@@ -176,6 +176,12 @@ public:
         : elems(aw)
     {}
 
+    // implicit conversion from shorter string
+    template<size_t M, class = alias::enable_if<(N>=M)>>
+    constexpr basic_string(basic_string<Char, M> const& lhs)
+        : basic_string(lhs, detail::make_indices<0, len>())
+    {}
+
     // access
     constexpr value_type front() const noexcept
     {
@@ -362,6 +368,11 @@ private:
     template<size_t... Indices>
     constexpr basic_string(Char const *str, size_t len, detail::indices<Indices...>)
         : elems({{(Indices < len ? str[Indices] : static_cast<Char>('\0'))...}})
+    {}
+
+    template<size_t M, size_t... Indices>
+    constexpr basic_string(basic_string<Char, M> const& lhs, detail::indices<Indices...>)
+        : elems({{(Indices < M ? lhs[Indices] : static_cast<Char>('\0'))...}})
     {}
 
     template<size_t... IndicesL>

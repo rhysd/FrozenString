@@ -65,6 +65,10 @@ int main()
     STATIC_ASSERT_NOT((detail::is_should_be_removed(make_string("123.45000"), 8, 4)));
     STATIC_ASSERT_NOT((detail::is_should_be_removed(make_string("123.45000"), 8, 0)));
 
+    STATIC_ASSERT((string<16>(make_string("hoge")) == "hoge"));
+    string<16> hoge = make_string("hoge");
+    (void)hoge;
+
     std::cout << make_string("OK\n");
     return 0;
 }
