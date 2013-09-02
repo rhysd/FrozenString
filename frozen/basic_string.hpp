@@ -372,7 +372,7 @@ private:
 
     template<size_t M, size_t... Indices>
     constexpr basic_string(basic_string<Char, M> const& lhs, detail::indices<Indices...>)
-        : elems({{(Indices < M ? lhs[Indices] : static_cast<Char>('\0'))...}})
+        : elems({{(Indices < basic_string<Char, M>::len ? lhs[Indices] : static_cast<Char>('\0'))...}})
     {}
 
     template<size_t... IndicesL>
