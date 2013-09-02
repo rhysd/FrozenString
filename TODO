@@ -1,2 +1,3 @@
 - compile-time json builder
 - member functions for algorithm
+- add maybe(constexpr optional) for algorithms
