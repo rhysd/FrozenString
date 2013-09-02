@@ -67,7 +67,8 @@ int main()
 
     STATIC_ASSERT((string<16>(make_string("hoge")) == "hoge"));
     string<16> hoge = make_string("hoge");
-    (void)hoge;
+    string<16> hoge2 = make_string("");
+    (void)hoge, (void)hoge2;
 
     std::cout << make_string("OK\n");
     return 0;
