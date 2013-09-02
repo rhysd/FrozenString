@@ -28,9 +28,6 @@ namespace detail {
         return std::numeric_limits<Int>::digits10 + 1;
     }
 
-    // FIXME
-    // constexpr std::log10() is a libstdc++ feature.
-    // std::log10() in libc++ doesn't work in a constant expression.
     template< class Int,
               alias::enable_if<
                   std::is_integral<
@@ -53,9 +50,6 @@ namespace detail {
         return detail::abs(f)<1.0f ? 1 : detail::log10(detail::abs(f))+1;
     }
 
-    // FIXME
-    // constexpr std::log10() is a libstdc++ feature.
-    // std::log10() in libc++ doesn't work in a constant expression.
     template< class Float,
               alias::enable_if<
                   std::is_floating_point<
