@@ -70,6 +70,8 @@ int main()
     string<16> hoge2 = make_string("");
     (void)hoge, (void)hoge2;
 
+    STATIC_ASSERT((alias::is_default_constructible<string<16>>::value));
+
     std::cout << make_string("OK\n");
     return 0;
 }
