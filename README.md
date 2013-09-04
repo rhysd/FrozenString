@@ -12,6 +12,8 @@ This library is under construction.
 #include "frozen/string.hpp"
 #include <iostream>
 
+using frozen::operator"" _fstr;
+
 
 // immutable!
 auto s3 = frozen::make_string("poyo");
@@ -49,6 +51,11 @@ s1.to_std_string(); // to std::string
 42_fstr; // "12"
 "hoge"_fstr; // "hoge"
 u'ω'_fstr; // "ω"
+
+// wide strings for wchar_t, char16_t, char32_t
+frozen::wstring<13> ws1 = L"あああ";
+auto ws2 = frozen::make_string(L"つらぽよ");
+auto answer = frozen::to_u16string(3.14);
 ```
 
 See `example` directory to see more examples.
