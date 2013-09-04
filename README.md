@@ -6,6 +6,58 @@ which this library provides is immutable and static.
 
 This library is under construction.
 
+### Constexpr
+
+```cpp
+#include "frozen/string.hpp"
+#include <iostream>
+
+
+// immutable!
+auto s3 = frozen::make_string("poyo");
+s3[0] = 'h'; // error!
+
+// construct string
+constexpr frozen::string<10> s1 = "hoge";
+constexpr auto s2 = frozen::make_string("hoge");
+
+// construct from numbers
+constexpr auto answer = frozen::to_string(42); // from integer
+constexpr auto pi = frozen::to_string(3.141592); // from floating point
+
+// compare to string
+s1 == frozen::make_string("hoge"); // true
+s1 == "hoge?"; // false
+
+// concat strings or numbers
+s1 + frozen::make_string("poyo"); // "hogepoyo"
+s1 + "poyo"; // "hogepoyo"
+s1 + '!'; // "hoge!"
+s1 + 42; // "hoge42"
+s1 + 3.14; // "hoge3.14"
+make_string("Today is ") + 8 + '/' + 5; // "Today is 8/5"
+
+// output
+std::cout << s1;
+
+// conversion
+s1.data(); // to char const *
+s1.to_std_string(); // to std::string
+
+// user defined literals
+123.45_fstr; // "123.45"
+42_fstr; // "12"
+"hoge"_fstr; // "hoge"
+u'ω'_fstr; // "ω"
+```
+
+See `example` directory to see more examples.
+
+### Compiler Requirements
+
+- gcc : 4.8 or later
+- clang : 3.4 or later
+
 ### Author
 
 [@Linda_pp](https://twitter.com/Linda_pp)
