@@ -6,6 +6,7 @@
 #include <ostream>
 #include <string>
 
+#include "./detail/macros.hpp"
 #include "./detail/digits.hpp"
 #include "./detail/util.hpp"
 #include "./detail/indices.hpp"
@@ -160,7 +161,7 @@ public:
     static constexpr size_type len = N ? N : 1;
 
     // ctor definitions
-    basic_string() = delete;
+    basic_string() = default;
 
     template<size_t M, class = alias::enable_if<M <= len>>
     constexpr basic_string(Char const (&str)[M])
