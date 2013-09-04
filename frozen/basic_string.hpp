@@ -177,10 +177,12 @@ public:
     {}
 
     // implicit conversion from shorter string
-    template<size_t M, class = alias::enable_if<(N>=M)>>
+    template<size_t M>
     constexpr basic_string(basic_string<Char, M> const& lhs)
         : basic_string(lhs, detail::make_indices<0, len>())
-    {}
+    {
+        FROZEN_STATIC_ASSERT(N>=M);
+    }
 
     // access
     constexpr value_type front() const noexcept
@@ -248,7 +250,7 @@ public:
     template<size_t M, size_t rlen = basic_string<Char, M>::len>
     constexpr basic_string<Char, len+rlen> operator+(basic_string<Char, M> const& rhs) const
     {
-        return detail::operator_plus_impl<Char, len, rlen>(detail::strlen(elems), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, len>(), detail::make_indices<0, rlen>());
+        return detail::operator_plus_impl<Char, len, rlen>(detail::strlen(elems, len), detail::strlen(rhs))(elems, rhs, detail::make_indices<0, len>(), detail::make_indices<0, rlen>());
     }
 
     template<size_t M>
@@ -371,8 +373,8 @@ private:
     {}
 
     template<size_t M, size_t... Indices>
-    constexpr basic_string(basic_string<Char, M> const& lhs, detail::indices<Indices...>)
-        : elems({{(Indices < basic_string<Char, M>::len ? lhs[Indices] : static_cast<Char>('\0'))...}})
+    constexpr basic_string(basic_string<Char, M> const& rhs, detail::indices<Indices...>)
+        : elems({{(Indices < basic_string<Char, M>::len ? rhs[Indices] : static_cast<Char>('\0'))...}})
     {}
 
     template<size_t... IndicesL>
