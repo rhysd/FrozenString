@@ -1,10 +1,13 @@
 #if !defined FROZEN_TYPE_BASIC_STRING_HPP_INCLUDED
 #define      FROZEN_TYPE_BASIC_STRING_HPP_INCLUDED
 
+#include "../basic_string.hpp"
+
 #include <cstddef>
 #include <array>
 #include <iostream>
 #include <type_traits>
+#include <string>
 
 namespace frozen {
 namespace type {
@@ -13,18 +16,24 @@ using std::size_t;
 
 template< class CharT, CharT... Chars >
 struct basic_string{
-
     static const CharT value[sizeof...(Chars)+1];
-
-    constexpr std::array<CharT, sizeof...(Chars)+1>
-    to_array() const
+    static const std::array<CharT, sizeof...(Chars)+1> array;
+    static const frozen::basic_string<CharT, sizeof...(Chars)+1> frozen;
+    static std::string to_std_string()
     {
-        return {{Chars..., '\0'}};
+        return value;
     }
 };
 
 template< class CharT, CharT... Chars >
-const CharT basic_string<CharT, Chars...>::value[sizeof...(Chars)+1] = {Chars..., '\0'};
+const CharT basic_string<CharT, Chars...>::value[sizeof...(Chars)+1] = {Chars..., static_cast<CharT>('\0')};
+
+template< class CharT, CharT... Chars >
+std::array<CharT, sizeof...(Chars)+1> const basic_string<CharT, Chars...>::array = {{Chars..., static_cast<CharT>('\0')}};
+
+template< class CharT, CharT... Chars >
+frozen::basic_string<CharT, sizeof...(Chars)+1> const basic_string<CharT, Chars...>::frozen = {{{Chars..., static_cast<CharT>('\0')}}};
+
 
 } // namespace type
 } // namespace frozen
