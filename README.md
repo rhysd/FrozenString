@@ -4,8 +4,6 @@ This library provides string which is constructible in both compile-time and run
 `std::string` is modifiable and not immutable but `frozen::string`
 which this library provides is immutable and static.
 
-This library is under construction.
-
 ### Constexpr
 
 ```cpp
@@ -58,6 +56,10 @@ auto answer = frozen::to_u16string(3.14);
 ```
 
 See `example` directory to see more examples.
+
+### Template level
+
+Under construction.
 
 ### Compiler Requirements
 
