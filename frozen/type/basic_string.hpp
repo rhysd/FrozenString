@@ -6,10 +6,6 @@
 #include <iostream>
 #include <type_traits>
 
-#include <boost/preprocessor/repetition/enum.hpp>
-#include <boost/preprocessor/facilities/intercept.hpp>
-#include <boost/preprocessor/config/limits.hpp>
-
 namespace frozen {
 namespace type {
 
