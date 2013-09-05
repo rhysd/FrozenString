@@ -27,7 +27,7 @@ def compile file
     in_threads: toolset.size
   ) do |compiler, options, out|
     result = `#{compiler} #{options} #{file} -o #{out} && ./#{out}; if [ -f '#{out}' ]; then rm #{out}; fi`
-    puts "compiling #{File.basename file} with #{compiler}...#{result}"
+    puts "compiling #{"#{File.basename(File.dirname file)}/#{File.basename file}"} with #{compiler}...#{result}"
     $?.success?
   end.inject{|a,i| a && i}
 end
