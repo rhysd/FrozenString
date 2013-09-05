@@ -15,13 +15,12 @@ This library is under construction.
 using frozen::operator"" _fstr;
 
 
-// immutable!
-auto s3 = frozen::make_string("poyo");
-s3[0] = 'h'; // error!
-
 // construct string
 constexpr frozen::string<10> s1 = "hoge";
 constexpr auto s2 = frozen::make_string("hoge");
+
+// immutable!
+s1[0] = 'h'; // error!
 
 // construct from numbers
 constexpr auto answer = frozen::to_string(42); // from integer
