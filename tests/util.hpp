@@ -1,8 +1,11 @@
 #if !defined ISTRING_TEST_UTIL_HPP_INCLUDED
 #define      ISTRING_TEST_UTIL_HPP_INCLUDED
 
-#define STATIC_ASSERT(expr) static_assert(expr, #expr)
-#define STATIC_ASSERT_NOT(expr) static_assert(!(expr), #expr)
+#include "../frozen/string.hpp"
+#include "../frozen/type/string.hpp"
+
+#define SASSERT(...) FROZEN_STATIC_ASSERT(__VA_ARGS__)
+#define SASSERT_NOT(...) FROZEN_STATIC_ASSERT_NOT(__VA_ARGS__)
 
 namespace test_frozen{
 template<class T>
