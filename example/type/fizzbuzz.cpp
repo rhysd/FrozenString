@@ -1,6 +1,8 @@
 #include "../../frozen/type/string.hpp"
 #include "../../frozen/string.hpp"
 
+#include <type_traits>
+
 namespace type = frozen::type;
 
 using fizz = FROZEN_FROM_STRING_LITERAL("fizz");
@@ -44,9 +46,13 @@ template< size_t Start,
 struct fizzbuzz<Start, Last, Acc, Mod3, Mod5, false>
         : fizzbuzz<Start+1, Last, type::add_newline<type::joint<Acc, FROZEN_TO_STRING(Start)>> >{};
 
+using result = FROZEN_FROM_STRING_LITERAL("1\n2\nfizz\n4\nbuzz\nfizz\n7\n8\nfizz\nbuzz\n11\nfizz\n13\n14\nfizzbuzz\n");
+
+static_assert(std::is_same<typename fizzbuzz<1, 16>::type, result>::value, "");
+
 #include <iostream>
 int main()
 {
-    std::cout << fizzbuzz<1, 10>::type::value << '\n';
+    std::cout << fizzbuzz<1, 15>::type::value << '\n';
     return 0;
 }
