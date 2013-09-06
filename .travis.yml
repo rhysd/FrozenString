@@ -6,6 +6,7 @@ script:
     - g++-4.8 -std=c++11 -Wall -Wextra -pedantic tests/constexpr_string/literals.cpp && ./a.out
     - g++-4.8 -std=c++11 -Wall -Wextra -pedantic tests/constexpr_string/fizzbuzz.cpp && ./a.out
     - g++-4.8 -std=c++11 -Wall -Wextra -pedantic tests/type_string/fizzbuzz.cpp && ./a.out
+    - g++-4.8 -std=c++11 -Wall -Wextra -pedantic tests/type_string/from.cpp && ./a.out
 install:
     - sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test
     - sudo apt-get -qq update

@@ -3,6 +3,12 @@
 
 #define SASSERT(...) FROZEN_STATIC_ASSERT(__VA_ARGS__)
 #define SASSERT_NOT(...) FROZEN_STATIC_ASSERT_NOT(__VA_ARGS__)
+#define S(...) FROZEN_FROM_STRING_LITERAL(__VA_ARGS__)
+
+#include <type_traits>
+
+#define SAME_TYPE(T1, T2) SASSERT(std::is_same<T1, T2>::value)
+
 
 namespace test_frozen{
 template<class T>
@@ -14,5 +20,6 @@ constexpr T is_constexpr_impl(T x) throw(int)
 
 #define IS_CONSTEXPR_IMPL(EXPR) noexcept(test_frozen::is_constexpr_impl(EXPR))
 #define IS_CONSTEXPR(...) IS_CONSTEXPR_IMPL((__VA_ARGS__))
+
 
 #endif    // ISTRING_TEST_UTIL_HPP_INCLUDED
