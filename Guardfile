@@ -16,11 +16,6 @@ def compile file
         "-std=c++11 -Wall -Wextra -pedantic",
         "#{File.basename file, ".*"}#{SecureRandom.uuid}.out",
       ],
-      [
-        "clang++",
-        "-std=c++11 -stdlib=libc++ -Wall -Wextra",
-        "#{File.basename file, ".*"}#{SecureRandom.uuid}.out",
-      ]
     ]
   Parallel.map(
     toolset,

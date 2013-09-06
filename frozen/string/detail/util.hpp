@@ -1,7 +1,7 @@
 #if !defined FROZEN_DETAIL_UTIL_HPP_INCLUDED
 #define      FROZEN_DETAIL_UTIL_HPP_INCLUDED
 
-#include "../type_traits_aliases.hpp"
+#include "../../type_traits_aliases.hpp"
 
 namespace frozen {
 namespace detail {

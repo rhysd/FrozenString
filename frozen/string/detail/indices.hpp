@@ -2,7 +2,7 @@
 #define      FROZEN_DETAIL_INDICES_HPP_INCLUDED
 
 #include <cstddef>
-#include "../type_traits_aliases.hpp"
+#include "../../type_traits_aliases.hpp"
 
 namespace frozen {
 namespace detail {

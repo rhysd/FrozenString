@@ -12,7 +12,7 @@
 #include "./detail/indices.hpp"
 #include "./detail/array_wrapper.hpp"
 #include "./detail/strlen.hpp"
-#include "./type_traits_aliases.hpp"
+#include "../type_traits_aliases.hpp"
 #include "./to_string.hpp"
 
 namespace frozen {

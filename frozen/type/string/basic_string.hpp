@@ -1,7 +1,7 @@
 #if !defined FROZEN_TYPE_BASIC_STRING_HPP_INCLUDED
 #define      FROZEN_TYPE_BASIC_STRING_HPP_INCLUDED
 
-#include "../basic_string.hpp"
+#include "../../string/basic_string.hpp"
 
 #include <cstddef>
 #include <array>

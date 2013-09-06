@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <limits>
-#include "../type_traits_aliases.hpp"
+#include "../../type_traits_aliases.hpp"
 #include "./macros.hpp"
 #ifdef FROZEN_CONSTEXPR_MATH_FUNCTIONS_ARE_AVAILABLE
 #   include <cmath>
