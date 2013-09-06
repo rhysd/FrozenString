@@ -5,6 +5,7 @@
 #include "./string_aliases.hpp"
 #include "./algorithm.hpp"
 #include "./from_literals.hpp"
+#include "./from_expression.hpp"
 #include "./to_string.hpp"
 
 #endif    // FROZEN_TYPE_STRING_HPP_INCLUDED
