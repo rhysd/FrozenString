@@ -56,7 +56,7 @@ guard :shell do
 
     failed, total = 0, 0
     pattern = 
-      if m[0] =~ %r(^frozen/meta/) || m[0] =~ %r(^tests/type_string)
+      if [ %r(frozen/meta/), %r(^tests/type_string/), %r(^example/type/) ].any?{|r| m[0] =~ r }
         "tests/type_string/*.cpp"
       else
         "tests/constexpr_string/*.cpp"
