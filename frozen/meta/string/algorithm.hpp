@@ -20,36 +20,56 @@ using concat = typename concat_<Str1, Str2>::type;
 
 // }}}
 
+// push_front {{{
+template<class S, typename S::char_type Char>
+struct push_front_;
+
+template< class CharT, CharT Char, CharT... Chars >
+struct push_front_< basic_string<CharT, Chars...>, Char >{
+    typedef basic_string<CharT, Char, Chars...> type;
+};
+
+template<class S, typename S::char_type C>
+using push_front = typename push_front_<S, C>::type;
+
+template<class CharT, CharT C, class S>
+using cons = typename push_front_<S, C>::type;
+// }}}
+
+// push_back {{{
+template<class S, typename S::char_type Char>
+struct push_back_;
+
+template< class CharT, CharT Char, CharT... Chars >
+struct push_back_< basic_string<CharT, Chars...>, Char >{
+    typedef basic_string<CharT, Chars..., Char> type;
+};
+
+template<class S, typename S::char_type C>
+using push_back = typename push_back_<S, C>::type;
+// }}}
+
+// pop_front {{{
+template<class S>
+struct pop_front_;
+
+template<class CharT, CharT Head, CharT... Tail>
+struct pop_front_< basic_string<CharT, Head, Tail...> >{
+    typedef basic_string<CharT, Tail...> type;
+};
+
+template<class S>
+using pop_front = typename pop_front_<S>::type;
+// }}}
 
 // add_newline {{{
-template<class T>
-struct add_newline_;
-
-template< class CharT, CharT... Chars >
-struct add_newline_< basic_string<CharT, Chars...> >{
-    typedef basic_string<CharT, Chars..., '\n'> type;
-};
+template<class S>
+struct add_newline_ : push_back_< S, static_cast<typename S::char_type>('\n') >
+{};
 
 template<class Str>
 using add_newline = typename add_newline_<Str>::type;
-
 // }}}
-
-
-// cons {{{
-template<class CharT, CharT C, class T>
-struct cons_;
-
-template<class CharT, CharT C, CharT... Chars>
-struct cons_<CharT, C, basic_string<CharT, Chars...>>{
-    typedef basic_string<CharT, C, Chars...> type;
-};
-
-template<class CharT, CharT C, class T>
-using cons = typename cons_<CharT, C, T>::type;
-
-// }}}
-
 
 // remove_trailing_nuls {{{
 template<size_t N, class T>
@@ -62,7 +82,7 @@ struct remove_trailing_nuls_<1, basic_string<CharT, Head, Tail...>>{
 
 template<class CharT, size_t N, CharT Head, CharT... Tail>
 struct remove_trailing_nuls_<N, basic_string<CharT, Head, Tail...>>{
-    typedef cons<CharT, Head, typename remove_trailing_nuls_<N-1, basic_string<CharT, Tail...>>::type> type;
+    typedef push_front<typename remove_trailing_nuls_<N-1, basic_string<CharT, Tail...>>::type, Head> type;
 };
 
 template<size_t N, class T>
