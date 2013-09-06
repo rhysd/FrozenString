@@ -16,6 +16,11 @@ def compile file
         "-std=c++11 -Wall -Wextra -pedantic",
         "#{File.basename file, ".*"}#{SecureRandom.uuid}.out",
       ],
+      [
+         "clang++",
+         "-std=c++11 -stdlib=libc++ -Wall -Wextra",
+         "#{File.basename file, ".*"}#{SecureRandom.uuid}.out",
+      ]
     ]
   Parallel.map(
     toolset,
@@ -45,12 +50,18 @@ def notify failed
 end
 
 guard :shell do
-  watch %r{^.+\.(?:hpp|cpp)$} do
+  watch %r{(^.+\.(?:hpp|cpp))$} do |m|
     puts separator
     puts Time.now.to_s
 
     failed, total = 0, 0
-    Parallel.map(Dir.glob("tests/**/*.cpp"), in_threads: 8) do |f|
+    pattern = 
+      if m[0] =~ %r(^frozen/type/) 
+        "tests/type_string/*.cpp"
+      else
+        "tests/constexpr_string/*.cpp"
+      end
+    Parallel.map(Dir.glob(pattern), in_threads: 8) do |f|
       success = compile f
       failed += 1 unless success
       total += 1
