@@ -1,7 +1,7 @@
 #if !defined FROZEN_TYPE_TO_STRING_HPP_INCLUDED
 #define      FROZEN_TYPE_TO_STRING_HPP_INCLUDED
 
-#include "basic_string.hpp"
+#include "./basic_string.hpp"
 
 namespace frozen {
 namespace type {
