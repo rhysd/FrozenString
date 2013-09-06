@@ -1,14 +1,14 @@
 #if !defined ISTRING_TEST_UTIL_HPP_INCLUDED
 #define      ISTRING_TEST_UTIL_HPP_INCLUDED
 
-#define SASSERT(...) FROZEN_STATIC_ASSERT(__VA_ARGS__)
-#define SASSERT_NOT(...) FROZEN_STATIC_ASSERT_NOT(__VA_ARGS__)
-#define S(...) FROZEN_FROM_STRING_LITERAL(__VA_ARGS__)
-
 #include <type_traits>
 
-#define SAME_TYPE(T1, T2) SASSERT(std::is_same<T1, T2>::value)
+#define SASSERT(...) FROZEN_STATIC_ASSERT(__VA_ARGS__)
+#define SASSERT_NOT(...) FROZEN_STATIC_ASSERT_NOT(__VA_ARGS__)
 
+#define S(...) FROZEN_FROM_STRING_LITERAL(__VA_ARGS__)
+
+#define IS_SAME(...) SASSERT(std::is_same<__VA_ARGS__>::value)
 
 namespace test_frozen{
 template<class T>

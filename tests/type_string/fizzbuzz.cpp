@@ -48,7 +48,8 @@ struct fizzbuzz<Start, Last, Acc, Mod3, Mod5, false>
 
 using result = FROZEN_FROM_STRING_LITERAL("1\n2\nfizz\n4\nbuzz\nfizz\n7\n8\nfizz\nbuzz\n11\nfizz\n13\n14\nfizzbuzz\n");
 
-SASSERT(std::is_same<typename fizzbuzz<1, 16>::type, result>::value);
+IS_SAME(typename fizzbuzz<1, 16>::type, result);
+
 
 #include <iostream>
 int main()

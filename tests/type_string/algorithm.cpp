@@ -3,11 +3,11 @@
 
 using namespace frozen::type;
 
-SASSERT(std::is_same<push_back<S("hoge"), '!'>, S("hoge!")>::value);
-SASSERT(std::is_same<add_newline<S("hoge")>, S("hoge\n")>::value);
-SASSERT(std::is_same<push_front<S("hoge"), '?'>, S("?hoge")>::value);
-SASSERT(std::is_same<cons<char, '?', S("hoge")>, S("?hoge")>::value);
-SASSERT(std::is_same<pop_front<S("hoge")>, S("oge")>::value);
+IS_SAME(push_back<S("hoge"), '!'>, S("hoge!"));
+IS_SAME(add_newline<S("hoge")>, S("hoge\n"));
+IS_SAME(push_front<S("hoge"), '?'>, S("?hoge"));
+IS_SAME(cons<char, '?', S("hoge")>, S("?hoge"));
+IS_SAME(pop_front<S("hoge")>, S("oge"));
 
 #include <iostream>
 int main()
