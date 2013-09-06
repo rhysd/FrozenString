@@ -1,5 +1,5 @@
-#if !defined FROZEN_BASIC_STRING_HPP_INCLUDED
-#define      FROZEN_BASIC_STRING_HPP_INCLUDED
+#if !defined FROZEN_STRING_BASIC_STRING_HPP_INCLUDED
+#define      FROZEN_STRING_BASIC_STRING_HPP_INCLUDED
 
 #include <cstddef>
 #include <stdexcept>
@@ -445,4 +445,4 @@ private:
 } // namespace frozen
 
 
-#endif    // FROZEN_BASIC_STRING_HPP_INCLUDED
+#endif    // FROZEN_STRING_BASIC_STRING_HPP_INCLUDED

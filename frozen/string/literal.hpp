@@ -1,5 +1,5 @@
-#if !defined FROZEN_LITERALS_HPP_INCLUDED
-#define      FROZEN_LITERALS_HPP_INCLUDED
+#if !defined FROZEN_STRING_LITERALS_HPP_INCLUDED
+#define      FROZEN_STRING_LITERALS_HPP_INCLUDED
 
 #include <cstddef>
 
@@ -100,4 +100,4 @@ operator"" _fstr(char32_t c)
 
 } // namespace frozen
 
-#endif    // FROZEN_LITERALS_HPP_INCLUDED
+#endif    // FROZEN_STRING_LITERALS_HPP_INCLUDED

@@ -1,5 +1,5 @@
-#if !defined FROZEN_EMPTY_HPP_INCLUDED
-#define      FROZEN_EMPTY_HPP_INCLUDED
+#if !defined FROZEN_STRING_EMPTY_HPP_INCLUDED
+#define      FROZEN_STRING_EMPTY_HPP_INCLUDED
 
 #include <cstddef>
 
@@ -28,4 +28,4 @@ static constexpr auto empty_u32str = detail::empty_basic_str<char32_t>(U"");
 
 } // namespace frozen
 
-#endif    // FROZEN_EMPTY_HPP_INCLUDED
+#endif    // FROZEN_STRING_EMPTY_HPP_INCLUDED

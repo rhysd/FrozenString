@@ -1,5 +1,5 @@
-#if !defined FROZEN_DETAIL_STRLEN_HPP_INCLUDED
-#define      FROZEN_DETAIL_STRLEN_HPP_INCLUDED
+#if !defined FROZEN_STRING_DETAIL_STRLEN_HPP_INCLUDED
+#define      FROZEN_STRING_DETAIL_STRLEN_HPP_INCLUDED
 
 #include <utility>
 #include <limits>
@@ -33,4 +33,4 @@ namespace detail {
 } // namespace detail
 } // namespace frozen
 
-#endif    // FROZEN_DETAIL_STRLEN_HPP_INCLUDED
+#endif    // FROZEN_STRING_DETAIL_STRLEN_HPP_INCLUDED

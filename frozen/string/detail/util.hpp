@@ -1,5 +1,5 @@
-#if !defined FROZEN_DETAIL_UTIL_HPP_INCLUDED
-#define      FROZEN_DETAIL_UTIL_HPP_INCLUDED
+#if !defined FROZEN_STRING_DETAIL_UTIL_HPP_INCLUDED
+#define      FROZEN_STRING_DETAIL_UTIL_HPP_INCLUDED
 
 #include "../../type_traits_aliases.hpp"
 
@@ -59,4 +59,4 @@ T abs(T t) noexcept
 } // namespace frozen
 } // namespace detail
 
-#endif    // FROZEN_DETAIL_UTIL_HPP_INCLUDED
+#endif    // FROZEN_STRING_DETAIL_UTIL_HPP_INCLUDED

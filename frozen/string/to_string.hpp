@@ -1,5 +1,5 @@
-#if !defined FROZEN_TO_STRING_HPP_INCLUDED
-#define      FROZEN_TO_STRING_HPP_INCLUDED
+#if !defined FROZEN_STRING_TO_STRING_HPP_INCLUDED
+#define      FROZEN_STRING_TO_STRING_HPP_INCLUDED
 
 #include <cstddef>
 #include <cmath>
@@ -189,4 +189,4 @@ auto to_u32string(T t)
 
 } // namespace frozen
 
-#endif    // FROZEN_TO_STRING_HPP_INCLUDED
+#endif    // FROZEN_STRING_TO_STRING_HPP_INCLUDED

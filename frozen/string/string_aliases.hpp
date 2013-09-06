@@ -1,5 +1,5 @@
-#if !defined FROZEN_ALIASES_HPP_INCLUDED
-#define      FROZEN_ALIASES_HPP_INCLUDED
+#if !defined FROZEN_STRING_ALIASES_HPP_INCLUDED
+#define      FROZEN_STRING_ALIASES_HPP_INCLUDED
 
 #include <cstddef>
 
@@ -24,4 +24,4 @@ using u32string = basic_string<char32_t, N>;
 } // namespace frozen
 
 
-#endif    // FROZEN_ALIASES_HPP_INCLUDED
+#endif    // FROZEN_STRING_ALIASES_HPP_INCLUDED

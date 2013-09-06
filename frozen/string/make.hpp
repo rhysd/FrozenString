@@ -1,5 +1,5 @@
-#if !defined FROZEN_MAKE_HPP_INCLUDED
-#define      FROZEN_MAKE_HPP_INCLUDED
+#if !defined FROZEN_STRING_MAKE_HPP_INCLUDED
+#define      FROZEN_STRING_MAKE_HPP_INCLUDED
 
 #include <cstddef>
 
@@ -25,4 +25,4 @@ inline constexpr basic_string<T, N> make(T const (&str)[N])
 
 } // namespace frozen
 
-#endif    // FROZEN_MAKE_HPP_INCLUDED
+#endif    // FROZEN_STRING_MAKE_HPP_INCLUDED

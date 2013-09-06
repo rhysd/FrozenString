@@ -1,5 +1,5 @@
-#if !defined FROZEN_DETAIL_DUMP_STRING_HPP_INCLUDED
-#define      FROZEN_DETAIL_DUMP_STRING_HPP_INCLUDED
+#if !defined FROZEN_STRING_DETAIL_DUMP_STRING_HPP_INCLUDED
+#define      FROZEN_STRING_DETAIL_DUMP_STRING_HPP_INCLUDED
 
 #include <cstddef>
 #include <iostream>
@@ -69,4 +69,4 @@ namespace detail {
 
 } // namespace frozen
 
-#endif    // FROZEN_DETAIL_DUMP_STRING_HPP_INCLUDED
+#endif    // FROZEN_STRING_DETAIL_DUMP_STRING_HPP_INCLUDED
