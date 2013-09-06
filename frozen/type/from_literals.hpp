@@ -20,7 +20,15 @@ namespace detail {
         return a < b ? a : b;
     }
 
+    template<char... Chars>
+    auto operator"" _frozen_detail_ftypestr_litral_for_frozen_from_numeric_literal()
+        -> basic_string<char, Chars...>
+    {
+        return {};
+    }
+
 } // namespace detail
+
 } // namespace type
 } // namespace frozen
 
@@ -35,5 +43,9 @@ namespace detail {
         > \
     >
 #define FROZEN_FROM_STRING_LITERAL_M(z, i, lit) lit[frozen::type::detail::min((size_t)i, sizeof(lit) / sizeof(*lit) - 1)]
+
+using frozen::type::detail::operator"" _frozen_detail_ftypestr_litral_for_frozen_from_numeric_literal;
+#define FROZEN_FROM_NUMERIC_LITERAL(lit) \
+  std::decay<decltype(BOOST_PP_CAT(lit, _frozen_detail_ftypestr_litral_for_frozen_from_numeric_literal))>::type
 
 #endif    // FROZEN_TYPE_FROM_STRING_LITERAL_HPP_INCLUDED

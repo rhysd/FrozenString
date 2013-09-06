@@ -32,11 +32,13 @@ namespace detail {
 
 } // namespace detail
 
+template<class CharT, class T, T Value, class = void>
+struct to_basic_string;
+
 template<class CharT, class Int, Int Value>
-struct to_basic_string : detail::to_string_from_integer<CharT, Int, Value>
-{
-    static_assert(std::is_integral<Int>::value, "");
-};
+struct to_basic_string<CharT, Int, Value, typename std::enable_if<std::is_integral<Int>::value>::type>
+     : detail::to_string_from_integer<CharT, Int, Value>
+{};
 
 template<class Int, Int Value>
 using to_string = typename to_basic_string<char, Int, Value>::type;
