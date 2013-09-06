@@ -6,17 +6,17 @@
 namespace frozen {
 namespace type {
 
-// joint {{{
+// concat {{{
 template< class T, class U >
-struct joint_;
+struct concat_;
 
 template< class CharT, CharT... C1, CharT... C2 >
-struct joint_< basic_string<CharT, C1...>, basic_string<CharT, C2...> >{
+struct concat_< basic_string<CharT, C1...>, basic_string<CharT, C2...> >{
     typedef basic_string<CharT, C1..., C2...> type;
 };
 
 template< class Str1, class Str2 >
-using joint = typename joint_<Str1, Str2>::type;
+using concat = typename concat_<Str1, Str2>::type;
 
 // }}}
 
