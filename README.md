@@ -65,6 +65,7 @@ Under construction.
 
 - gcc : 4.8 or later
 - clang : 3.4 or later
+- Boost.PreProcessor for `frozen::type` template meta functions
 
 ### Author
 
