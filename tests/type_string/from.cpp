@@ -1,4 +1,4 @@
-#include "../../frozen/type/string.hpp"
+#include "../../frozen/meta/string.hpp"
 #include "../util.hpp"
 
 using namespace frozen::type;
