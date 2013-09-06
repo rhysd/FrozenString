@@ -1,5 +1,5 @@
-#if !defined FROZEN_TYPE_ALGORITHM_HPP_INCLUDED
-#define      FROZEN_TYPE_ALGORITHM_HPP_INCLUDED
+#if !defined FROZEN_META_STRING_ALGORITHM_HPP_INCLUDED
+#define      FROZEN_META_STRING_ALGORITHM_HPP_INCLUDED
 
 #include "./basic_string.hpp"
 
@@ -95,4 +95,4 @@ using remove_trailing_nuls = typename remove_trailing_nuls_<N, T>::type;
 } // namespace type
 } // namespace frozen
 
-#endif    // FROZEN_TYPE_ALGORITHM_HPP_INCLUDED
+#endif    // FROZEN_META_STRING_ALGORITHM_HPP_INCLUDED

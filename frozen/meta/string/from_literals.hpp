@@ -1,5 +1,5 @@
-#if !defined FROZEN_TYPE_FROM_STRING_LITERAL_HPP_INCLUDED
-#define      FROZEN_TYPE_FROM_STRING_LITERAL_HPP_INCLUDED
+#if !defined FROZEN_META_STRING_FROM_STRING_LITERAL_HPP_INCLUDED
+#define      FROZEN_META_STRING_FROM_STRING_LITERAL_HPP_INCLUDED
 
 #include <type_traits>
 
@@ -48,4 +48,4 @@ using frozen::type::detail::operator"" _frozen_detail_ftypestr_litral_for_frozen
 #define FROZEN_FROM_NUMERIC_LITERAL(lit) \
   std::decay<decltype(BOOST_PP_CAT(lit, _frozen_detail_ftypestr_litral_for_frozen_from_numeric_literal))>::type
 
-#endif    // FROZEN_TYPE_FROM_STRING_LITERAL_HPP_INCLUDED
+#endif    // FROZEN_META_STRING_FROM_STRING_LITERAL_HPP_INCLUDED

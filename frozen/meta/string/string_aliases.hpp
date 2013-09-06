@@ -1,5 +1,5 @@
-#if !defined FROZEN_TYPE_STRING_ALIASES_HPP_INCLUDED
-#define      FROZEN_TYPE_STRING_ALIASES_HPP_INCLUDED
+#if !defined FROZEN_META_STRING_STRING_ALIASES_HPP_INCLUDED
+#define      FROZEN_META_STRING_STRING_ALIASES_HPP_INCLUDED
 
 #include "./basic_string.hpp"
 
@@ -21,4 +21,4 @@ using u32string = basic_string<char32_t, Chars...>;
 } // namespace type
 } // namespace frozen
 
-#endif    // FROZEN_TYPE_STRING_ALIASES_HPP_INCLUDED
+#endif    // FROZEN_META_STRING_STRING_ALIASES_HPP_INCLUDED

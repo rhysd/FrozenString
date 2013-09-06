@@ -1,5 +1,5 @@
-#if !defined FROZEN_TYPE_TO_STRING_HPP_INCLUDED
-#define      FROZEN_TYPE_TO_STRING_HPP_INCLUDED
+#if !defined FROZEN_META_STRING_TO_STRING_HPP_INCLUDED
+#define      FROZEN_META_STRING_TO_STRING_HPP_INCLUDED
 
 #include "./basic_string.hpp"
 
@@ -67,4 +67,4 @@ using to_u32string = typename to_basic_string<char32_t, Int, Value>::type;
 #define FROZEN_TO_U32STRING(INT) \
     typename frozen::type::to_u32string<typename std::decay<decltype(INT)>::type, INT>
 
-#endif    // FROZEN_TYPE_TO_STRING_HPP_INCLUDED
+#endif    // FROZEN_META_STRING_TO_STRING_HPP_INCLUDED

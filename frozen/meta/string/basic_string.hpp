@@ -1,5 +1,5 @@
-#if !defined FROZEN_TYPE_BASIC_STRING_HPP_INCLUDED
-#define      FROZEN_TYPE_BASIC_STRING_HPP_INCLUDED
+#if !defined FROZEN_META_STRING_BASIC_STRING_HPP_INCLUDED
+#define      FROZEN_META_STRING_BASIC_STRING_HPP_INCLUDED
 
 #include "../../string/basic_string.hpp"
 
@@ -39,4 +39,4 @@ frozen::basic_string<CharT, sizeof...(Chars)+1> const basic_string<CharT, Chars.
 } // namespace type
 } // namespace frozen
 
-#endif    // FROZEN_TYPE_BASIC_STRING_HPP_INCLUDED
+#endif    // FROZEN_META_STRING_BASIC_STRING_HPP_INCLUDED
