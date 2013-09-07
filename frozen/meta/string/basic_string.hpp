@@ -10,7 +10,7 @@
 #include <string>
 
 namespace frozen {
-namespace type {
+namespace meta {
 
 using std::size_t;
 
@@ -36,7 +36,7 @@ template< class CharT, CharT... Chars >
 frozen::basic_string<CharT, sizeof...(Chars)+1> const basic_string<CharT, Chars...>::frozen = {{{Chars..., static_cast<CharT>('\0')}}};
 
 
-} // namespace type
+} // namespace meta
 } // namespace frozen
 
 #endif    // FROZEN_META_STRING_BASIC_STRING_HPP_INCLUDED

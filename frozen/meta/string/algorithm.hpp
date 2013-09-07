@@ -4,7 +4,7 @@
 #include "./basic_string.hpp"
 
 namespace frozen {
-namespace type {
+namespace meta {
 
 // concat {{{
 template< class T, class U >
@@ -92,7 +92,7 @@ using remove_trailing_nuls = typename remove_trailing_nuls_<N, T>::type;
 
 
 
-} // namespace type
+} // namespace meta
 } // namespace frozen
 
 #endif    // FROZEN_META_STRING_ALGORITHM_HPP_INCLUDED

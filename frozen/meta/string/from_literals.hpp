@@ -11,7 +11,7 @@
 #include <boost/preprocessor/config/limits.hpp>
 
 namespace frozen {
-namespace type {
+namespace meta {
 namespace detail {
 
     template<class T>
@@ -29,22 +29,22 @@ namespace detail {
 
 } // namespace detail
 
-} // namespace type
+} // namespace meta
 } // namespace frozen
 
 
 #define FROZEN_FROM_STRING_LITERAL(lit) FROZEN_FROM_STRING_LITERAL_I(lit)
 #define FROZEN_FROM_STRING_LITERAL_I(lit) \
-    frozen::type::remove_trailing_nuls< \
+    frozen::meta::remove_trailing_nuls< \
         sizeof(lit) / sizeof(*lit), \
-        frozen::type::basic_string< \
+        frozen::meta::basic_string< \
             std::decay<decltype(*lit)>::type, \
             BOOST_PP_ENUM(BOOST_PP_LIMIT_REPEAT, FROZEN_FROM_STRING_LITERAL_M, lit) \
         > \
     >
-#define FROZEN_FROM_STRING_LITERAL_M(z, i, lit) lit[frozen::type::detail::min((size_t)i, sizeof(lit) / sizeof(*lit) - 1)]
+#define FROZEN_FROM_STRING_LITERAL_M(z, i, lit) lit[frozen::meta::detail::min((size_t)i, sizeof(lit) / sizeof(*lit) - 1)]
 
-using frozen::type::detail::operator"" _frozen_detail_ftypestr_litral_for_frozen_from_numeric_literal;
+using frozen::meta::detail::operator"" _frozen_detail_ftypestr_litral_for_frozen_from_numeric_literal;
 #define FROZEN_FROM_NUMERIC_LITERAL(lit) \
   std::decay<decltype(BOOST_PP_CAT(lit, _frozen_detail_ftypestr_litral_for_frozen_from_numeric_literal))>::type
 

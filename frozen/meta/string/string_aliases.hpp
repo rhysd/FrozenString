@@ -4,7 +4,7 @@
 #include "./basic_string.hpp"
 
 namespace frozen {
-namespace type {
+namespace meta {
 
 template<char... Chars>
 using string = basic_string<char, Chars...>;
@@ -18,7 +18,7 @@ using u16string = basic_string<char16_t, Chars...>;
 template<char32_t... Chars>
 using u32string = basic_string<char32_t, Chars...>;
 
-} // namespace type
+} // namespace meta
 } // namespace frozen
 
 #endif    // FROZEN_META_STRING_STRING_ALIASES_HPP_INCLUDED

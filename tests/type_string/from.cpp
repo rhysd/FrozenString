@@ -1,7 +1,7 @@
 #include "../../frozen/meta/string.hpp"
 #include "../util.hpp"
 
-using namespace frozen::type;
+using namespace frozen::meta;
 
 IS_SAME(S("3.14"), FROZEN_FROM_NUMERIC_LITERAL(3.14));
 IS_SAME(S("42"), FROZEN_FROM_NUMERIC_LITERAL(42));

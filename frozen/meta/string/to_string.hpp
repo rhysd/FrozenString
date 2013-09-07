@@ -4,7 +4,7 @@
 #include "./basic_string.hpp"
 
 namespace frozen {
-namespace type {
+namespace meta {
 
 namespace detail {
 
@@ -52,19 +52,19 @@ using to_u16string = typename to_basic_string<char16_t, Int, Value>::type;
 template<class Int, Int Value>
 using to_u32string = typename to_basic_string<char32_t, Int, Value>::type;
 
-} // namespace type
+} // namespace meta
 } // namespace frozen
 
 #define FROZEN_TO_STRING(INT) \
-    typename frozen::type::to_string<typename std::decay<decltype(INT)>::type, INT>
+    typename frozen::meta::to_string<typename std::decay<decltype(INT)>::type, INT>
 
 #define FROZEN_TO_WSTRING(INT) \
-    typename frozen::type::to_wstring<typename std::decay<decltype(INT)>::type, INT>
+    typename frozen::meta::to_wstring<typename std::decay<decltype(INT)>::type, INT>
 
 #define FROZEN_TO_U16STRING(INT) \
-    typename frozen::type::to_u16string<typename std::decay<decltype(INT)>::type, INT>
+    typename frozen::meta::to_u16string<typename std::decay<decltype(INT)>::type, INT>
 
 #define FROZEN_TO_U32STRING(INT) \
-    typename frozen::type::to_u32string<typename std::decay<decltype(INT)>::type, INT>
+    typename frozen::meta::to_u32string<typename std::decay<decltype(INT)>::type, INT>
 
 #endif    // FROZEN_META_STRING_TO_STRING_HPP_INCLUDED

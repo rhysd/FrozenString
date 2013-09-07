@@ -6,7 +6,7 @@
 #include <type_traits>
 
 namespace frozen {
-namespace type {
+namespace meta {
 
 template<char... Chars>
 auto operator"" _ftypestr()
@@ -15,7 +15,7 @@ auto operator"" _ftypestr()
     return {};
 }
 
-} // namespace type
+} // namespace meta
 } // namespace frozen
 
 #endif    // FROZEN_META_STRING_LITERALS_HPP_INCLUDED
