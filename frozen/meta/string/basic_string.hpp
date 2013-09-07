@@ -17,6 +17,8 @@ using std::size_t;
 template< class CharT, CharT... Chars >
 struct basic_string{
     typedef CharT char_type;
+    typedef basic_string<CharT, Chars...> type;
+
     static const CharT value[sizeof...(Chars)+1];
     static const std::array<CharT, sizeof...(Chars)+1> array;
     static const frozen::basic_string<CharT, sizeof...(Chars)+1> frozen;
