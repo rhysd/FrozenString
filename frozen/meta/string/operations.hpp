@@ -78,7 +78,7 @@ struct push_back_t_< basic_string<CharT, Chars...>, Char >
   : basic_string<CharT, Chars..., Char::value>
 {};
 
-template<class S, typename S::char_type C>
+template<class S, class C>
 using push_back_t = typename push_back_t_<S, C>::type;
 // }}}
 
