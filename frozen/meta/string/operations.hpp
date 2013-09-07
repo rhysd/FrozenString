@@ -20,6 +20,7 @@ using concat = typename concat_<Str1, Str2>::type;
 
 // }}}
 
+
 // push_front {{{
 template<class S, typename S::char_type Char>
 struct push_front_;
@@ -36,6 +37,24 @@ template<class CharT, CharT C, class S>
 using cons = typename push_front_<S, C>::type;
 // }}}
 
+
+// push_front_t {{{
+template<class S, class C>
+struct push_front_t_;
+
+template< class CharT, class Char, CharT... Chars >
+struct push_front_t_< basic_string<CharT, Chars...>, Char >
+  : basic_string<CharT, Char::value, Chars...>
+{};
+
+template<class S, class C>
+using push_front_t = typename push_front_t_<S, C>::type;
+
+template<class C, class S>
+using cons_t = typename push_front_t_<S, C>::type;
+// }}}
+
+
 // push_back {{{
 template<class S, typename S::char_type Char>
 struct push_back_;
@@ -48,6 +67,21 @@ struct push_back_< basic_string<CharT, Chars...>, Char >
 template<class S, typename S::char_type C>
 using push_back = typename push_back_<S, C>::type;
 // }}}
+
+
+// push_back_t {{{
+template<class S, class C>
+struct push_back_t_;
+
+template< class CharT, class Char, CharT... Chars >
+struct push_back_t_< basic_string<CharT, Chars...>, Char >
+  : basic_string<CharT, Chars..., Char::value>
+{};
+
+template<class S, typename S::char_type C>
+using push_back_t = typename push_back_t_<S, C>::type;
+// }}}
+
 
 // pop_front {{{
 template<class S>
@@ -62,6 +96,7 @@ template<class S>
 using pop_front = typename pop_front_<S>::type;
 // }}}
 
+
 // add_newline {{{
 template<class S>
 struct add_newline_ : push_back_< S, static_cast<typename S::char_type>('\n') >
@@ -70,6 +105,7 @@ struct add_newline_ : push_back_< S, static_cast<typename S::char_type>('\n') >
 template<class Str>
 using add_newline = typename add_newline_<Str>::type;
 // }}}
+
 
 // remove_trailing_nuls {{{
 template<size_t N, class T>
@@ -89,8 +125,6 @@ template<size_t N, class T>
 using remove_trailing_nuls = typename remove_trailing_nuls_<N, T>::type;
 
 // }}}
-
-
 
 } // namespace meta
 } // namespace frozen
