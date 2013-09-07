@@ -4,7 +4,7 @@
 #include <type_traits>
 
 #include "./basic_string.hpp"
-#include "./algorithm.hpp"
+#include "./operations.hpp"
 
 #include <boost/preprocessor/repetition/enum.hpp>
 #include <boost/preprocessor/facilities/intercept.hpp>

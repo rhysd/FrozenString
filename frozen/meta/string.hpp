@@ -3,7 +3,7 @@
 
 #include "./string/basic_string.hpp"
 #include "./string/string_aliases.hpp"
-#include "./string/algorithm.hpp"
+#include "./string/operations.hpp"
 #include "./string/from_literals.hpp"
 #include "./string/from_expression.hpp"
 #include "./string/to_string.hpp"
