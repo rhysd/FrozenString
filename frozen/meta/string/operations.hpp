@@ -83,6 +83,16 @@ using push_back_t = typename push_back_t_<S, C>::type;
 // }}}
 
 
+// add_newline {{{
+template<class S>
+struct add_newline_ : push_back_< S, static_cast<typename S::char_type>('\n') >
+{};
+
+template<class Str>
+using add_newline = typename add_newline_<Str>::type;
+// }}}
+
+
 // pop_front {{{
 template<class S>
 struct pop_front_;
@@ -97,13 +107,18 @@ using pop_front = typename pop_front_<S>::type;
 // }}}
 
 
-// add_newline {{{
+// front {{{
 template<class S>
-struct add_newline_ : push_back_< S, static_cast<typename S::char_type>('\n') >
-{};
+struct front_;
 
-template<class Str>
-using add_newline = typename add_newline_<Str>::type;
+template<class CharT, CharT Head, CharT... Tail>
+struct front_< basic_string<CharT, Head, Tail...> >{
+    using type = CharT;
+    static CharT const value = Head;
+};
+
+template<class S>
+using front = typename front_<S>::type;
 // }}}
 
 
