@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "../util.hpp"
 
 #include "../../frozen/string.hpp"

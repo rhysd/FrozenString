@@ -1,4 +1,5 @@
 #include "../../frozen/string.hpp"
+#include "../util.hpp"
 
 constexpr frozen::string<10>
 fizzbuzz_value(int i)
@@ -27,7 +28,6 @@ fizzbuzz<0>()
 static constexpr char result[] =
     "1\n2\nfizz\n4\nbuzz\nfizz\n7\n8\nfizz\nbuzz\n11\nfizz\n13\n14\nfizzbuzz\n";
 
-#include <iostream>
 int main()
 {
     static_assert(fizzbuzz<15>() == result, "");

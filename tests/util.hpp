@@ -1,6 +1,7 @@
 #if !defined ISTRING_TEST_UTIL_HPP_INCLUDED
 #define      ISTRING_TEST_UTIL_HPP_INCLUDED
 
+#include <iostream>
 #include <type_traits>
 
 #define SASSERT(...) FROZEN_STATIC_ASSERT(__VA_ARGS__)
