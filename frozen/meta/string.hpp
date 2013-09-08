@@ -7,5 +7,6 @@
 #include "./string/from_literals.hpp"
 #include "./string/from_expression.hpp"
 #include "./string/to_string.hpp"
+#include "./string/boost/mpl_compatibility.hpp"
 
 #endif    // FROZEN_META_STRING_HPP_INCLUDED
