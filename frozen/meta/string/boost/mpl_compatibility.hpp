@@ -3,6 +3,8 @@
 
 #include <boost/mpl/size_t.hpp>
 #include <boost/mpl/size.hpp>
+#include <boost/mpl/empty.hpp>
+#include <boost/mpl/bool.hpp>
 
 namespace frozen {
 namespace meta {
@@ -38,6 +40,20 @@ struct size_impl<frozen::meta::string_tag>{
     template<class CharT, CharT... Chars>
     struct apply<frozen::meta::basic_string<CharT, Chars...>>
         : mpl::size_t<sizeof...(Chars)>
+    {};
+};
+
+template<class Tag>
+struct empty_impl;
+
+template<>
+struct empty_impl<frozen::meta::string_tag>{
+    template<class String>
+    struct apply;
+
+    template<class CharT, CharT... Chars>
+    struct apply<frozen::meta::basic_string<CharT, Chars...>>
+        : mpl::bool_<sizeof...(Chars) == 0>
     {};
 };
 
