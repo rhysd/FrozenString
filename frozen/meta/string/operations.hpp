@@ -1,6 +1,7 @@
 #if !defined FROZEN_META_STRING_ALGORITHM_HPP_INCLUDED
 #define      FROZEN_META_STRING_ALGORITHM_HPP_INCLUDED
 
+#include <type_traits>
 #include "./basic_string.hpp"
 
 namespace frozen {
@@ -121,6 +122,19 @@ template<class S>
 using front = typename front_<S>::type;
 // }}}
 
+
+// empty {{{
+template<class S>
+struct empty_ : std::false_type
+{};
+
+template<class CharT>
+struct empty_<basic_string<CharT>> : std::true_type
+{};
+
+template<class S>
+using empty = typename empty_<S>::type;
+// }}}
 
 // remove_trailing_nuls {{{
 template<size_t N, class T>
